@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Fundamental theorem of calculus</h1>
 <div class="sub">A(x) = ∫ₐˣ f(t) dt — the slope of the area function is the height of f</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Where f is positive, the area grows and A rises; where f is negative, A falls. The tangent slope of A at x always equals f(x). Moving a only shifts A up or down.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip" data-g="f" data-v="lin">t − 1</button><button class="chip on" data-g="f" data-v="cos">cos t</button><button class="chip" data-g="f" data-v="quad">t²/4 − 1</button></div><div class="row"><label for="x">x · upper</label><input type="range" id="x" min="-2" max="6" step="0.01" value="2.2"><output id="xo"></output></div><div class="row"><label for="a">a · lower</label><input type="range" id="a" min="-2" max="2" step="0.1" value="0"><output id="ao"></output></div><label class="toggle">Show tangent to A at x<span class="sw"><input type="checkbox" id="tan" checked><span></span></span></label>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Where f is positive, the area grows and A rises; where f is negative, A falls. The tangent slope of A at x always equals f(x). Moving a only shifts A up or down.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>The area function <em>A</em>(<em>x</em>) collects the signed area under <em>f</em> from a fixed point <em>a</em> up to <em>x</em>. Moving <em>x</em> a little adds a thin strip of height <em>f</em>(<em>x</em>), so the rate at which area accumulates is exactly <em>f</em>(<em>x</em>). Differentiation and integration undo each other.</p>

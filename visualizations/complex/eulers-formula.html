@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Euler's formula</h1>
 <div class="sub">e^(iθ) = cos θ + i sin θ: walking θ units around the unit circle</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">As θ grows the point moves around the circle at speed 1; its shadows on the axes are cos θ and sin θ. At θ = π you reach −1, so e^(iπ) = −1. Make a negative to get e^((a+i)θ): a spiral — exactly the decaying oscillations of damped systems.</div>
+</div>
 <div class="card controls">
 <div class="row"><label for="th">θ</label><input type="range" id="th" min="0" max="12.57" step="0.01" value="1"><output id="tho"></output></div><div class="row"><label for="a">a · growth</label><input type="range" id="a" min="-0.3" max="0.3" step="0.01" value="0"><output id="ao"></output></div><div class="btns"><button class="chip" id="play">▶ Play</button><button class="chip" id="pi">θ = π</button></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">As θ grows the point moves around the circle at speed 1; its shadows on the axes are cos θ and sin θ. At θ = π you reach −1, so e^(iπ) = −1. Make a negative to get e^((a+i)θ): a spiral — exactly the decaying oscillations of damped systems.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>The exponential with an imaginary exponent describes motion around the unit circle: <em>e</em><sup><em>i</em>θ</sup> is the point at angle θ, and its real and imaginary parts are cos θ and sin θ. The formula follows by comparing the Taylor series of <em>e</em><sup><em>x</em></sup>, cos <em>x</em> and sin <em>x</em>.</p>

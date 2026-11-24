@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Damped oscillator</h1>
 <div class="sub">x″ + 2ζω x′ + ω² x = 0, x(0) = 1, x′(0) = 0</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">ζ < 1: it oscillates inside the dashed envelope e^(−ζωt) and spirals into the origin in the phase plane. ζ = 1: fastest return without overshoot. ζ > 1: slow creep back. ω sets how fast everything happens.</div>
+</div>
 <div class="card controls">
 <div class="row"><label for="z">ζ · damping</label><input type="range" id="z" min="0" max="2" step="0.05" value="0.2"><output id="zo"></output></div><div class="row"><label for="w">ω · natural freq.</label><input type="range" id="w" min="0.5" max="4" step="0.1" value="2"><output id="wo"></output></div><div class="row"><label for="t">t · time</label><input type="range" id="t" min="0" max="12" step="0.01" value="0"><output id="to"></output></div><div class="btns"><button class="chip" id="play">▶ Play</button><button class="chip" id="crit">Set ζ = 1</button></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">ζ < 1: it oscillates inside the dashed envelope e^(−ζωt) and spirals into the origin in the phase plane. ζ = 1: fastest return without overshoot. ζ > 1: slow creep back. ω sets how fast everything happens.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>A spring with friction obeys a second-order linear equation. Trying <em>x</em> = <em>e</em><sup><em>rt</em></sup> gives the characteristic equation <em>r</em>² + 2ζω<em>r</em> + ω² = 0, and the damping ratio ζ decides the behaviour. Underdamped (ζ &lt; 1): decaying oscillation. Critically damped (ζ = 1): the fastest return without overshoot. Overdamped (ζ &gt; 1): a slow creep back.</p>

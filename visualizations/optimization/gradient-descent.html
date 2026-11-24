@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Gradient descent</h1>
 <div class="sub">xₖ₊₁ = xₖ − η·∇f(xₖ): repeatedly step downhill, against the gradient</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Tap to choose a start. Small η crawls; in the narrow valley a larger η zigzags across it, and beyond η = 1/8 it diverges (the steep direction has curvature 16, and stability needs η < 2/16). With two minima, the start decides which one you find.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip" data-g="f" data-v="bowl">Round bowl</button><button class="chip on" data-g="f" data-v="valley">Narrow valley</button><button class="chip" data-g="f" data-v="banana">Rosenbrock</button><button class="chip" data-g="f" data-v="two">Two minima</button></div><div class="row"><label for="eta">η · step size</label><input type="range" id="eta" min="0.005" max="0.3" step="0.005" value="0.1"><output id="etao"></output></div><div class="row"><label for="k">steps</label><input type="range" id="k" min="0" max="100" step="1" value="25"><output id="ko"></output></div><div class="msg" id="msg"></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Tap to choose a start. Small η crawls; in the narrow valley a larger η zigzags across it, and beyond η = 1/8 it diverges (the steep direction has curvature 16, and stability needs η < 2/16). With two minima, the start decides which one you find.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>The gradient ∇<em>f</em> points in the direction of steepest increase, so a small step against it lowers <em>f</em>. Gradient descent repeats this step. The step size η matters: too small and progress crawls; too large and it zigzags or diverges. For a quadratic it is stable only when η &lt; 2/<em>L</em>, where <em>L</em> is the largest curvature. It finds a local minimum, which depends on the start.</p>

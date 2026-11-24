@@ -1,0 +1,48 @@
+/* SigmaTau · layout for visualization pages.
+   Markup:  .wrap > [back/share row] header .bar h1 .sub  .main(.card graph, .stats, .hint)  .card.controls  .concept footer
+
+   Narrow screens (phones): one column, in the order graph → controls → readouts → hint,
+   so the controls sit right under the graph.
+   Wide screens (≥ 960px): graph, readouts and hint on the left; controls on the right
+   in a sticky panel that stays in view while scrolling. The concept card spans the full width. */
+
+/* ---- narrow: single column ---- */
+.wrap { display: flex; flex-direction: column; }
+.wrap > * { order: 0; }
+.main { display: contents; }
+.main > .card { order: 1; }
+.wrap > .card.controls { order: 2; }
+.main > .stats { order: 3; }
+.main > .hint { order: 4; }
+.wrap > .concept { order: 5; }
+.wrap > footer { order: 6; }
+
+/* ---- wide: two columns ---- */
+@media (min-width: 960px) {
+  .wrap {
+    max-width: 1220px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    column-gap: 18px;
+    align-items: start;
+  }
+  .wrap > * { grid-column: 1 / -1; }
+  .main { display: block; grid-column: 1; }
+  .wrap > .card.controls {
+    grid-column: 2;
+    margin-top: 0;
+    position: sticky;
+    top: 16px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    align-content: start;
+  }
+  /* the graph is wider now, so give it more height (pages that set their own height keep it) */
+  canvas { height: 66vh; max-height: 600px; }
+  .wrap > .concept { margin-top: 18px; }
+}
+@media (min-width: 1200px) {
+  .wrap { grid-template-columns: minmax(0, 1fr) 380px; }
+}

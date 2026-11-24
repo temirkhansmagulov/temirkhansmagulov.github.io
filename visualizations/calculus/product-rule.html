@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Product rule as a rectangle</h1>
 <div class="sub">Area f·g with f = x and g = x²: a nudge dx adds two strips, g·df and f·dg</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">d(fg) = f·dg + g·df. The corner df·dg is a product of two tiny numbers, so it disappears as dx → 0. Here f·g = x³, and the two strips give x·2x + x²·1 = 3x².</div>
+</div>
 <div class="card controls">
 <div class="row"><label for="x">x</label><input type="range" id="x" min="0.5" max="2.2" step="0.05" value="1.4"><output id="xo"></output></div><div class="row"><label for="dx">dx · nudge</label><input type="range" id="dx" min="0" max="0.5" step="0.01" value="0.3"><output id="dxo"></output></div><div class="leg"><span style="--c:#E63946">g·df</span><span style="--c:#111111">f·dg</span><span style="--c:#9CA3AF">df·dg</span></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">d(fg) = f·dg + g·df. The corner df·dg is a product of two tiny numbers, so it disappears as dx → 0. Here f·g = x³, and the two strips give x·2x + x²·1 = 3x².</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>Think of <em>f</em>·<em>g</em> as the area of a rectangle with sides <em>f</em> and <em>g</em>. When both sides grow a little, the area gains two strips, <em>f</em>·d<em>g</em> and <em>g</em>·d<em>f</em>, plus a tiny corner d<em>f</em>·d<em>g</em> that is negligible compared with them.</p>

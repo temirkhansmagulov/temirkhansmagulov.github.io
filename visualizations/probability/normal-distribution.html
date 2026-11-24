@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Normal distribution</h1>
 <div class="sub">X ~ N(μ, σ²) — probability is the area under the bell curve</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">μ moves the curve, σ widens it (and lowers the peak, since the total area stays 1). Whatever μ and σ are, μ ± 1σ, 2σ, 3σ always hold about 68%, 95% and 99.7%.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="k" data-v="1">μ ± 1σ</button><button class="chip" data-g="k" data-v="2">μ ± 2σ</button><button class="chip" data-g="k" data-v="3">μ ± 3σ</button></div><div class="row"><label for="mu">μ · mean</label><input type="range" id="mu" min="-3" max="3" step="0.1" value="0"><output id="muo"></output></div><div class="row"><label for="sg">σ · spread</label><input type="range" id="sg" min="0.45" max="2.5" step="0.05" value="1"><output id="sgo"></output></div><div class="row"><label for="lo">a · from</label><input type="range" id="lo" min="-6.5" max="6.5" step="0.05" value="-1"><output id="loo"></output></div><div class="row"><label for="hi">b · to</label><input type="range" id="hi" min="-6.5" max="6.5" step="0.05" value="1"><output id="hio"></output></div><label class="toggle">Compare with N(0, 1)<span class="sw"><input type="checkbox" id="std"><span></span></span></label>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">μ moves the curve, σ widens it (and lowers the peak, since the total area stays 1). Whatever μ and σ are, μ ± 1σ, 2σ, 3σ always hold about 68%, 95% and 99.7%.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>The normal distribution is the bell curve with centre μ and spread σ. Probabilities are areas under the curve, so the total area is 1. Any normal variable can be standardised to <em>Z</em> = (<em>X</em> − μ)/σ, and the 68–95–99.7 rule gives quick estimates for intervals of 1, 2 and 3 standard deviations.</p>

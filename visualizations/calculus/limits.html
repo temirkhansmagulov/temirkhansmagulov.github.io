@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>ε–δ limits</h1>
 <div class="sub">lim f(x) = L means: for every ε > 0 there is a δ > 0 that keeps f(x) inside the ε-band</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Shrink ε, then press “Find a δ”. If L is the true limit, a δ always exists. Change L to a wrong value — or pick the jump or sin(1/x) — and eventually no δ works.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="f" data-v="smooth">x²/2 at 2</button><button class="chip" data-g="f" data-v="hole">hole at 1</button><button class="chip" data-g="f" data-v="jump">jump at 1</button><button class="chip" data-g="f" data-v="xsin">x·sin(1/x) at 0</button><button class="chip" data-g="f" data-v="osc">sin(1/x) at 0</button></div><div class="row"><label for="eps">ε · band</label><input type="range" id="eps" min="0.05" max="1.5" step="0.05" value="0.5"><output id="epso"></output></div><div class="row"><label for="del">δ · window</label><input type="range" id="del" min="0.01" max="1.5" step="0.01" value="0.2"><output id="delo"></output></div><div class="row"><label for="L">L · claimed</label><input type="range" id="L" min="-1.5" max="4.5" step="0.05" value="2"><output id="Lo"></output></div><div class="btns"><button class="chip" id="find">Find a δ</button><button class="chip" id="trueL">Reset L</button></div><div class="msg" id="msg"></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Shrink ε, then press “Find a δ”. If L is the true limit, a δ always exists. Change L to a wrong value — or pick the jump or sin(1/x) — and eventually no δ works.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>“<em>f</em>(<em>x</em>) approaches <em>L</em>” is made precise as a challenge: for any tolerance ε you choose, however small, there must be a distance δ such that every <em>x</em> within δ of <em>a</em> (other than <em>a</em> itself) gives <em>f</em>(<em>x</em>) within ε of <em>L</em>. The value <em>f</em>(<em>a</em>) itself plays no role.</p>

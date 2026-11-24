@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Linear combinations & span</h1>
 <div class="sub">w = s·u + t·v — every point you can reach is in the span of u and v</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Drag the tips of u and v. With “Parallel” you can only move along one line, whatever s and t are: the span collapses to a line. Try to hit the target with “Target”.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="p" data-v="ind">Independent</button><button class="chip" data-g="p" data-v="par">Parallel</button><button class="chip" data-g="p" data-v="tgt">Hit the target</button></div><div class="row"><label for="s">s · times u</label><input type="range" id="s" min="-3" max="3" step="0.1" value="1"><output id="so"></output></div><div class="row"><label for="t">t · times v</label><input type="range" id="t" min="-3" max="3" step="0.1" value="1"><output id="to"></output></div><label class="toggle">Show span<span class="sw"><input type="checkbox" id="span" checked><span></span></span></label><div class="leg"><span style="--c:#E63946">s·u</span><span style="--c:#111111">t·v</span><span style="--c:#6B7280">w = s·u + t·v</span></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Drag the tips of u and v. With “Parallel” you can only move along one line, whatever s and t are: the span collapses to a line. Try to hit the target with “Target”.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>A linear combination scales vectors and adds them. The span of <em>u</em> and <em>v</em> is the set of every point you can reach this way. Two independent vectors in the plane span the whole plane; two parallel vectors only span a line.</p>

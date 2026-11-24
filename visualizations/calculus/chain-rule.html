@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Chain rule on number lines</h1>
 <div class="sub">A nudge dx is stretched by g′ on the way to u, then by f′ on the way to y</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Each map stretches small intervals by its derivative: du ≈ g′(x)·dx and dy ≈ f′(u)·du. So dy/dx = f′(g(x))·g′(x). Shrink dx and the measured ratio matches the product.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="f" data-v="sinsq">sin(x²)</button><button class="chip" data-g="f" data-v="cube">(x² + 1)³</button><button class="chip" data-g="f" data-v="esin">e^(sin x)</button></div><div class="row"><label for="x">x</label><input type="range" id="x" min="0" max="2" step="0.01" value="1"><output id="xo"></output></div><div class="row"><label for="dx">dx · nudge</label><input type="range" id="dx" min="0.01" max="0.4" step="0.01" value="0.2"><output id="dxo"></output></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Each map stretches small intervals by its derivative: du ≈ g′(x)·dx and dy ≈ f′(u)·du. So dy/dx = f′(g(x))·g′(x). Shrink dx and the measured ratio matches the product.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>A composite function <em>y</em> = <em>f</em>(<em>g</em>(<em>x</em>)) changes in two stages: <em>g</em> turns a small change in <em>x</em> into a change in <em>u</em> = <em>g</em>(<em>x</em>), and <em>f</em> turns that into a change in <em>y</em>. Each stage multiplies a small change by its own derivative, so the overall rate is the product of the two rates.</p>

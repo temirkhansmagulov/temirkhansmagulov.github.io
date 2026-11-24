@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Power rule, geometrically</h1>
 <div class="sub">Nudge x by dx: the square gains two strips (2x·dx), the cube gains three slabs (3x²·dx)</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">The red pieces grow in proportion to dx; the grey leftovers are (dx)² or smaller. Shrink dx and ΔA/dx approaches 2x (ΔV/dx approaches 3x²) — that is the power rule.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="m" data-v="sq">Square: x²</button><button class="chip" data-g="m" data-v="cube">Cube: x³</button></div><div class="row"><label for="x">x · side</label><input type="range" id="x" min="0.5" max="2.5" step="0.05" value="1.5"><output id="xo"></output></div><div class="row"><label for="dx">dx · nudge</label><input type="range" id="dx" min="0" max="0.6" step="0.01" value="0.4"><output id="dxo"></output></div><div class="leg"><span style="--c:#E63946">grows like dx</span><span style="--c:#9CA3AF">(dx)² and smaller</span></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">The red pieces grow in proportion to dx; the grey leftovers are (dx)² or smaller. Shrink dx and ΔA/dx approaches 2x (ΔV/dx approaches 3x²) — that is the power rule.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>Increase <em>x</em> by a small d<em>x</em>. In (<em>x</em> + d<em>x</em>)<sup><em>n</em></sup> the only piece that grows in proportion to d<em>x</em> is <em>n</em> copies of <em>x</em><sup><em>n</em>−1</sup>d<em>x</em>: for a square, two strips; for a cube, three slabs. Everything else involves (d<em>x</em>)² or smaller and vanishes in the limit.</p>

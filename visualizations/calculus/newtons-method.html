@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Newton's method</h1>
 <div class="sub">xₙ₊₁ = xₙ − f(xₙ)/f′(xₙ): slide down the tangent line to where it hits zero</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Near a root the number of correct digits roughly doubles each step. For x³ − x, the starting point decides which root you reach. For arctan x, start beyond about 1.39 and the tangents overshoot further and further — the method diverges.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="f" data-v="sqrt2">x² − 2</button><button class="chip" data-g="f" data-v="cos">cos x − x</button><button class="chip" data-g="f" data-v="cubic">x³ − x</button><button class="chip" data-g="f" data-v="atan">arctan x</button></div><div class="row"><label for="x0">x₀ · start</label><input type="range" id="x0" min="-3" max="3" step="0.01" value="3"><output id="x0o"></output></div><div class="row"><label for="n">steps</label><input type="range" id="n" min="0" max="8" step="1" value="3"><output id="no"></output></div><div class="msg" id="msg"></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Near a root the number of correct digits roughly doubles each step. For x³ − x, the starting point decides which root you reach. For arctan x, start beyond about 1.39 and the tangents overshoot further and further — the method diverges.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>To solve <em>f</em>(<em>x</em>) = 0, replace the curve by its tangent line at the current guess and find where that line crosses zero. That crossing is the next guess. Near a simple root (where <em>f</em>′ ≠ 0) the error is roughly squared each step, so convergence is very fast, but a poor start can lead to a different root or to divergence.</p>

@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Tangent line explorer</h1>
 <div class="sub">Drag on the graph — the secant becomes the tangent as h → 0</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Touch and drag the graph to move the point. Shrink h to watch the secant slope approach f′(x₀).</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="f" data-v="cubic">x³ − 3x + 1</button><button class="chip" data-g="f" data-v="sin">sin x</button><button class="chip" data-g="f" data-v="exp">eˣ</button><button class="chip" data-g="f" data-v="ln">ln x</button><button class="chip" data-g="f" data-v="rat">1/(1+x²)</button></div><div class="row"><label for="x0">x₀ · point</label><input type="range" id="x0" min="-3" max="3" step="0.01" value="1.5"><output id="x0o"></output></div><div class="row"><label for="h">h · step</label><input type="range" id="h" min="0.01" max="2.5" step="0.01" value="1.2"><output id="ho"></output></div><label class="toggle">Show secant line<span class="sw"><input type="checkbox" id="sec" checked><span></span></span></label><label class="toggle">Show f′(x)<span class="sw"><input type="checkbox" id="der"><span></span></span></label>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Touch and drag the graph to move the point. Shrink h to watch the secant slope approach f′(x₀).</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>The slope of a secant line through two points of a curve is an average rate of change. As the second point slides towards the first (<em>h</em> → 0), the secant turns into the tangent line, and its slope is the derivative: the instantaneous rate of change at that point.</p>

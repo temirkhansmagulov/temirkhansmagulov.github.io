@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Central limit theorem</h1>
 <div class="sub">Average n random draws, repeat many times — the averages form a bell curve</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Start with n = 1: the histogram just copies the source. Raise n: even a skewed or two-humped source gives a bell shape centred at μ, and the spread shrinks like σ/√n (n = 4 halves it, n = 16 quarters it).</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="s" data-v="exp">Exponential (skewed)</button><button class="chip" data-g="s" data-v="unif">Uniform</button><button class="chip" data-g="s" data-v="die">Fair die</button><button class="chip" data-g="s" data-v="bi">Two humps</button></div><div class="row"><label for="n">n · sample size</label><input type="range" id="n" min="1" max="50" step="1" value="1"><output id="no"></output></div><div class="btns"><button class="chip" id="b1">+1 sample</button><button class="chip" id="b100">+100</button><button class="chip" id="b1000">+1000</button><button class="chip" id="rst">Reset</button></div><label class="toggle">Show predicted bell curve<span class="sw"><input type="checkbox" id="nrm" checked><span></span></span></label>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Start with n = 1: the histogram just copies the source. Raise n: even a skewed or two-humped source gives a bell shape centred at μ, and the spread shrinks like σ/√n (n = 4 halves it, n = 16 quarters it).</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>Take the average of <em>n</em> independent draws from almost any distribution with mean μ and finite standard deviation σ. As <em>n</em> grows, the distribution of that average becomes a bell curve centred at μ, whatever the original shape was, and its spread shrinks like σ/√<em>n</em>.</p>

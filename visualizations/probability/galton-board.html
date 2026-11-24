@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Galton board</h1>
 <div class="sub">Each ball bounces left or right at every row — the bins fill up into a binomial, then a bell curve</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">A ball's bin = number of right-bounces = a binomial B(n, p) count. Drop a few hundred balls: the bars approach the expected counts (dots). Change p to tilt the board — the bell shifts but keeps its shape.</div>
+</div>
 <div class="card controls">
 <div class="row"><label for="n">rows</label><input type="range" id="n" min="4" max="14" step="1" value="10"><output id="no"></output></div><div class="row"><label for="p">p · bounce right</label><input type="range" id="p" min="0.1" max="0.9" step="0.05" value="0.5"><output id="po"></output></div><div class="btns"><button class="chip" id="d1">Drop 1</button><button class="chip" id="d50">Drop 50</button><button class="chip" id="d500">Drop 500 (fast)</button><button class="chip" id="rst">Reset</button></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">A ball's bin = number of right-bounces = a binomial B(n, p) count. Drop a few hundred balls: the bars approach the expected counts (dots). Change p to tilt the board — the bell shifts but keeps its shape.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>Each ball makes <em>n</em> independent left-or-right choices, and its bin is the number of times it went right. That count follows a binomial distribution. With many rows it looks like a normal curve (the de Moivre–Laplace theorem), and with many balls the bin heights approach their expected values.</p>

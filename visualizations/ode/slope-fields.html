@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Slope fields</h1>
 <div class="sub">y′ = f(x, y) gives a slope at every point — solutions follow the field</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Tap anywhere to start a solution there. Solutions never cross. For autonomous equations, horizontal lines where f = 0 are equilibria: nearby solutions move toward a stable one and away from an unstable one.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip" data-g="e" data-v="grow">y′ = 0.5y</button><button class="chip" data-g="e" data-v="cool">y′ = −0.6(y − 2)</button><button class="chip on" data-g="e" data-v="logi">y′ = y(1 − y/3)</button><button class="chip" data-g="e" data-v="lin">y′ = x − y</button></div><label class="toggle">Show more solutions<span class="sw"><input type="checkbox" id="fam"><span></span></span></label><label class="toggle">Show equilibria<span class="sw"><input type="checkbox" id="eq" checked><span></span></span></label><div class="msg" id="msg">Tap or drag on the graph to choose the starting point (x₀, y₀).</div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Tap anywhere to start a solution there. Solutions never cross. For autonomous equations, horizontal lines where f = 0 are equilibria: nearby solutions move toward a stable one and away from an unstable one.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>A first-order equation <em>y</em>′ = <em>f</em>(<em>x</em>, <em>y</em>) assigns a slope to every point of the plane. A solution is a curve that is tangent to these slopes everywhere. When <em>f</em> is smooth, exactly one solution passes through each point, so solution curves never cross. Where <em>f</em> = 0 for all <em>x</em>, the horizontal line is an equilibrium solution.</p>

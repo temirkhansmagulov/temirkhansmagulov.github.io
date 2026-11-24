@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Sums of dice</h1>
 <div class="sub">The distribution of a sum is a convolution: slide the old distribution and add up the products</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">One fair die is flat. Two dice make a triangle (7 is most likely: 6 ways). Every extra die smooths the shape further, and it becomes a bell — even for the strange “only 1 or 6” die. Mean and variance just add up: n·μ and n·σ².</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="d" data-v="fair">Fair die</button><button class="chip" data-g="d" data-v="load">Loaded toward 6</button><button class="chip" data-g="d" data-v="two">Only 1 or 6</button></div><div class="row"><label for="n">n · dice</label><input type="range" id="n" min="1" max="10" step="1" value="2"><output id="no"></output></div><label class="toggle">Show n − 1 dice (grey)<span class="sw"><input type="checkbox" id="prev"><span></span></span></label><label class="toggle">Normal fit<span class="sw"><input type="checkbox" id="nrm"><span></span></span></label>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">One fair die is flat. Two dice make a triangle (7 is most likely: 6 ways). Every extra die smooths the shape further, and it becomes a bell — even for the strange “only 1 or 6” die. Mean and variance just add up: n·μ and n·σ².</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>To find the distribution of a sum of two independent random variables, add up the probabilities of every pair of values that gives each total. This operation is called convolution. Means add and variances add, and repeated convolution smooths any shape towards a bell curve.</p>

@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Complex multiplication</h1>
 <div class="sub">Multiplying by w rotates by arg w and scales by |w| — angles add, lengths multiply</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Drag z and w. Check the stats: |zw| = |z|·|w| and arg(zw) = arg z + arg w. Multiplying by i is a quarter turn, so i·i = −1 is two quarter turns. Turn on the grid to see the whole plane rotate and scale.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="p" data-v="free">Free</button><button class="chip" data-g="p" data-v="i">× i</button><button class="chip" data-g="p" data-v="two">× 2</button><button class="chip" data-g="p" data-v="onei">× (1 + i)</button><button class="chip" data-g="p" data-v="half">× (cos 30° + i sin 30°)</button></div><label class="toggle">Show the plane multiplied by w<span class="sw"><input type="checkbox" id="pl"><span></span></span></label><div class="leg"><span style="--c:#111111">z</span><span style="--c:#6B7280">w</span><span style="--c:#E63946">z·w</span></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Drag z and w. Check the stats: |zw| = |z|·|w| and arg(zw) = arg z + arg w. Multiplying by i is a quarter turn, so i·i = −1 is two quarter turns. Turn on the grid to see the whole plane rotate and scale.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>Write a complex number in polar form, as a length |<em>z</em>| and an angle arg <em>z</em>. Multiplying two complex numbers multiplies their lengths and adds their angles, so multiplying by a fixed <em>w</em> rotates the whole plane by arg <em>w</em> and scales it by |<em>w</em>|.</p>

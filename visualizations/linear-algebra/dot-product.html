@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Dot product as projection</h1>
 <div class="sub">u·v = (length of u) × (signed length of v's shadow on u)</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Drag u and v. When the angle is acute the shadow points along u and u·v > 0; at 90° the shadow vanishes (u·v = 0); when obtuse it points backwards (u·v < 0). Both formulas — u₁v₁ + u₂v₂ and |u||v|cos θ — always agree.</div>
+</div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="p" data-v="free">Free</button><button class="chip" data-g="p" data-v="perp">Perpendicular</button><button class="chip" data-g="p" data-v="same">Same direction</button><button class="chip" data-g="p" data-v="opp">Opposite</button></div><div class="leg"><span style="--c:#111111">u</span><span style="--c:#6B7280">v</span><span style="--c:#E63946">projection of v onto u</span></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Drag u and v. When the angle is acute the shadow points along u and u·v > 0; at 90° the shadow vanishes (u·v = 0); when obtuse it points backwards (u·v < 0). Both formulas — u₁v₁ + u₂v₂ and |u||v|cos θ — always agree.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>The dot product measures how much two vectors point the same way. Geometrically it is the length of <em>u</em> times the signed length of <em>v</em>'s shadow on <em>u</em>. It is positive for acute angles, zero exactly when the vectors are perpendicular, and negative for obtuse angles.</p>

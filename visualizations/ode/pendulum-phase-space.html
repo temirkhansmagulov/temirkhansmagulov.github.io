@@ -65,6 +65,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 .concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
+<link rel="stylesheet" href="../layout.css">
 </head>
 <body>
 <div class="wrap">
@@ -72,15 +73,18 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="bar"></div>
 <h1>Pendulum phase space</h1>
 <div class="sub">θ″ = −sin θ − b·θ′ — every state (angle, angular velocity) is a point; motion follows the arrows</div>
+<div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
+<div class="stats" id="stats"></div>
+<div class="hint">Tap the phase plane to start the pendulum there. Closed loops = swinging; wavy lines across the top/bottom = spinning over the top. The dashed separatrix divides them. Add damping b and every path spirals into a resting state θ = 0, ±2π.</div>
+</div>
 <div class="card controls">
 <div class="row"><label for="b">b · damping</label><input type="range" id="b" min="0" max="0.6" step="0.02" value="0"><output id="bo"></output></div><label class="toggle">Show separatrix<span class="sw"><input type="checkbox" id="sep" checked><span></span></span></label><div class="btns"><button class="chip" id="play">▶ Play</button><button class="chip" id="stop">■ Stop</button></div><div class="msg" id="msg"></div>
 </div>
-<div class="stats" id="stats"></div>
-<div class="hint">Tap the phase plane to start the pendulum there. Closed loops = swinging; wavy lines across the top/bottom = spinning over the top. The dashed separatrix divides them. Add damping b and every path spirals into a resting state θ = 0, ±2π.</div>
+
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
 <p>A second-order equation becomes a first-order system in the state (θ, θ′). Each state is a point in the phase plane, and the equation gives a direction arrow at every point. Without damping, energy is conserved, so paths follow energy level curves. The separatrix (<em>E</em> = 1) divides swinging from spinning over the top.</p>
