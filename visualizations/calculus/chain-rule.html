@@ -178,7 +178,7 @@ function draw(){
   ctx.strokeStyle="rgba(230,57,70,0.5)";ctx.lineWidth=1.5;for(const j of [0,1]){ctx.beginPath();ctx.moveTo(px(xs[j],0),lv[0]);ctx.lineTo(px(us[j],1),lv[1]);ctx.lineTo(px(ys[j],2),lv[2]);ctx.stroke()}
   vals.forEach((v,i)=>{ctx.strokeStyle=C.red;ctx.lineWidth=7;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(px(v[0],i),lv[i]);ctx.lineTo(px(v[1],i),lv[i]);ctx.stroke()});
   const du=us[1]-us[0],dy=ys[1]-ys[0],u=Pp.g(x);
-  $("formula").innerHTML=`d<em>y</em>/d<em>x</em> = <em>f</em>′(<em>u</em>)·<em>g</em>′(<em>x</em>) = ${fmt(Pp.fp(u),3)} × ${fmt(Pp.gp(x),3)} = <span style="color:var(--red)">${fmt(Pp.fp(u)*Pp.gp(x),3)}</span>`;
+  $("formula").innerHTML=`d<em>y</em>/d<em>x</em> = <em>f</em>′(<em>u</em>)·<em>g</em>′(<em>x</em>) = <span data-d="x">${fmt(Pp.fp(u),3)}</span> × <span data-d="x">${fmt(Pp.gp(x),3)}</span> = <span style="color:var(--red)"><span data-d="x">${fmt(Pp.fp(u)*Pp.gp(x),3)}</span></span>`;
   stats([["du / dx",fmt(du/d,3)+" (g′ = "+fmt(Pp.gp(x),2)+")"],["dy / du",fmt(dy/du,3)+" (f′ = "+fmt(Pp.fp(u),2)+")"],["Measured dy / dx",fmt(dy/d,3),true]]);
 }
 bindRange("x",2,draw);bindRange("dx",2,draw);bindChips("f",v=>{fk=v;setRange("x",(F[v].xr[0]+F[v].xr[1])/2-0.2)});

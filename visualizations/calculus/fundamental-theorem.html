@@ -178,7 +178,7 @@ function draw(){
     dot(a,0,C.grey,4,false);dot(x,y,C.red,6);label("A(x) = ∫ₐˣ f(t) dt",8,16,C.ink,"left","500 12px Poppins, sans-serif")});
   ctx.fillStyle=C.line;ctx.fillRect(0,H*0.5-1,W,2);
   const hh=1e-4,slope=(A(x+hh)-A(x-hh))/(2*hh);
-  $("formula").innerHTML=`<em>A</em>′(<em>x</em>) = <em>f</em>(<em>x</em>) &nbsp;·&nbsp; <span style="color:var(--red)">${fmt(slope,3)} = ${fmt(P.f(x),3)}</span>`;
+  $("formula").innerHTML=`<em>A</em>′(<em>x</em>) = <em>f</em>(<em>x</em>) &nbsp;·&nbsp; <span style="color:var(--red)"><span data-d="x">${fmt(slope,3)}</span> = <span data-d="x">${fmt(P.f(x),3)}</span></span>`;
   stats([["A(x) — net area",fmt(A(x),3)],["f(x) — height",fmt(P.f(x),3)],["Slope of A at x",fmt(slope,3),true]]);
 }
 bindRange("x",2,draw);bindRange("a",1,draw);$("tan").addEventListener("change",draw);bindChips("f",v=>{fk=v;draw()});

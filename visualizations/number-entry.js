@@ -53,20 +53,41 @@
 
   // Highlight the parameter being changed: its row turns red while the slider moves,
   // then fades ~1.2 s after the last change. Only one row is highlighted at a time.
+  // The same highlight is applied in the equation under the graph: pages tag the slider's own value
+  // with data-p="id" (strong highlight) and values that depend on it with data-d="id …" (dashed underline).
+  // A style rule (not classes) is used because pages rebuild the equation on every change.
+  const eqStyle = document.createElement("style"); document.head.appendChild(eqStyle);
+  const eqBase = document.createElement("style");
+  eqBase.textContent = `
+.formula [data-p],.formula [data-d]{transition:color .25s,background-color .25s,box-shadow .25s;border-radius:4px}`;
+  document.head.appendChild(eqBase);
+  function eqOn(id) {
+    const s = CSS.escape(id);
+    eqStyle.textContent = `
+.formula [data-p~="${s}"]{color:var(--red,#E63946)!important;background:var(--tint,#FDECEE);box-shadow:0 0 0 3px var(--tint,#FDECEE);font-weight:700}
+.formula [data-p~="${s}"] *{color:inherit!important}
+.formula [data-d~="${s}"]{text-decoration:underline dashed var(--red,#E63946) 1.5px;text-underline-offset:4px}`;
+  }
+  const eqOff = () => { eqStyle.textContent = ""; };
+
   let activeRow = null, fadeTimer, holding = false;
+  const fadeOut = r => { r.classList.remove("active"); if (r === activeRow) eqOff(); };
   function activate(slider) {
     const row = slider.closest(".row"); if (!row) return;
     if (activeRow && activeRow !== row) activeRow.classList.remove("active");
     activeRow = row; row.classList.add("active");
+    eqOn(slider.id);
     const min = +slider.min, max = +slider.max;
     row.style.setProperty("--fill", (max > min ? (slider.value - min) / (max - min) * 100 : 0) + "%");
     clearTimeout(fadeTimer);
-    if (!holding) fadeTimer = setTimeout(() => row.classList.remove("active"), 1200);
+    if (!holding) fadeTimer = setTimeout(() => fadeOut(row), 1200);
   }
   function release() {
     holding = false; clearTimeout(fadeTimer);
-    if (activeRow) { const r = activeRow; fadeTimer = setTimeout(() => r.classList.remove("active"), 1200); }
+    if (activeRow) { const r = activeRow; fadeTimer = setTimeout(() => fadeOut(r), 1200); }
   }
+  // lets other scripts (e.g. share.js restoring a link) clear the highlight at once
+  window.stClearHighlight = () => { clearTimeout(fadeTimer); holding = false; if (activeRow) activeRow.classList.remove("active"); activeRow = null; eqOff(); };
   addEventListener("pointerup", release); addEventListener("pointercancel", release); addEventListener("touchend", release);
 
   function attach(slider, out) {

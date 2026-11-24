@@ -172,7 +172,7 @@ function draw(){
   ctx.strokeStyle=C.red;ctx.lineWidth=2.6;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])));ctx.stroke();
   pts.forEach(p=>dot(p[0],p[1],C.red,4.5));
   const ex=P.ex(P.T),err=Math.abs(y-ex);
-  $("formula").innerHTML=`${P.t} &nbsp;·&nbsp; <em>h</em> = ${fmt(h,2)}, &nbsp;${pts.length-1} steps to <em>x</em> = ${P.T}`;
+  $("formula").innerHTML=`${P.t} &nbsp;·&nbsp; <span data-p="h"><em>h</em> = ${fmt(h,2)}</span>, &nbsp;<span data-d="h">${pts.length-1}</span> steps to <em>x</em> = ${P.T}`;
   stats([["Euler y("+P.T+")",fmt(y,4)],["Exact y("+P.T+")",fmt(ex,4)],["Error",fmt(err,4),true],["Error ÷ h",fmt(err/h,3)]]);
 }
 bindRange("h",2,draw);$("fld").addEventListener("change",draw);bindChips("e",k=>{ek=k;draw()});

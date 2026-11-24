@@ -170,7 +170,7 @@ function draw(){
   if($("nrm").checked&&sd>0)curve(x=>Math.exp(-0.5*((x-mu)/sd)**2)/(sd*Math.sqrt(2*Math.PI)),C.ink,2.6);
   seg(mu,V.ymin,mu,V.ymax,C.ink,1,[4,4]);label("np",X(mu)+4,14,C.ink);
   const approx=sd>0?Phi((K+0.5-mu)/sd):(K>=mu?1:0),good=n*p>=10&&n*(1-p)>=10;
-  $("formula").innerHTML=`P(<em>X</em> ≤ ${K}) = <span style="color:var(--red)">${(cum*100).toFixed(2)}%</span> &nbsp;·&nbsp; <em>X</em> ~ B(${n}, ${fmt(p,2)})`;
+  $("formula").innerHTML=`P(<em>X</em> ≤ <span data-p="k">${K}</span>) = <span style="color:var(--red)"><span data-d="n p k">${(cum*100).toFixed(2)}%</span></span> &nbsp;·&nbsp; <em>X</em> ~ B(<span data-p="n">${n}</span>, <span data-p="p">${fmt(p,2)}</span>)`;
   stats([["Mean np",fmt(mu,2)],["SD √(np(1−p))",fmt(sd,2)],["P(X ≤ k) exact",(cum*100).toFixed(2)+"%",true],["Normal approx.",(approx*100).toFixed(2)+"% "+(good?"✓":"(rough)")]]);
 }
 bindRange("n",0,draw);bindRange("p",2,draw);bindRange("k",0,draw);$("nrm").addEventListener("change",draw);

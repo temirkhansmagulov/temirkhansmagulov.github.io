@@ -176,7 +176,7 @@ function draw(){
   ring(u[0],u[1],C.red,8);ring(v[0],v[1],C.ink,8);
   label("u",X(u[0])+10,Y(u[1])-8,C.red,"left","500 14px Poppins, sans-serif");label("v",X(v[0])+10,Y(v[1])-8,C.ink,"left","500 14px Poppins, sans-serif");
   label("w",X(w[0])+8,Y(w[1])+16,C.grey,"left","500 14px Poppins, sans-serif");
-  $("formula").innerHTML=`<em>w</em> = ${fmt(s,1)}·(${fmt(u[0],1)}, ${fmt(u[1],1)}) + ${fmt(t,1)}·(${fmt(v[0],1)}, ${fmt(v[1],1)}) = <span style="color:var(--grey)">(${fmt(w[0],2)}, ${fmt(w[1],2)})</span>`;
+  $("formula").innerHTML=`<em>w</em> = <span data-p="s">${fmt(s,1)}</span>·(${fmt(u[0],1)}, ${fmt(u[1],1)}) + <span data-p="t">${fmt(t,1)}</span>·(${fmt(v[0],1)}, ${fmt(v[1],1)}) = <span style="color:var(--grey)"><span data-d="s t">(${fmt(w[0],2)}, ${fmt(w[1],2)})</span></span>`;
   const st=[["det [u v]",fmt(det,2)],["Span",Math.abs(det)>1e-9?"whole plane":"a line",true]];
   if(target){const dist=Math.hypot(w[0]-target[0],w[1]-target[1]);st.push(["Distance to target",dist<0.05?"reached ✓":fmt(dist,2),dist<0.05])}
   stats(st);

@@ -175,14 +175,14 @@ function draw(){
     label("x",X(x/2),Y(0)+16,C.ink,"center","500 13px Poppins, sans-serif");label("dx",X(x+d/2),Y(0)+16,C.red,"center","500 12px Poppins, sans-serif");
     label("x²",X(x/2),Y(x/2)+5,C.grey,"center","500 18px Poppins, sans-serif");
     const dA=(x+d)**2-x*x;
-    $("formula").innerHTML=`Δ(<em>x</em>²) = <span style="color:var(--red)">2<em>x</em>·d<em>x</em></span> + (d<em>x</em>)² &nbsp;⇒&nbsp; (<em>x</em>²)′ = 2<em>x</em>`;
+    $("formula").innerHTML=`Δ(<span data-p="x"><em>x</em></span>²) = <span style="color:var(--red)">2<span data-p="x"><em>x</em></span>·<span data-p="dx">d<em>x</em></span></span> + (<span data-p="dx">d<em>x</em></span>)² &nbsp;⇒&nbsp; (<em>x</em>²)′ = 2<em>x</em>`;
     stats([["Two strips 2x·dx",fmt(2*x*d,3)],["Corner (dx)²",fmt(d*d,3)],["ΔA / dx",d?fmt(dA/d,3):"—",true],["2x",fmt(2*x,3)]]);
   }else{equalView(1.9,1.9,2.3);
     const g=["#EEF0F3","#F7F8FA","#DADDE2"],r=["rgba(230,57,70,0.55)","rgba(230,57,70,0.35)","rgba(230,57,70,0.75)"],q=["#C5C9D0","#D9DCE1","#AEB3BB"];
     box(0,x,0,x,0,x,g);box(x,x+d,0,x,0,x,r);box(0,x,x,x+d,0,x,r);box(x,x+d,x,x+d,0,x,q);
     box(0,x,0,x,-d,0,r);box(x,x+d,0,x,-d,0,q);box(0,x,x,x+d,-d,0,q);box(x,x+d,x,x+d,-d,0,q);
     const dV=(x+d)**3-x**3;
-    $("formula").innerHTML=`Δ(<em>x</em>³) = <span style="color:var(--red)">3<em>x</em>²·d<em>x</em></span> + 3<em>x</em>(d<em>x</em>)² + (d<em>x</em>)³`;
+    $("formula").innerHTML=`Δ(<span data-p="x"><em>x</em></span>³) = <span style="color:var(--red)">3<span data-p="x"><em>x</em></span>²·<span data-p="dx">d<em>x</em></span></span> + 3<span data-p="x"><em>x</em></span>(<span data-p="dx">d<em>x</em></span>)² + (<span data-p="dx">d<em>x</em></span>)³`;
     stats([["Three slabs 3x²·dx",fmt(3*x*x*d,3)],["Leftovers",fmt(3*x*d*d+d**3,3)],["ΔV / dx",d?fmt(dV/d,3):"—",true],["3x²",fmt(3*x*x,3)]]);}
 }
 bindRange("x",2,draw);bindRange("dx",2,draw);bindChips("m",v=>{mode=v;draw()});

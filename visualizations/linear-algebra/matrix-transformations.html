@@ -170,7 +170,7 @@ function draw(){
   arrow(0,0,A[0],A[2],C.red,3.5);arrow(0,0,A[1],A[3],C.ink,3.5);
   label("Aî",X(A[0])+8,Y(A[2])+4,C.red,"left","500 14px Poppins, sans-serif");label("Aĵ",X(A[1])+8,Y(A[3])-6,C.ink,"left","500 14px Poppins, sans-serif");
   const det=A[0]*A[3]-A[1]*A[2];
-  $("formula").innerHTML=`<em>A</em> = <span class="mat"><span class="c1">${fmt(a,2)}</span><span>${fmt(b,2)}</span><span class="c1">${fmt(c,2)}</span><span>${fmt(d,2)}</span></span> &nbsp; det <em>A</em> = <span style="color:var(--red)">${fmt(a*d-b*c,2)}</span>`;
+  $("formula").innerHTML=`<em>A</em> = <span class="mat"><span class="c1" data-p="a">${fmt(a,2)}</span><span data-p="b">${fmt(b,2)}</span><span class="c1" data-p="c">${fmt(c,2)}</span><span data-p="d">${fmt(d,2)}</span></span> &nbsp; det <em>A</em> = <span style="color:var(--red)"><span data-d="a b c d">${fmt(a*d-b*c,2)}</span></span>`;
   stats([["î lands at",`(${fmt(a,2)}, ${fmt(c,2)})`],["ĵ lands at",`(${fmt(b,2)}, ${fmt(d,2)})`],["Area scale |det|",fmt(Math.abs(a*d-b*c),2)+"×"],
     ["Orientation",Math.abs(a*d-b*c)<1e-9?"collapsed":(a*d-b*c)<0?"flipped":"kept",true]]);
 }

@@ -170,7 +170,7 @@ function draw(){
     }
   curve(x=>pdf(x,m,s),C.ink,3);seg(a,0,a,pdf(a,m,s),C.red,2);seg(b,0,b,pdf(b,m,s),C.red,2);
   const P=Phi((b-m)/s)-Phi((a-m)/s);
-  $("formula").innerHTML=`P(${fmt(a,2)} &lt; <em>X</em> &lt; ${fmt(b,2)}) = <span style="color:var(--red)">${(P*100).toFixed(1)}%</span> &nbsp;·&nbsp; <em>X</em> ~ N(${fmt(m,1)}, ${fmt(s,2)}²)`;
+  $("formula").innerHTML=`P(<span data-p="lo">${fmt(a,2)}</span> &lt; <em>X</em> &lt; <span data-p="hi">${fmt(b,2)}</span>) = <span style="color:var(--red)"><span data-d="mu sg lo hi">${(P*100).toFixed(1)}%</span></span> &nbsp;·&nbsp; <em>X</em> ~ N(<span data-p="mu">${fmt(m,1)}</span>, <span data-p="sg">${fmt(s,2)}</span>²)`;
   stats([["z for a",fmt((a-m)/s,2)],["z for b",fmt((b-m)/s,2)],["Probability",(P*100).toFixed(2)+"%",true],["Peak height",fmt(pdf(m,m,s),3)]]);
 }
 function setK(){const m=+$("mu").value,s=+$("sg").value;$("lo").value=(m-kk*s).toFixed(2);$("hi").value=(m+kk*s).toFixed(2);$("loo").textContent=fmt(m-kk*s,2);$("hio").textContent=fmt(m+kk*s,2)}

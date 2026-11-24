@@ -176,7 +176,7 @@ function draw(){
   ctx.fillStyle=C.line;ctx.fillRect(0,H*0.5-1,W,2);
   const reg=z===0?"undamped":Math.abs(z-1)<1e-9?"critically damped":z<1?"underdamped":"overdamped";
   const disc=z*z-1,re=-z*w,roots=disc<0?`${fmt(re,2)} ± ${fmt(w*Math.sqrt(-disc),2)}i`:`${fmt(re+w*Math.sqrt(disc),2)}, ${fmt(re-w*Math.sqrt(disc),2)}`;
-  $("formula").innerHTML=`<em>x</em>″ + ${fmt(2*z*w,2)}<em>x</em>′ + ${fmt(w*w,2)}<em>x</em> = 0 &nbsp;·&nbsp; <span style="color:var(--red)">${reg}</span>`;
+  $("formula").innerHTML=`<em>x</em>″ + <span data-d="z w">${fmt(2*z*w,2)}</span><em>x</em>′ + <span data-d="w">${fmt(w*w,2)}</span><em>x</em> = 0 &nbsp;·&nbsp; <span style="color:var(--red)"><span data-d="z">${reg}</span></span>`;
   stats([["Regime",reg,true],["Roots r",roots],["Period",z<1?fmt(2*Math.PI/(w*Math.sqrt(1-z*z)),2):"none"]]);
 }
 bindRange("z",2,draw);bindRange("w",1,draw);bindRange("t",2,draw);

@@ -161,16 +161,16 @@ const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
 
 const F={sin:[Math.sin,"sin"],sq:[x=>x*x,"sq"],abs:[Math.abs,"abs"],exp:[Math.exp,"exp"],cube:[x=>x*x*x,"cube"]};
 let fk="sin";
-function inner(b,c){const cs=c===0?"x":`x ${c>0?"−":"+"} ${fmt(Math.abs(c),1)}`;return b===1?cs:`${fmt(b,1)}(${cs})`}
+function inner(b,c){const cs=c===0?"x":`x ${c>0?"−":"+"} <span data-p="c">${fmt(Math.abs(c),1)}</span>`;return b===1?cs:`<span data-p="b">${fmt(b,1)}</span>(${cs})`}
 function draw(){
   const a=+$("a").value,b=+$("b").value,c=+$("c").value,d=+$("d").value,f=F[fk][0];
   V=fk==="sin"?{xmin:-2*Math.PI,xmax:2*Math.PI,ymin:-4.5,ymax:4.5}:{xmin:-5,xmax:5,ymin:-4.5,ymax:4.5};
   size();grid(fk==="sin");
   if($("base").checked)curve(f,C.soft,2,[6,5]);
   curve(x=>a*f(b*(x-c))+d,C.red,3.2);
-  const u=inner(b,c),pre=a===1?"":a===-1?"−":fmt(a,1)+" · ";
+  const u=inner(b,c),pre=a===1?"":a===-1?'<span data-p="a">−</span>':'<span data-p="a">'+fmt(a,1)+'</span> · ';
   const body={sin:`sin(${u})`,sq:u==="x"?"x²":`(${u})²`,abs:`|${u}|`,exp:u==="x"?"eˣ":`e^(${u})`,cube:u==="x"?"x³":`(${u})³`}[fk];
-  $("formula").innerHTML=`<em>y</em> = ${pre}${body}${d? (d>0?" + ":" − ")+fmt(Math.abs(d),1):""}`;
+  $("formula").innerHTML=`<em>y</em> = ${pre}${body}${d? (d>0?" + ":" − ")+'<span data-p="d">'+fmt(Math.abs(d),1)+'</span>':""}`;
   stats([["Vertical stretch",fmt(Math.abs(a),1)+"×"],["Horizontal",b?fmt(1/Math.abs(b),2)+"×":"—"],["Shift",`(${fmt(c,1)}, ${fmt(d,1)})`,true],["Reflections",(a<0?"x-axis ":"")+(b<0?"y-axis":"")||"none"]]);
 }
 ["a","b","c","d"].forEach(k=>bindRange(k,1,draw));$("base").addEventListener("change",draw);

@@ -173,7 +173,7 @@ function draw(){
     label("2πR",X(2*Math.PI),Y(1)-8,C.ink,"center");label("r",X(0)-8,Y(0.5),C.ink,"right")});
   ctx.fillStyle=C.line;ctx.fillRect(0,H*0.5-1,W,2);
   let sum=0;for(let i=0;i<n;i++)sum+=2*Math.PI*i*dr*dr;const rk=(k-1)*dr;
-  $("formula").innerHTML=`Area = ∫<sub>0</sub><sup>R</sup> 2π<em>r</em> d<em>r</em> = π<em>R</em>² &nbsp;·&nbsp; strips: <span style="color:var(--red)">${fmt(sum,4)}</span>`;
+  $("formula").innerHTML=`Area = ∫<sub>0</sub><sup>R</sup> 2π<em>r</em> d<em>r</em> = π<em>R</em>² &nbsp;·&nbsp; strips: <span style="color:var(--red)"><span data-d="n">${fmt(sum,4)}</span></span>`;
   stats([["Ring "+k+" strip","2π·"+fmt(rk,2)+" × "+fmt(dr,3)],["Sum of strips",fmt(sum,4),true],["πR²",fmt(Math.PI,4)],["Gap",fmt(Math.PI-sum,4)]]);
 }
 bindRange("n",0,draw);bindRange("k",0,draw);

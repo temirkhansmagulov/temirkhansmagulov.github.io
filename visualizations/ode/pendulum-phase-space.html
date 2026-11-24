@@ -182,7 +182,7 @@ function draw(){
     dot(st[0],st[1],C.ink,5);dot(cur[0],cur[1],C.red,6);label("angle θ →",W-6,Y(0)-6,C.grey,"right");label("θ′ (angular velocity)",X(0)+6,14,C.grey)});
   ctx.fillStyle=C.line;ctx.fillRect(0,H*0.315-1,W,2);
   const E=0.5*st[1]**2-Math.cos(st[0]);
-  $("formula").innerHTML=`Energy <em>E</em> = ½θ′² − cos θ = <span style="color:var(--red)">${fmt(E,3)}</span>`;
+  $("formula").innerHTML=`Energy <em>E</em> = ½θ′² − cos θ = <span style="color:var(--red)">${fmt(E,3)}</span> &nbsp;·&nbsp; <span data-p="b">damping <em>b</em> = ${fmt(+$("b").value,2)}</span>`;
   stats([["Start (θ, θ′)",`(${fmt(st[0],2)}, ${fmt(st[1],2)})`],["Motion",Math.abs(E-1)<0.02?"on the separatrix":E<1?"swinging":"spinning over the top",true],["Damping",+$("b").value?"energy is lost":"energy conserved"]]);
 }
 function loop(){idx+=4;if(idx>=traj.length){playing=false;idx=traj.length-1}draw();if(playing)anim=requestAnimationFrame(loop)}

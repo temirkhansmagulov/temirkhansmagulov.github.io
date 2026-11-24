@@ -183,7 +183,7 @@ function draw(){
   label("L + ε",6,Y(L+e)-5,C.red);label("L − ε",6,Y(L-e)+14,C.red);
   label("a − δ",X(a-d)-4,14,C.grey,"right");label("a + δ",X(a+d)+4,14,C.grey);
   const w=worst(P,d,L),ok=w<e;
-  $("formula").innerHTML=`lim<sub><em>x</em>→${fmt(a,0)}</sub> ${P.t} = ${fmt(L,2)} ?<br><span style="font-size:13px;color:var(--grey)">0 &lt; |<em>x</em> − ${fmt(a,0)}| &lt; δ &nbsp;⇒&nbsp; |<em>f</em>(<em>x</em>) − <em>L</em>| &lt; ε</span>`;
+  $("formula").innerHTML=`lim<sub><em>x</em>→${fmt(a,0)}</sub> ${P.t} = <span data-p="L">${fmt(L,2)}</span> ?<br><span style="font-size:13px;color:var(--grey)">0 &lt; |<em>x</em> − ${fmt(a,0)}| &lt; <span data-p="del">δ</span> &nbsp;⇒&nbsp; |<em>f</em>(<em>x</em>) − <span data-p="L"><em>L</em></span>| &lt; <span data-p="eps">ε</span></span>`;
   stats([["ε",fmt(e,2)],["δ",fmt(d,2)],["max |f(x) − L| in window",fmt(w,3)],["This δ",ok?"works ✓":"fails ✗",true]]);
 }
 function findDelta(){const P=F[fk],e=+$("eps").value,L=+$("L").value;

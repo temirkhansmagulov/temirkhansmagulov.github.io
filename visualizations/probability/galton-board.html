@@ -176,7 +176,7 @@ function draw(){
   ctx.fillStyle=C.line;ctx.fillRect(10,by,W-20,1.5);
   balls.forEach(b=>{if(b.t<0)return;const [x,y]=pos(b,g);ctx.beginPath();ctx.arc(x,y,5,0,7);ctx.fillStyle=C.red;ctx.fill()});
   const mean=N?bins.reduce((a,c,k)=>a+c*k,0)/N:NaN;
-  $("formula").innerHTML=`Bin = number of right bounces ~ B(${g.n}, ${fmt(p,2)})`;
+  $("formula").innerHTML=`Bin = number of right bounces ~ B(<span data-p="n">${g.n}</span>, <span data-p="p">${fmt(p,2)}</span>)`;
   stats([["Balls",N],["Average bin",fmt(mean,2)],["Expected np",fmt(g.n*p,2),true],["SD √(np(1−p))",fmt(Math.sqrt(g.n*p*(1-p)),2)]]);
 }
 function tick(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const g=geo();

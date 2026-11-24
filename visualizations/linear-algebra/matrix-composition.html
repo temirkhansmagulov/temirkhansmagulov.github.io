@@ -172,7 +172,7 @@ function draw(){
   shape.forEach(pl=>{ctx.beginPath();pl.forEach((p,i)=>{const q=T(...p);i?ctx.lineTo(X(q[0]),Y(q[1])):ctx.moveTo(X(q[0]),Y(q[1]))});ctx.stroke()});
   arrow(0,0,Mt[0],Mt[2],C.ink,3);arrow(0,0,Mt[1],Mt[3],C.grey,3);
   const AB=mul(A,B),BA=mul(B,A),same=AB.every((v,i)=>Math.abs(v-BA[i])<1e-9);
-  $("formula").innerHTML=`${ord==="AB"?"A·B":"B·A"} = ${matH(ord==="AB"?AB:BA)} &nbsp; <span style="font-size:13px;color:var(--grey)">step ${t<=1?"1: "+N[ord==="AB"?bk:ak]:"2: "+N[ord==="AB"?ak:bk]}</span>`;
+  $("formula").innerHTML=`${ord==="AB"?"A·B":"B·A"} = ${matH(ord==="AB"?AB:BA)} &nbsp; <span style="font-size:13px;color:var(--grey)" data-d="t">step ${t<=1?"1: "+N[ord==="AB"?bk:ak]:"2: "+N[ord==="AB"?ak:bk]}</span>`;
   stats([["A·B",`(${AB.map(v=>fmt(v,1)).join(", ")})`],["B·A",`(${BA.map(v=>fmt(v,1)).join(", ")})`],["AB = BA ?",same?"yes":"no — order matters",true]]);
 }
 bindRange("t",2,draw);bindChips("a",v=>{ak=v;play()});bindChips("b",v=>{bk=v;play()});bindChips("o",v=>{ord=v;play()});

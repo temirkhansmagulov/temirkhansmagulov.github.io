@@ -166,7 +166,7 @@ function draw(){
     if(i<tp)col=C.red;else if(i<sick)col="#F4A3A9";else if(i<sick+fpN)col=C.ink;else col="#D9DCE1";
     ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=col;ctx.fill()}
   const pos=tp+fpN,post=pos?tp/pos:0,exact=se*pr/(se*pr+fp*(1-pr));
-  $("formula").innerHTML=`P(sick | +) = ${tp} / (${tp} + ${fpN}) ≈ <span style="color:var(--red)">${(exact*100).toFixed(1)}%</span>`;
+  $("formula").innerHTML=`P(sick | +) = <span data-d="pr se">${tp}</span> / (<span data-d="pr se">${tp}</span> + <span data-d="pr fp">${fpN}</span>) ≈ <span style="color:var(--red)"><span data-d="pr se fp">${(exact*100).toFixed(1)}%</span></span>`;
   $("msg").innerHTML=`Of <b>${pos}</b> positive tests, only <b>${tp}</b> are sick people.`;
   stats([["Prior P(sick)",fmt(pr*100,1)+"%"],["P(+ | sick)",fmt(se*100,0)+"%"],["P(+ | healthy)",fmt(fp*100,1)+"%"],["P(sick | +)",(exact*100).toFixed(1)+"%",true]]);
 }

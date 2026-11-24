@@ -173,7 +173,7 @@ function draw(){
   curve(P.f,C.ink,3,null,fk==="ln"?0.005:V.xmin);
   if($("sec").checked&&isFinite(y1)){curve(x=>y0+ms*(x-x0),C.grey,1.6,[4,4]);dot(x0+h,y1,C.grey,5)}
   curve(x=>y0+m*(x-x0),C.red,2.6);dot(x0,y0,C.red,7);
-  $("formula").innerHTML=`<em>f</em>(<em>x</em>) = ${P.t} <br><span style="color:var(--red)">tangent: <em>y</em> = ${fmt(m,2)}(<em>x</em> − ${fmt(x0,2)}) + ${fmt(y0,2)}</span>`;
+  $("formula").innerHTML=`<em>f</em>(<em>x</em>) = ${P.t} <br><span style="color:var(--red)">tangent: <em>y</em> = <span data-d="x0">${fmt(m,2)}</span>(<em>x</em> − <span data-p="x0">${fmt(x0,2)}</span>) + <span data-d="x0">${fmt(y0,2)}</span></span>`;
   stats([["x₀",fmt(x0,2)],["f(x₀)",fmt(y0,3)],["Secant slope",fmt(ms,3)],["f′(x₀)",fmt(m,3),true]]);
 }
 bindRange("h",2,draw);$("x0").addEventListener("input",()=>{$("x0o").textContent=fmt(+$("x0").value,2);draw()});

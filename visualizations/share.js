@@ -79,6 +79,7 @@
     if (after) { try { Function(after)(); } catch (_) {} }
     dispatchEvent(new Event("resize"));             // every page redraws on resize
     document.querySelectorAll(".row.active").forEach(r => r.classList.remove("active"));
+    if (window.stClearHighlight) window.stClearHighlight();
   }
 
   // ----- link for the current state -----

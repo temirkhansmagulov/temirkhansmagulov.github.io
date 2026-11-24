@@ -179,7 +179,7 @@ function draw(){
     label("averages of n = "+n+" draws",8,16,C.ink,"left","500 12px Poppins, sans-serif")});
   ctx.fillStyle=C.line;ctx.fillRect(0,H*0.32-1,W,2);
   const N=means.length,avg=N?means.reduce((a,b)=>a+b,0)/N:NaN,sdm=N>1?Math.sqrt(means.reduce((a,b)=>a+(b-avg)**2,0)/(N-1)):NaN;
-  $("formula").innerHTML=`<em>X̄</em> ≈ N(μ, σ²/n) &nbsp;·&nbsp; spread σ/√n = <span style="color:var(--red)">${fmt(se,3)}</span>`;
+  $("formula").innerHTML=`<em>X̄</em> ≈ N(μ, σ²/<span data-p="n">n</span>) &nbsp;·&nbsp; spread σ/√<span data-p="n">n</span> = <span style="color:var(--red)"><span data-d="n">${fmt(se,3)}</span></span>`;
   stats([["Samples",N],["Mean of averages",fmt(avg,3)+" (μ = "+fmt(P.mu,2)+")"],["SD of averages",fmt(sdm,3),true],["Theory σ/√n",fmt(se,3)]]);
 }
 function reset(){means=[];add(1000)}

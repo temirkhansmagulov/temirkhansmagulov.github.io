@@ -169,7 +169,7 @@ function draw(){
   let best=0;d.forEach((q,i)=>{if(q>d[best])best=i;ctx.fillStyle=C.red;ctx.fillRect(X(i+n)-bw/2,Y(q),bw,Y(0)-Y(q))});
   const mu=D[dk].reduce((a,p,i)=>a+p*(i+1),0),va=D[dk].reduce((a,p,i)=>a+p*(i+1-mu)**2,0);
   if($("nrm").checked)curve(x=>Math.exp(-0.5*(x-n*mu)**2/(n*va))/Math.sqrt(2*Math.PI*n*va),C.ink,2.4);
-  $("formula").innerHTML=`P(S<sub>${n}</sub> = s) = Σ<sub>k</sub> P(S<sub>${n-1}</sub> = s − k)·P(X = k)`;
+  $("formula").innerHTML=`P(S<sub><span data-p="n">${n}</span></sub> = s) = Σ<sub>k</sub> P(S<sub><span data-d="n">${n-1}</span></sub> = s − k)·P(X = k)`;
   stats([["Sums from",n+" to "+6*n],["Most likely",(best+n)+" ("+(d[best]*100).toFixed(1)+"%)",true],["Mean n·μ",fmt(n*mu,2)],["SD √n·σ",fmt(Math.sqrt(n*va),2)]]);
 }
 bindRange("n",0,draw);["prev","nrm"].forEach(k=>$(k).addEventListener("change",draw));bindChips("d",v=>{dk=v;draw()});

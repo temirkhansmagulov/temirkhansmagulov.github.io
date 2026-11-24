@@ -176,7 +176,7 @@ function draw(){
   pts.forEach((p,i)=>{if(i)dot(p[0],p[1],C.ink,2.8,false)});dot(s0[0],s0[1],C.red,7);const e=pts[pts.length-1];dot(e[0],e[1],C.red,5);
   const fv=Pp.f(...e),dm=Math.min(...Pp.m.map(m=>Math.hypot(e[0]-m[0],e[1]-m[1])));
   if(!status)status=dm<1e-3?"converged":"still moving";
-  $("formula").innerHTML=`η = ${fmt(eta,3)} &nbsp;·&nbsp; after ${pts.length-1} steps: <em>f</em> = <span style="color:var(--red)">${isFinite(fv)?fv.toExponential(2):"∞"}</span>`;
+  $("formula").innerHTML=`<span data-p="eta">η = ${fmt(eta,3)}</span> &nbsp;·&nbsp; after <span data-p="k">${pts.length-1}</span> steps: <em>f</em> = <span style="color:var(--red)"><span data-d="eta k">${isFinite(fv)?fv.toExponential(2):"∞"}</span></span>`;
   $("msg").textContent="Tap or drag on the graph to move the starting point.";
   stats([["Start",`(${fmt(s0[0],1)}, ${fmt(s0[1],1)})`],["Distance to minimum",status==="diverged"?"—":fmt(dm,4)],["Status",status,true]]);
 }

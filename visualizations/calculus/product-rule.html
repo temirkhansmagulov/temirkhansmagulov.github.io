@@ -168,7 +168,7 @@ function draw(){
   label("f = x",X(f/2),Y(0)+30,C.ink,"center","500 12px Poppins, sans-serif");label("df",X(f+df/2),Y(0)+30,C.red,"center","500 12px Poppins, sans-serif");
   label("g = x²",X(0)-6,Y(g/2),C.ink,"right","500 12px Poppins, sans-serif");label("dg",X(0)-6,Y(g+dg/2)+4,C.ink,"right","500 12px Poppins, sans-serif");
   label("f·g",X(f/2),Y(g/2),C.grey,"center","500 16px Poppins, sans-serif");
-  $("formula").innerHTML=`d(<em>fg</em>) = <em>f</em>·d<em>g</em> + <span style="color:var(--red)"><em>g</em>·d<em>f</em></span> + d<em>f</em>·d<em>g</em>`;
+  $("formula").innerHTML=`d(<em>fg</em>) = <span data-p="x"><em>f</em></span>·<span data-p="dx">d<em>g</em></span> + <span style="color:var(--red)"><span data-p="x"><em>g</em></span>·<span data-p="dx">d<em>f</em></span></span> + <span data-p="dx">d<em>f</em>·d<em>g</em></span>`;
   stats([["f·dg",fmt(f*dg,3)],["g·df",fmt(g*df,3)],["df·dg",fmt(df*dg,4)],["Δ(fg)/dx",d?fmt((f2*g2-f*g)/d,3):"—",true],["f·g′ + g·f′",fmt(3*x*x,3)]]);
 }
 bindRange("x",2,draw);bindRange("dx",2,draw);

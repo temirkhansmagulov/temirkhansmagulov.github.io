@@ -176,7 +176,7 @@ function draw(){
   else curve(P.f,C.ink,3,null,P.dom??V.xmin);
   curve(T(P,n,a),C.red,3);dot(a,P.f(a),C.red,6);
   const names={sin:"sin x",cos:"cos x",exp:"eˣ",ln:"ln(1+x)",geo:"1/(1−x)"};
-  $("formula").innerHTML=`<em>T</em><sub>${n}</sub>(<em>x</em>) ≈ ${names[fk]} &nbsp;near&nbsp; <em>x</em> = ${fmt(a,1)}`;
+  $("formula").innerHTML=`<em>T</em><sub><span data-p="n">${n}</span></sub>(<em>x</em>) ≈ ${names[fk]} &nbsp;near&nbsp; <em>x</em> = <span data-p="c">${fmt(a,1)}</span>`;
   const xs=a+1,err=Math.abs(T(P,n,a)(xs)-P.f(xs));
   stats([["Degree",n],["Centre a",fmt(a,1)],[`Error at x = ${fmt(xs,1)}`,isFinite(err)?err.toExponential(2):"—",true]]);
 }

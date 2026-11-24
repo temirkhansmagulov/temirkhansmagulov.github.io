@@ -177,7 +177,7 @@ function draw(){
   arrow(0,0,Av[0],Av[1],C.red,isE?5:3.5);arrow(0,0,v[0],v[1],C.ink,3.5);
   label("v",X(v[0])+8,Y(v[1])-6,C.ink,"left","500 14px Poppins, sans-serif");label("Av",X(Av[0])+8,Y(Av[1])-6,C.red,"left","500 14px Poppins, sans-serif");
   const lam=dotp;
-  $("formula").innerHTML=`<em>A</em> = <span class="mat"><span>${A[0]}</span><span>${A[1]}</span><span>${A[2]}</span><span>${A[3]}</span></span> &nbsp; λ: ${E.real?E.list.map(e=>fmt(e.l,2)).join(", "):"none real"}`;
+  $("formula").innerHTML=`<em>A</em> = <span class="mat"><span>${A[0]}</span><span>${A[1]}</span><span>${A[2]}</span><span>${A[3]}</span></span> &nbsp; λ: ${E.real?E.list.map(e=>fmt(e.l,2)).join(", "):"none real"} &nbsp;·&nbsp; <span data-p="th"><em>v</em> at ${$("th").value}°</span>`;
   $("msg").innerHTML=isE?`<b>Eigenvector!</b> Av = ${fmt(lam,2)}·v — same line, stretched by λ = ${fmt(lam,2)}.`:(E.real?"Keep turning v until Av lines up with it.":"A rotation turns every vector — no real eigenvectors.");
   stats([["θ",$("th").value+"°"],["Angle v ↔ Av",fmt(angle,1)+"°"],["|Av| / |v|",fmt(nA,2)],["Eigenvector?",isE?"yes ✓":"no",isE]]);
 }

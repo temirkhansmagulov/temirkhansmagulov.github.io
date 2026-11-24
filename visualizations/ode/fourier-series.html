@@ -178,7 +178,7 @@ function draw(){
   ctx.strokeStyle="rgba(230,57,70,0.6)";ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(mx,py);ctx.stroke();ctx.setLineDash([]);
   ctx.beginPath();ctx.arc(px,py,4,0,7);ctx.fillStyle=C.red;ctx.fill();ctx.beginPath();ctx.arc(mx,py,5,0,7);ctx.fill();
   let mxS=0;for(let i=1;i<1000;i++){mxS=Math.max(mxS,S(Math.PI*i/1000*2,ts))}
-  $("formula").innerHTML=`<span style="font-size:14px">${Wv[wk].nm}</span>`;
+  $("formula").innerHTML=`<span style="font-size:14px">${Wv[wk].nm}</span> &nbsp;·&nbsp; <span data-p="N"><em>N</em> = ${$("N").value}</span> terms`;
   stats([["Terms",ts.length],["Frequencies",ts.slice(0,4).map(q=>q[0]).join(", ")+(ts.length>4?", …":"")],["Max of partial sum",fmt(mxS,3)+(wk==="sq"?" (target 1)":""),true]]);
 }
 function loop(now){const dt=Math.min(0.05,(now-last)/1000);last=now;if(run)t+=dt*0.9;draw();requestAnimationFrame(loop)}

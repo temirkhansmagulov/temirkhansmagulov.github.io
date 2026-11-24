@@ -175,7 +175,7 @@ function draw(){
     ctx.closePath();ctx.fill();ctx.stroke()}
   curve(P.f,C.ink,3,null,fk==="sqrt"?0:V.xmin);
   const ex=P.I(b)-P.I(a);
-  $("formula").innerHTML=`∫<sub>${fmt(a,1)}</sub><sup>${fmt(b,1)}</sup> ${P.t} d<em>x</em> &nbsp;≈&nbsp; ${fmt(S,4)}`;
+  $("formula").innerHTML=`∫<sub><span data-p="a">${fmt(a,1)}</span></sub><sup><span data-p="b">${fmt(b,1)}</span></sup> ${P.t} d<em>x</em> &nbsp;≈&nbsp; <span data-d="n a b">${fmt(S,4)}</span>`;
   stats([["Δx",fmt(dx,3)],["Approximation",fmt(S,4),true],["Exact",fmt(ex,4)],["Error",fmt(Math.abs(S-ex),4)]]);
 }
 bindRange("n",0,draw);bindRange("a",1,draw);bindRange("b",1,draw);
