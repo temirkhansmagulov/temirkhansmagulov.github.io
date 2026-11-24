@@ -21,7 +21,7 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 h1{font-size:24px;font-weight:500;margin:0}
 .sub{color:var(--grey);font-size:13px;margin:2px 0 12px}
 .card{background:#fff;border-radius:14px;padding:12px}
-.formula{font-size:16px;font-weight:500;padding:4px 4px 10px;min-height:30px;line-height:1.45}
+.formula{font-size:16px;font-weight:500;padding:12px 4px 4px;min-height:30px;line-height:1.45}
 .formula em{font-family:"Times New Roman",serif;font-size:19px}
 canvas{width:100%;height:56vh;max-height:420px;min-height:260px;display:block;touch-action:pan-y}
 .controls{margin-top:12px;display:grid;gap:4px}
@@ -72,8 +72,8 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <h1>Fourier series</h1>
 <div class="sub">Add rotating circles (sines) of frequency 1, 2, 3, … to build any periodic wave</div>
 <div class="card">
-<div class="formula" id="formula"></div>
 <canvas id="cv"></canvas>
+<div class="formula" id="formula"></div>
 </div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="w" data-v="sq">Square</button><button class="chip" data-g="w" data-v="saw">Sawtooth</button><button class="chip" data-g="w" data-v="tri">Triangle</button></div><div class="row"><label for="N">N · terms</label><input type="range" id="N" min="1" max="40" step="1" value="3"><output id="No"></output></div><label class="toggle">Show target wave<span class="sw"><input type="checkbox" id="tgt" checked><span></span></span></label><div class="btns"><button class="chip" id="pause">❚❚ Pause</button></div>

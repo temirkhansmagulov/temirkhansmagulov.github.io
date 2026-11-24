@@ -21,7 +21,7 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 h1{font-size:24px;font-weight:500;margin:0}
 .sub{color:var(--grey);font-size:13px;margin:2px 0 12px}
 .card{background:#fff;border-radius:14px;padding:12px}
-.formula{font-size:16px;font-weight:500;padding:4px 4px 10px;min-height:30px;line-height:1.45}
+.formula{font-size:16px;font-weight:500;padding:12px 4px 4px;min-height:30px;line-height:1.45}
 .formula em{font-family:"Times New Roman",serif;font-size:19px}
 canvas{width:100%;height:56vh;max-height:420px;min-height:260px;display:block;touch-action:pan-y}
 .controls{margin-top:12px;display:grid;gap:4px}
@@ -72,8 +72,8 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <h1>Normal distribution</h1>
 <div class="sub">X ~ N(μ, σ²) — probability is the area under the bell curve</div>
 <div class="card">
-<div class="formula" id="formula"></div>
 <canvas id="cv"></canvas>
+<div class="formula" id="formula"></div>
 </div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="k" data-v="1">μ ± 1σ</button><button class="chip" data-g="k" data-v="2">μ ± 2σ</button><button class="chip" data-g="k" data-v="3">μ ± 3σ</button></div><div class="row"><label for="mu">μ · mean</label><input type="range" id="mu" min="-3" max="3" step="0.1" value="0"><output id="muo"></output></div><div class="row"><label for="sg">σ · spread</label><input type="range" id="sg" min="0.45" max="2.5" step="0.05" value="1"><output id="sgo"></output></div><div class="row"><label for="lo">a · from</label><input type="range" id="lo" min="-6.5" max="6.5" step="0.05" value="-1"><output id="loo"></output></div><div class="row"><label for="hi">b · to</label><input type="range" id="hi" min="-6.5" max="6.5" step="0.05" value="1"><output id="hio"></output></div><label class="toggle">Compare with N(0, 1)<span class="sw"><input type="checkbox" id="std"><span></span></span></label>

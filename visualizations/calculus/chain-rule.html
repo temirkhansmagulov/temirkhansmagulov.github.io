@@ -21,7 +21,7 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 h1{font-size:24px;font-weight:500;margin:0}
 .sub{color:var(--grey);font-size:13px;margin:2px 0 12px}
 .card{background:#fff;border-radius:14px;padding:12px}
-.formula{font-size:16px;font-weight:500;padding:4px 4px 10px;min-height:30px;line-height:1.45}
+.formula{font-size:16px;font-weight:500;padding:12px 4px 4px;min-height:30px;line-height:1.45}
 .formula em{font-family:"Times New Roman",serif;font-size:19px}
 canvas{width:100%;height:56vh;max-height:420px;min-height:260px;display:block;touch-action:pan-y}
 .controls{margin-top:12px;display:grid;gap:4px}
@@ -72,8 +72,8 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <h1>Chain rule on number lines</h1>
 <div class="sub">A nudge dx is stretched by g′ on the way to u, then by f′ on the way to y</div>
 <div class="card">
-<div class="formula" id="formula"></div>
 <canvas id="cv"></canvas>
+<div class="formula" id="formula"></div>
 </div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="f" data-v="sinsq">sin(x²)</button><button class="chip" data-g="f" data-v="cube">(x² + 1)³</button><button class="chip" data-g="f" data-v="esin">e^(sin x)</button></div><div class="row"><label for="x">x</label><input type="range" id="x" min="0" max="2" step="0.01" value="1"><output id="xo"></output></div><div class="row"><label for="dx">dx · nudge</label><input type="range" id="dx" min="0.01" max="0.4" step="0.01" value="0.2"><output id="dxo"></output></div>

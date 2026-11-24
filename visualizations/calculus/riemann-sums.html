@@ -21,7 +21,7 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 h1{font-size:24px;font-weight:500;margin:0}
 .sub{color:var(--grey);font-size:13px;margin:2px 0 12px}
 .card{background:#fff;border-radius:14px;padding:12px}
-.formula{font-size:16px;font-weight:500;padding:4px 4px 10px;min-height:30px;line-height:1.45}
+.formula{font-size:16px;font-weight:500;padding:12px 4px 4px;min-height:30px;line-height:1.45}
 .formula em{font-family:"Times New Roman",serif;font-size:19px}
 canvas{width:100%;height:56vh;max-height:420px;min-height:260px;display:block;touch-action:pan-y}
 .controls{margin-top:12px;display:grid;gap:4px}
@@ -72,8 +72,8 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <h1>Riemann sums</h1>
 <div class="sub">Approximate the area under a curve with rectangles or trapezoids</div>
 <div class="card">
-<div class="formula" id="formula"></div>
 <canvas id="cv"></canvas>
+<div class="formula" id="formula"></div>
 </div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="f" data-v="sq">x² + 1</button><button class="chip" data-g="f" data-v="sin">sin x + 1.5</button><button class="chip" data-g="f" data-v="exp">eˣ/3</button><button class="chip" data-g="f" data-v="sqrt">√x</button></div><div class="chips"><button class="chip on" data-g="m" data-v="L">Left</button><button class="chip" data-g="m" data-v="R">Right</button><button class="chip" data-g="m" data-v="M">Midpoint</button><button class="chip" data-g="m" data-v="T">Trapezoid</button></div><div class="row"><label for="n">n · pieces</label><input type="range" id="n" min="1" max="60" step="1" value="6"><output id="no"></output></div><div class="row"><label for="a">a · from</label><input type="range" id="a" min="-2" max="2" step="0.1" value="0"><output id="ao"></output></div><div class="row"><label for="b">b · to</label><input type="range" id="b" min="0.5" max="4" step="0.1" value="2"><output id="bo"></output></div>

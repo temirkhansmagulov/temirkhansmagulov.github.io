@@ -21,7 +21,7 @@ header{display:flex;justify-content:space-between;align-items:center;margin-bott
 h1{font-size:24px;font-weight:500;margin:0}
 .sub{color:var(--grey);font-size:13px;margin:2px 0 12px}
 .card{background:#fff;border-radius:14px;padding:12px}
-.formula{font-size:16px;font-weight:500;padding:4px 4px 10px;min-height:30px;line-height:1.45}
+.formula{font-size:16px;font-weight:500;padding:12px 4px 4px;min-height:30px;line-height:1.45}
 .formula em{font-family:"Times New Roman",serif;font-size:19px}
 canvas{width:100%;height:56vh;max-height:420px;min-height:260px;display:block;touch-action:pan-y}
 .controls{margin-top:12px;display:grid;gap:4px}
@@ -72,8 +72,8 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <h1>Power rule, geometrically</h1>
 <div class="sub">Nudge x by dx: the square gains two strips (2x·dx), the cube gains three slabs (3x²·dx)</div>
 <div class="card">
-<div class="formula" id="formula"></div>
 <canvas id="cv"></canvas>
+<div class="formula" id="formula"></div>
 </div>
 <div class="card controls">
 <div class="chips"><button class="chip on" data-g="m" data-v="sq">Square: x²</button><button class="chip" data-g="m" data-v="cube">Cube: x³</button></div><div class="row"><label for="x">x · side</label><input type="range" id="x" min="0.5" max="2.5" step="0.05" value="1.5"><output id="xo"></output></div><div class="row"><label for="dx">dx · nudge</label><input type="range" id="dx" min="0" max="0.6" step="0.01" value="0.4"><output id="dxo"></output></div><div class="leg"><span style="--c:#E63946">grows like dx</span><span style="--c:#9CA3AF">(dx)² and smaller</span></div>
