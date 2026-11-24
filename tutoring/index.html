@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tutoring · SigmaTau</title>
+<meta name="description" content="Book maths lessons with SigmaTau: enrolment form, contacts and regular hours.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--red:#E63946;--paper:#F2F3F5;--grey:#6B7280;--line:#D9DCE1;--tint:#FDECEE}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+.in{max-width:760px;margin:0 auto}
+.hero{background:var(--ink);color:#fff;padding:22px 18px 30px}
+.logo{display:flex;align-items:baseline;gap:8px;font-size:17px;color:#fff;text-decoration:none;width:max-content}
+.mark{font-family:"Times New Roman",serif;font-style:italic;font-weight:700;font-size:26px;line-height:1}
+.mark sub{color:var(--red);font-size:16px;margin-left:1px}
+.logo b{font-weight:500}.logo i{font-style:normal;font-weight:300;color:var(--red)}
+.bar{width:40px;height:6px;background:var(--red);margin:38px 0 12px}
+h1{font-size:clamp(30px,7vw,44px);font-weight:500;line-height:1.08;margin:0}
+.lead{color:#B8BCC4;font-size:15px;margin:10px 0 0;max-width:540px;line-height:1.55}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.jump a{color:#fff;text-decoration:none;font-size:13.5px;border:1px solid #3A3A3A;border-radius:20px;padding:8px 14px}
+main{padding:20px 18px 34px;display:grid;gap:14px}
+section.card{background:#fff;border-radius:16px;padding:20px 18px}
+.num{display:inline-block;color:var(--red);font-weight:500;font-size:13px;margin-bottom:4px}
+h2{font-size:22px;font-weight:500;margin:0 0 4px}
+.sub{color:var(--grey);font-size:14px;margin:0 0 16px;line-height:1.5}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border-radius:12px;font:inherit;font-size:15px;font-weight:500;text-decoration:none;border:0}
+.primary{background:var(--red);color:#fff}
+.primary[aria-disabled="true"]{background:#E5E7EB;color:var(--grey);pointer-events:none}
+.soon{display:inline-block;font-size:12px;color:var(--grey);margin-left:10px}
+ul.steps{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+ul.steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:14px;color:var(--grey);line-height:1.45}
+ul.steps b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:500}
+.contacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
+.contact{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit;min-height:64px}
+a.contact:active{transform:scale(.98)}
+.ic{flex:none;width:36px;height:36px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500}
+.contact small{display:block;color:var(--grey);font-size:12px}
+.contact span.v{font-size:15px;font-weight:500;overflow-wrap:anywhere}
+.contact.empty{border-style:dashed;background:#FAFAFB}
+.contact.empty .ic{background:#C5C9D0}
+.contact.empty span.v{color:var(--grey);font-weight:400;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:11px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:500;width:34%}
+td{color:var(--ink)}
+td.off{color:var(--grey)}
+tr:last-child th,tr:last-child td{border-bottom:0}
+.slot{display:inline-block;background:var(--tint);color:var(--red);border-radius:7px;padding:3px 9px;margin:0 6px 6px 0;font-size:13px;white-space:nowrap}
+.note{color:var(--grey);font-size:12.5px;margin:12px 0 0}
+footer{text-align:center;color:var(--grey);font-size:12px;padding:0 0 26px}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<!--
+  EDIT YOUR DETAILS IN THE "TUTORING SETTINGS" BLOCK AT THE BOTTOM OF THIS FILE.
+  Leave a value empty ("") and the page shows "Coming soon" for it.
+-->
+<section class="hero"><div class="in">
+<a class="logo" href="../"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a>
+<div class="bar"></div>
+<h1>Tutoring</h1>
+<p class="lead">Book a lesson, get in touch, or check when lessons usually take place.</p>
+<nav class="jump" aria-label="On this page"><a href="#book">Book a lesson</a><a href="#contacts">Contacts</a><a href="#hours">Regular hours</a></nav>
+</div></section>
+
+<main class="in">
+<section class="card" id="book">
+<span class="num">01</span>
+<h2>Book a lesson</h2>
+<p class="sub">Fill in a short form with the student's level, goals and preferred times. I'll reply to arrange a first lesson.</p>
+<a class="btn primary" id="formBtn" href="#" target="_blank" rel="noopener" aria-disabled="true">Open the booking form →</a><span class="soon" id="formSoon">Form coming soon</span>
+<ul class="steps">
+<li><b>1</b><span>Fill in the booking form (about 2 minutes).</span></li>
+<li><b>2</b><span>I contact you to agree on a time for the first lesson.</span></li>
+<li><b>3</b><span>We set up a regular schedule that fits the student's goals.</span></li>
+</ul>
+</section>
+
+<section class="card" id="contacts">
+<span class="num">02</span>
+<h2>Contacts</h2>
+<p class="sub">Questions before booking? Message me directly.</p>
+<div class="contacts" id="contactList"></div>
+<p class="note" id="replyNote"></p>
+</section>
+
+<section class="card" id="hours">
+<span class="num">03</span>
+<h2>Regular hours</h2>
+<p class="sub" id="tzLine"></p>
+<table><tbody id="hoursTable"></tbody></table>
+<p class="note" id="hoursNote"></p>
+</section>
+</main>
+
+<footer><a href="../">Home</a> · <a href="../visualizations/">Visualizations</a> · SigmaTau</footer>
+
+<script>
+/* ================= TUTORING SETTINGS — edit here =================
+   formUrl:   link to your Google Form, e.g. "https://forms.gle/xxxx"
+   telegram:  username without @, e.g. "sigmatau_math"
+   whatsapp:  number with country code, digits only, e.g. "77001234567"
+   email:     e.g. "hello@example.com"
+   hours:     list of time slots per day, e.g. Mon: ["16:00–18:00", "19:00–21:00"]
+   ================================================================== */
+const SETTINGS = {
+  formUrl:  "",
+  telegram: "",
+  whatsapp: "",
+  email:    "",
+  replyNote: "",                       // e.g. "I usually reply within 24 hours."
+  timezone: "Astana time (UTC+5)",
+  hours: { Monday: [], Tuesday: [], Wednesday: [], Thursday: [], Friday: [], Saturday: [], Sunday: [] },
+  hoursNote: ""                        // e.g. "Other times possible by arrangement."
+};
+/* ================================================================ */
+{
+  const $ = id => document.getElementById(id);
+  const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+
+  // 1. Booking form
+  if (SETTINGS.formUrl) { const b = $("formBtn"); b.href = SETTINGS.formUrl; b.removeAttribute("aria-disabled"); $("formSoon").remove(); }
+
+  // 2. Contacts
+  const items = [
+    ["Telegram", "T", SETTINGS.telegram && "https://t.me/" + SETTINGS.telegram.replace(/^@/, ""), SETTINGS.telegram && "@" + SETTINGS.telegram.replace(/^@/, "")],
+    ["WhatsApp", "W", SETTINGS.whatsapp && "https://wa.me/" + SETTINGS.whatsapp.replace(/\D/g, ""), SETTINGS.whatsapp && "Message on WhatsApp"],
+    ["Email", "@", SETTINGS.email && "mailto:" + SETTINGS.email, SETTINGS.email]
+  ];
+  for (const [name, icon, href, value] of items) {
+    const box = el(href ? "a" : "div", "contact" + (href ? "" : " empty"));
+    if (href) { box.href = href; if (!href.startsWith("mailto:")) { box.target = "_blank"; box.rel = "noopener"; } }
+    box.append(el("span", "ic", icon));
+    const t = el("div"); t.append(el("small", null, name), el("span", "v", value || "Coming soon")); box.append(t);
+    $("contactList").append(box);
+  }
+  if (SETTINGS.replyNote) $("replyNote").textContent = SETTINGS.replyNote; else $("replyNote").remove();
+
+  // 3. Regular hours
+  $("tzLine").textContent = "All times are " + SETTINGS.timezone + ".";
+  const any = Object.values(SETTINGS.hours).some(s => s.length);
+  for (const [day, slots] of Object.entries(SETTINGS.hours)) {
+    const tr = el("tr"); tr.append(el("th", null, day));
+    const td = el("td", slots.length ? null : "off");
+    if (slots.length) slots.forEach(s => td.append(el("span", "slot", s))); else td.textContent = any ? "No lessons" : "—";
+    tr.append(td); $("hoursTable").append(tr);
+  }
+  $("hoursNote").textContent = SETTINGS.hoursNote || (any ? "" : "Hours coming soon.");
+}
+</script>
+</body>
+</html>
