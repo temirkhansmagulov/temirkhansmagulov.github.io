@@ -63,6 +63,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
 .leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+.concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -80,6 +81,12 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 </div>
 <div class="stats" id="stats"></div>
 <div class="hint">Try a negative a (reflection in the x-axis) or a negative b (reflection in the y-axis).</div>
+<section class="concept" aria-labelledby="concept-h">
+<h2 id="concept-h">About the concept</h2>
+<p>Changing a formula changes its graph in predictable ways. Outside the function, <em>a</em> stretches vertically (and reflects if negative) and <em>d</em> shifts up. Inside, changes act on <em>x</em> “in reverse”: <em>b</em> compresses horizontally by a factor 1/|<em>b</em>|, and (<em>x</em> − <em>c</em>) shifts the graph right by <em>c</em>.</p>
+<div class="key"><em>y</em> = <em>a</em> · <em>f</em>(<em>b</em>(<em>x</em> − <em>c</em>)) + <em>d</em></div>
+<p class="use"><b>Why it matters:</b> It lets you sketch whole families of graphs from one basic shape, such as waves <em>A</em> sin(ω(<em>t</em> − φ)) + <em>k</em> or parabolas in vertex form.</p>
+</section>
 <footer><a href="../#calculus" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
 </div>
 <div class="rail" id="rail" aria-hidden="true"><i></i></div>

@@ -63,6 +63,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
 .leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+.concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -80,6 +81,12 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 </div>
 <div class="stats" id="stats"></div>
 <div class="hint">Tap anywhere to start a solution there. Solutions never cross. For autonomous equations, horizontal lines where f = 0 are equilibria: nearby solutions move toward a stable one and away from an unstable one.</div>
+<section class="concept" aria-labelledby="concept-h">
+<h2 id="concept-h">About the concept</h2>
+<p>A first-order equation <em>y</em>′ = <em>f</em>(<em>x</em>, <em>y</em>) assigns a slope to every point of the plane. A solution is a curve that is tangent to these slopes everywhere. When <em>f</em> is smooth, exactly one solution passes through each point, so solution curves never cross. Where <em>f</em> = 0 for all <em>x</em>, the horizontal line is an equilibrium solution.</p>
+<div class="key"><em>y</em>′ = <em>f</em>(<em>x</em>, <em>y</em>), &nbsp;&nbsp; <em>y</em>(<em>x</em><sub>0</sub>) = <em>y</em><sub>0</sub></div>
+<p class="use"><b>Why it matters:</b> Slope fields show how solutions behave without solving the equation, for example that logistic growth always levels off at the carrying capacity.</p>
+</section>
 <footer><a href="../#ode" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
 </div>
 <div class="rail" id="rail" aria-hidden="true"><i></i></div>

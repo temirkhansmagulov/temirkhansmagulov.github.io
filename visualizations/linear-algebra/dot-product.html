@@ -63,6 +63,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
 .leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+.concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -80,6 +81,12 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 </div>
 <div class="stats" id="stats"></div>
 <div class="hint">Drag u and v. When the angle is acute the shadow points along u and u·v > 0; at 90° the shadow vanishes (u·v = 0); when obtuse it points backwards (u·v < 0). Both formulas — u₁v₁ + u₂v₂ and |u||v|cos θ — always agree.</div>
+<section class="concept" aria-labelledby="concept-h">
+<h2 id="concept-h">About the concept</h2>
+<p>The dot product measures how much two vectors point the same way. Geometrically it is the length of <em>u</em> times the signed length of <em>v</em>'s shadow on <em>u</em>. It is positive for acute angles, zero exactly when the vectors are perpendicular, and negative for obtuse angles.</p>
+<div class="key"><em>u</em> · <em>v</em> = <em>u</em><sub>1</sub><em>v</em><sub>1</sub> + <em>u</em><sub>2</sub><em>v</em><sub>2</sub> = |<em>u</em>| |<em>v</em>| cos θ, &nbsp;&nbsp; proj<sub><em>u</em></sub> <em>v</em> = (<em>u</em> · <em>v</em> / |<em>u</em>|²) <em>u</em></div>
+<p class="use"><b>Why it matters:</b> It gives angles between vectors, work done by a force (<em>W</em> = <em>F</em> · <em>d</em>), projections used in least squares, and cosine similarity in machine learning.</p>
+</section>
 <footer><a href="../#linear-algebra" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
 </div>
 <div class="rail" id="rail" aria-hidden="true"><i></i></div>

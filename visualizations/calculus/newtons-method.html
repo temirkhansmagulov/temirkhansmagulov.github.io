@@ -63,6 +63,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
 .leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+.concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -80,6 +81,12 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 </div>
 <div class="stats" id="stats"></div>
 <div class="hint">Near a root the number of correct digits roughly doubles each step. For x³ − x, the starting point decides which root you reach. For arctan x, start beyond about 1.39 and the tangents overshoot further and further — the method diverges.</div>
+<section class="concept" aria-labelledby="concept-h">
+<h2 id="concept-h">About the concept</h2>
+<p>To solve <em>f</em>(<em>x</em>) = 0, replace the curve by its tangent line at the current guess and find where that line crosses zero. That crossing is the next guess. Near a simple root (where <em>f</em>′ ≠ 0) the error is roughly squared each step, so convergence is very fast, but a poor start can lead to a different root or to divergence.</p>
+<div class="key"><em>x</em><sub><em>n</em>+1</sub> = <em>x</em><sub><em>n</em></sub> − <em>f</em>(<em>x</em><sub><em>n</em></sub>) / <em>f</em>′(<em>x</em><sub><em>n</em></sub>)</div>
+<p class="use"><b>Why it matters:</b> Calculators use it to compute square roots, engineering software uses it to solve equations, and applied to <em>f</em>′ = 0 it becomes a fast optimisation method.</p>
+</section>
 <footer><a href="../#calculus" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
 </div>
 <div class="rail" id="rail" aria-hidden="true"><i></i></div>

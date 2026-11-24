@@ -63,6 +63,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
 .leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+.concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -80,6 +81,12 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 </div>
 <div class="stats" id="stats"></div>
 <div class="hint">Increase n and watch the error shrink. Midpoint and trapezoid converge much faster than left/right.</div>
+<section class="concept" aria-labelledby="concept-h">
+<h2 id="concept-h">About the concept</h2>
+<p>The definite integral is the limit of sums of thin rectangles: split [<em>a</em>, <em>b</em>] into <em>n</em> pieces of width Δ<em>x</em>, take a height from each piece, and add height × width. Left and right sums have error about proportional to 1/<em>n</em>; midpoint and trapezoid sums are about proportional to 1/<em>n</em>² for smooth functions.</p>
+<div class="key">∫<sub><em>a</em></sub><sup><em>b</em></sup> <em>f</em>(<em>x</em>) d<em>x</em> = lim<sub><em>n</em>→∞</sub> Σ<sub><em>i</em>=1</sub><sup><em>n</em></sup> <em>f</em>(<em>x</em><sub><em>i</em></sub>*) Δ<em>x</em>, &nbsp; Δ<em>x</em> = (<em>b</em> − <em>a</em>)/<em>n</em></div>
+<p class="use"><b>Why it matters:</b> This is the definition of the integral, and the same sums are how computers integrate functions with no simple antiderivative, such as <em>e</em><sup>−<em>x</em>²</sup>.</p>
+</section>
 <footer><a href="../#calculus" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
 </div>
 <div class="rail" id="rail" aria-hidden="true"><i></i></div>

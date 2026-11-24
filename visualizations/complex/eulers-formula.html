@@ -63,6 +63,7 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 .leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
 .leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
 footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+.concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}.concept em{font-family:"Times New Roman",serif;font-size:1.12em}.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -80,6 +81,12 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 </div>
 <div class="stats" id="stats"></div>
 <div class="hint">As θ grows the point moves around the circle at speed 1; its shadows on the axes are cos θ and sin θ. At θ = π you reach −1, so e^(iπ) = −1. Make a negative to get e^((a+i)θ): a spiral — exactly the decaying oscillations of damped systems.</div>
+<section class="concept" aria-labelledby="concept-h">
+<h2 id="concept-h">About the concept</h2>
+<p>The exponential with an imaginary exponent describes motion around the unit circle: <em>e</em><sup><em>i</em>θ</sup> is the point at angle θ, and its real and imaginary parts are cos θ and sin θ. The formula follows by comparing the Taylor series of <em>e</em><sup><em>x</em></sup>, cos <em>x</em> and sin <em>x</em>.</p>
+<div class="key"><em>e</em><sup><em>i</em>θ</sup> = cos θ + <em>i</em> sin θ, &nbsp;&nbsp; <em>e</em><sup><em>i</em>π</sup> + 1 = 0, &nbsp;&nbsp; <em>z</em> = <em>r e</em><sup><em>i</em>θ</sup></div>
+<p class="use"><b>Why it matters:</b> It turns trigonometry into algebra with exponents, and it is the language of oscillations, signal processing, Fourier analysis and linear differential equations.</p>
+</section>
 <footer><a href="../#complex" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
 </div>
 <div class="rail" id="rail" aria-hidden="true"><i></i></div>
