@@ -1,4 +1,5 @@
-/* SigmaTau · type a slider value directly.
+/* SigmaTau · shared slider helpers: highlight the parameter being changed, and type values directly.
+   Type a slider value directly:
    Tap (or focus + Enter) the number next to any slider, type a value, press Enter.
    Accepts plain numbers and simple expressions: 1/3, -2.5, pi/2, 2pi, sqrt(2), e^2.
    Values outside the slider's range are clamped to its min/max. */
@@ -12,7 +13,15 @@
 @keyframes ne-shake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 .ne-tip{position:fixed;z-index:50;background:var(--ink,#111);color:#fff;font-size:12px;padding:5px 8px;border-radius:6px;pointer-events:none;
   white-space:nowrap;transform:translate(-100%,-100%);opacity:0;transition:opacity .2s}
-.ne-tip.on{opacity:1}`;
+.ne-tip.on{opacity:1}
+.row label,.row output{transition:color .25s}
+.row.active label{color:var(--red,#E63946);font-weight:600}
+.row.active output{color:var(--red,#E63946);font-weight:700}
+.row.active output.editable{border-bottom-color:var(--red,#E63946)}
+.row input[type=range]{transition:background .25s}
+.row.active input[type=range]{background:linear-gradient(var(--red,#E63946),var(--red,#E63946)) 0/var(--fill,0%) 100% no-repeat,var(--line,#D9DCE1)}
+.row.active input[type=range]::-webkit-slider-thumb{box-shadow:0 0 0 1px var(--red,#E63946),0 0 0 7px rgba(230,57,70,.18)}
+.row.active input[type=range]::-moz-range-thumb{box-shadow:0 0 0 7px rgba(230,57,70,.18)}`;
   const st = document.createElement("style"); st.textContent = css; document.head.appendChild(st);
 
   const tip = document.createElement("div"); tip.className = "ne-tip"; document.body.appendChild(tip);
@@ -42,8 +51,29 @@
 
   const trim = x => String(+(+x).toFixed(6));
 
+  // Highlight the parameter being changed: its row turns red while the slider moves,
+  // then fades ~1.2 s after the last change. Only one row is highlighted at a time.
+  let activeRow = null, fadeTimer, holding = false;
+  function activate(slider) {
+    const row = slider.closest(".row"); if (!row) return;
+    if (activeRow && activeRow !== row) activeRow.classList.remove("active");
+    activeRow = row; row.classList.add("active");
+    const min = +slider.min, max = +slider.max;
+    row.style.setProperty("--fill", (max > min ? (slider.value - min) / (max - min) * 100 : 0) + "%");
+    clearTimeout(fadeTimer);
+    if (!holding) fadeTimer = setTimeout(() => row.classList.remove("active"), 1200);
+  }
+  function release() {
+    holding = false; clearTimeout(fadeTimer);
+    if (activeRow) { const r = activeRow; fadeTimer = setTimeout(() => r.classList.remove("active"), 1200); }
+  }
+  addEventListener("pointerup", release); addEventListener("pointercancel", release); addEventListener("touchend", release);
+
   function attach(slider, out) {
     if (out.dataset.ne) return; out.dataset.ne = "1";
+    slider.addEventListener("pointerdown", () => { holding = true; activate(slider); });
+    slider.addEventListener("touchstart", () => { holding = true; activate(slider); }, { passive: true });
+    slider.addEventListener("input", () => activate(slider));
     out.classList.add("editable"); out.tabIndex = 0;
     out.setAttribute("role", "button");
     out.title = "Tap to type a value";
