@@ -23,6 +23,7 @@ h1{font-size:clamp(30px,7vw,44px);font-weight:500;line-height:1.08;margin:0}
 .lead{color:#B8BCC4;font-size:15px;margin:10px 0 0;max-width:540px}
 .filters{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:12px 18px;scrollbar-width:none}
+@media(min-width:760px){.filters .chips{flex-wrap:wrap;overflow-x:visible}}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:13.5px;min-height:40px;padding:0 15px;border-radius:20px;cursor:pointer}
 .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
@@ -59,7 +60,7 @@ footer a{color:inherit}
 <h1>Visualizations</h1>
 <p class="lead">Interactive maths by subject. Drag the sliders and watch the graphs respond — on any phone or computer, no installation needed.</p>
 </div></section>
-<nav class="filters" aria-label="Filter by subject"><div class="in chips"><button class="chip on" data-f="all">All</button><button class="chip" data-f="calculus">Calculus</button><button class="chip" data-f="linear-algebra">Linear algebra</button><button class="chip" data-f="ode">Differential equations</button><button class="chip" data-f="probability">Probability & statistics</button></div></nav>
+<nav class="filters" aria-label="Filter by subject"><div class="in chips"><button class="chip on" data-f="all">All</button><button class="chip" data-f="calculus">Calculus</button><button class="chip" data-f="linear-algebra">Linear algebra</button><button class="chip" data-f="ode">Differential equations</button><button class="chip" data-f="complex">Complex numbers</button><button class="chip" data-f="probability">Probability & statistics</button><button class="chip" data-f="optimization">Optimization</button></div></nav>
 <main><div class="in">
 <section class="subject" id="calculus" data-s="calculus"><div class="shead"><h2>Calculus</h2><span class="count">11 visualizations</span></div><p class="blurb">Limits, derivatives, integrals and series.</p><div class="grid"><a class="card" href="calculus/transformations.html">
 <svg viewBox="0 0 340 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -181,10 +182,15 @@ footer a{color:inherit}
 <footer>SigmaTau · visualizations · <a href="../">Temirkhan Smagulov</a></footer>
 <script>
 {
-const chips=[...document.querySelectorAll(".chip")], secs=[...document.querySelectorAll(".subject")];
+const secs=[...document.querySelectorAll(".subject")], bar=document.querySelector(".filters .chips");
+// one filter button per subject section, in page order, so the filters always match the sections
+bar.innerHTML='<button class="chip on" data-f="all">All</button>';
+secs.forEach(s=>{const b=document.createElement("button");b.className="chip";b.dataset.f=s.dataset.s;b.textContent=s.querySelector("h2").textContent;bar.appendChild(b)});
+const chips=[...bar.querySelectorAll(".chip")];
 function apply(f){
   if(!chips.some(c=>c.dataset.f===f)) f="all";
   chips.forEach(c=>c.classList.toggle("on",c.dataset.f===f));
+  const on=chips.find(c=>c.dataset.f===f); if(on&&bar.scrollWidth>bar.clientWidth) bar.scrollLeft=on.offsetLeft-bar.clientWidth/2+on.offsetWidth/2;
   secs.forEach(s=>s.hidden=!(f==="all"||s.dataset.s===f));
 }
 chips.forEach(c=>c.addEventListener("click",()=>{
