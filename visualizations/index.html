@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visualizations · SigmaTau</title>
+<meta name="description" content="Interactive maths visualizations by SigmaTau, grouped by subject: calculus, linear algebra, differential equations, probability.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--red:#E63946;--paper:#F2F3F5;--grey:#6B7280;--line:#D9DCE1}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:80px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+.hero{background:var(--ink);color:#fff;padding:22px 18px 30px}
+.in{max-width:860px;margin:0 auto}
+.logo{display:flex;align-items:baseline;gap:8px;font-size:17px;color:#fff;text-decoration:none;width:max-content}
+.mark{font-family:"Times New Roman",serif;font-style:italic;font-weight:700;font-size:26px;line-height:1}
+.mark sub{color:var(--red);font-size:16px;margin-left:1px}
+.logo b{font-weight:500}.logo i{font-style:normal;font-weight:300;color:var(--red)}
+.bar{width:40px;height:6px;background:var(--red);margin:38px 0 12px}
+h1{font-size:clamp(30px,7vw,44px);font-weight:500;line-height:1.08;margin:0}
+.lead{color:#B8BCC4;font-size:15px;margin:10px 0 0;max-width:540px}
+.filters{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 18px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:13.5px;min-height:40px;padding:0 15px;border-radius:20px;cursor:pointer}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+main{padding:8px 18px 30px}
+.subject{padding-top:22px}
+.subject[hidden]{display:none}
+.shead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h2{font-size:22px;font-weight:500;margin:0}
+.count{font-size:12px;color:var(--grey)}
+.blurb{color:var(--grey);font-size:13.5px;margin:2px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px}
+a.card{display:flex;flex-direction:column;background:#fff;border-radius:16px;overflow:hidden;color:inherit;text-decoration:none;transition:transform .15s}
+a.card:active{transform:scale(.98)}
+@media(hover:hover){a.card:hover{transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){a.card{transition:none}}
+.card svg{display:block;width:100%;height:150px;background:#fff;border-bottom:1px solid var(--line)}
+.body{padding:14px 16px 16px}
+.meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tag{background:var(--red);color:#fff;font-size:11px;font-weight:500;padding:3px 9px;border-radius:7px}
+.level{font-size:11.5px;color:var(--grey)}
+h3{font-size:19px;font-weight:500;margin:8px 0 4px}
+.body p{color:var(--grey);font-size:13.5px;margin:0;line-height:1.5}
+.go{margin-top:10px;font-size:13px;font-weight:500;color:var(--red)}
+.soon{border:1.5px dashed var(--line);border-radius:16px;padding:22px 16px;color:var(--grey);font-size:13.5px;text-align:center;background:rgba(255,255,255,.5)}
+footer{text-align:center;color:var(--grey);font-size:12px;padding:10px 0 26px}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<section class="hero"><div class="in">
+<a class="logo" href="../"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a>
+<div class="bar"></div>
+<h1>Visualizations</h1>
+<p class="lead">Interactive maths by subject. Drag the sliders and watch the graphs respond — on any phone or computer, no installation needed.</p>
+</div></section>
+<nav class="filters" aria-label="Filter by subject"><div class="in chips"><button class="chip on" data-f="all">All</button><button class="chip" data-f="calculus">Calculus</button><button class="chip" data-f="linear-algebra">Linear algebra</button><button class="chip" data-f="ode">Differential equations</button><button class="chip" data-f="probability">Probability & statistics</button></div></nav>
+<main><div class="in">
+<section class="subject" id="calculus" data-s="calculus"><div class="shead"><h2>Calculus</h2><span class="count">4 visualizations</span></div><p class="blurb">Limits, derivatives, integrals and series.</p><div class="grid"><a class="card" href="calculus/transformations.html">
+<svg viewBox="0 0 340 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<g stroke="#D9DCE1"><path d="M0 75H340M170 0V150"/></g>
+<path d="M10 75 C40 35,60 35,90 75 S140 115,170 75 S220 35,250 75 S300 115,330 75" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="6 5"/>
+<path d="M10 75 C30 10,50 10,70 75 S110 140,130 75 S170 10,190 75 S230 140,250 75 S290 10,330 60" fill="none" stroke="#E63946" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+<div class="body"><div class="meta"><span class="tag">Functions</span><span class="level">School</span></div><h3>Function transformations</h3>
+<p>Stretch, compress, shift and reflect y = a·f(b(x − c)) + d for sin x, x², |x|, eˣ and x³.</p><div class="go">Open →</div></div></a><a class="card" href="calculus/tangent-line.html">
+<svg viewBox="0 0 340 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<g stroke="#D9DCE1"><path d="M0 110H340M120 0V150"/></g>
+<path d="M20 20 Q170 250 320 20" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M170 171.8 L330 24.6" stroke="#6B7280" stroke-width="2" stroke-dasharray="5 5"/>
+<circle cx="290" cy="61.4" r="5" fill="#6B7280"/>
+<path d="M110 190 L340 49.2" stroke="#E63946" stroke-width="3" stroke-linecap="round"/>
+<circle cx="230" cy="116.6" r="7" fill="#E63946" stroke="#fff" stroke-width="3"/>
+</svg>
+<div class="body"><div class="meta"><span class="tag">Derivatives</span><span class="level">School · University</span></div><h3>Tangent line explorer</h3>
+<p>Drag a point along the curve and watch the secant slope approach f′(x₀) as h → 0.</p><div class="go">Open →</div></div></a><a class="card" href="calculus/riemann-sums.html">
+<svg viewBox="0 0 340 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<g fill="rgba(230,57,70,.14)" stroke="#E63946" stroke-width="1.3">
+<rect x="50" y="108" width="40" height="32"/><rect x="90" y="92" width="40" height="48"/><rect x="130" y="72" width="40" height="68"/>
+<rect x="170" y="54" width="40" height="86"/><rect x="210" y="40" width="40" height="100"/><rect x="250" y="32" width="40" height="108"/></g>
+<path d="M30 140H330" stroke="#6B7280"/>
+<path d="M40 118 C120 90,200 40,310 22" fill="none" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
+</svg>
+<div class="body"><div class="meta"><span class="tag">Integrals</span><span class="level">School · University</span></div><h3>Riemann sums</h3>
+<p>Left, right, midpoint and trapezoid sums with up to 60 pieces, compared to the exact integral.</p><div class="go">Open →</div></div></a><a class="card" href="calculus/taylor-series.html">
+<svg viewBox="0 0 340 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<g stroke="#D9DCE1"><path d="M0 75H340M170 0V150"/></g>
+<path d="M0 75 C25 35,45 35,70 75 S120 115,145 75 S195 35,220 75 S270 115,295 75 S330 40,340 50" fill="none" stroke="#111" stroke-width="3.5"/>
+<path d="M95 150 C130 60,150 75,170 75 S210 90,245 0" fill="none" stroke="#E63946" stroke-width="3" stroke-linecap="round"/>
+<circle cx="170" cy="75" r="6" fill="#E63946" stroke="#fff" stroke-width="3"/>
+</svg>
+<div class="body"><div class="meta"><span class="tag">Series</span><span class="level">AP Calculus BC · University</span></div><h3>Taylor polynomials</h3>
+<p>Watch Tₙ(x) hug sin x, cos x, eˣ, ln(1+x) and 1/(1−x) as the degree grows.</p><div class="go">Open →</div></div></a></div></section><section class="subject" id="linear-algebra" data-s="linear-algebra"><div class="shead"><h2>Linear algebra</h2><span class="count">Coming soon</span></div><p class="blurb">Vectors, matrices and linear transformations.</p><div class="soon">New visualizations for this subject are on the way.</div></section><section class="subject" id="ode" data-s="ode"><div class="shead"><h2>Differential equations</h2><span class="count">Coming soon</span></div><p class="blurb">Slope fields, solutions and numerical methods.</p><div class="soon">New visualizations for this subject are on the way.</div></section><section class="subject" id="probability" data-s="probability"><div class="shead"><h2>Probability & statistics</h2><span class="count">Coming soon</span></div><p class="blurb">Distributions, sampling and the central limit theorem.</p><div class="soon">New visualizations for this subject are on the way.</div></section>
+</div></main>
+<footer>SigmaTau · visualizations · <a href="../">Temirkhan Smagulov</a></footer>
+<script>
+{
+const chips=[...document.querySelectorAll(".chip")], secs=[...document.querySelectorAll(".subject")];
+function apply(f){
+  if(!chips.some(c=>c.dataset.f===f)) f="all";
+  chips.forEach(c=>c.classList.toggle("on",c.dataset.f===f));
+  secs.forEach(s=>s.hidden=!(f==="all"||s.dataset.s===f));
+}
+chips.forEach(c=>c.addEventListener("click",()=>{
+  const f=c.dataset.f; apply(f);
+  history.replaceState(null,"",f==="all"?location.pathname:"#"+f);
+  window.scrollTo({top:document.querySelector(".filters").offsetTop,behavior:"smooth"});
+}));
+window.addEventListener("hashchange",()=>apply(location.hash.slice(1)));
+apply(location.hash.slice(1)||"all");
+}
+</script>
+</body>
+</html>
