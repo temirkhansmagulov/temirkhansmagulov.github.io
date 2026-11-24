@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Damped oscillator · SigmaTau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--red:#E63946;--paper:#F2F3F5;--grey:#6B7280;--line:#D9DCE1;--tint:#FDECEE}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:16px 14px 28px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.logo{display:flex;align-items:baseline;gap:8px;font-size:17px;text-decoration:none;color:var(--ink)}
+.mark{font-family:"Times New Roman",serif;font-style:italic;font-weight:700;font-size:24px;line-height:1}
+.mark sub{color:var(--red);font-size:15px;margin-left:1px}
+.logo b{font-weight:500}.logo i{font-style:normal;font-weight:300;color:var(--red)}
+.tag{background:var(--red);color:#fff;font-size:11px;font-weight:500;padding:3px 9px;border-radius:7px}
+.bar{width:34px;height:5px;background:var(--red);margin-bottom:8px}
+h1{font-size:24px;font-weight:500;margin:0}
+.sub{color:var(--grey);font-size:13px;margin:2px 0 12px}
+.card{background:#fff;border-radius:14px;padding:12px}
+.formula{font-size:16px;font-weight:500;padding:4px 4px 10px;min-height:30px;line-height:1.45}
+.formula em{font-family:"Times New Roman",serif;font-size:19px}
+canvas{width:100%;height:56vh;max-height:420px;min-height:260px;display:block;touch-action:none}
+.controls{margin-top:12px;display:grid;gap:4px}
+.row{display:grid;grid-template-columns:96px 1fr 46px;align-items:center;gap:10px;min-height:38px}
+.row label{font-size:13px;color:var(--grey)}
+.row output{font-size:14px;font-weight:500;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--line);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--red);border:3px solid #fff;box-shadow:0 0 0 1px var(--red)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--red);border:3px solid #fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 6px}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:13px;padding:7px 13px;border-radius:20px}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.toggle{display:flex;align-items:center;justify-content:space-between;min-height:40px;font-size:14px}
+.sw{position:relative;width:46px;height:26px}
+.sw input{opacity:0;width:0;height:0}
+.sw span{position:absolute;inset:0;background:var(--line);border-radius:13px;transition:.2s}
+.sw span:before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.sw input:checked+span{background:var(--red)}
+.sw input:checked+span:before{transform:translateX(20px)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px;margin-top:10px}
+.stat{background:var(--paper);border-radius:10px;padding:8px 10px}
+.stat small{display:block;color:var(--grey);font-size:11px}
+.stat b{font-size:17px;font-weight:500}
+.stat.red{background:var(--tint)}.stat.red b{color:var(--red)}
+.hint{color:var(--grey);font-size:12px;margin-top:10px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0}
+.btns .chip{cursor:pointer}
+.chip:active{transform:scale(.97)}
+.mat{display:inline-grid;grid-template-columns:auto auto;gap:0 14px;padding:1px 9px;border-left:2px solid var(--ink);border-right:2px solid var(--ink);border-radius:7px;vertical-align:middle;text-align:right;font-size:15px;line-height:1.35}
+.mat .c1{color:var(--red)}
+.msg{font-size:13px;color:var(--grey);min-height:20px;margin:2px 0}
+.msg b{color:var(--red);font-weight:500}
+.leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
+.leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
+footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><a class="logo" href="../" aria-label="All visualizations"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a><span class="tag">Second order</span></header>
+<div class="bar"></div>
+<h1>Damped oscillator</h1>
+<div class="sub">x″ + 2ζω x′ + ω² x = 0, x(0) = 1, x′(0) = 0</div>
+<div class="card">
+<div class="formula" id="formula"></div>
+<canvas id="cv"></canvas>
+</div>
+<div class="card controls">
+<div class="row"><label for="z">ζ · damping</label><input type="range" id="z" min="0" max="2" step="0.05" value="0.2"><output id="zo"></output></div><div class="row"><label for="w">ω · natural freq.</label><input type="range" id="w" min="0.5" max="4" step="0.1" value="2"><output id="wo"></output></div><div class="row"><label for="t">t · time</label><input type="range" id="t" min="0" max="12" step="0.01" value="0"><output id="to"></output></div><div class="btns"><button class="chip" id="play">▶ Play</button><button class="chip" id="crit">Set ζ = 1</button></div>
+</div>
+<div class="stats" id="stats"></div>
+<div class="hint">ζ < 1: it oscillates inside the dashed envelope e^(−ζωt) and spirals into the origin in the phase plane. ζ = 1: fastest return without overshoot. ζ > 1: slow creep back. ω sets how fast everything happens.</div>
+<footer><a href="../#ode" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
+</div>
+<script>
+const C={ink:"#111111",red:"#E63946",grey:"#6B7280",line:"#D9DCE1",soft:"#9CA3AF",tint:"rgba(230,57,70,0.14)"};
+const cv=document.getElementById("cv"),ctx=cv.getContext("2d");
+let V={xmin:-5,xmax:5,ymin:-4,ymax:4};
+let W=0,H=0;
+const X=x=>(x-V.xmin)/(V.xmax-V.xmin)*W, Y=y=>H-(y-V.ymin)/(V.ymax-V.ymin)*H;
+const iX=px=>V.xmin+px/W*(V.xmax-V.xmin);
+const $=id=>document.getElementById(id);
+const fmt=(v,d=2)=>{if(!isFinite(v))return "—";const s=(+v.toFixed(d)).toString();return s.replace("-","−")};
+function size(){const r=window.devicePixelRatio||1;W=cv.clientWidth;H=cv.clientHeight;cv.width=W*r;cv.height=H*r;ctx.setTransform(r,0,0,r,0,0)}
+function niceStep(range){const raw=range/8,p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;return (m<1.5?1:m<3.5?2:m<7.5?5:10)*p}
+function grid(piX){
+  ctx.clearRect(0,0,W,H);ctx.lineWidth=1;ctx.font="11px Poppins, sans-serif";
+  const sx=piX?((V.xmax-V.xmin)>10?Math.PI:Math.PI/2):niceStep(V.xmax-V.xmin), sy=niceStep(V.ymax-V.ymin);
+  ctx.strokeStyle=C.line;ctx.fillStyle=C.grey;
+  for(let x=Math.ceil(V.xmin/sx)*sx;x<=V.xmax+1e-9;x+=sx){ctx.beginPath();ctx.moveTo(X(x),0);ctx.lineTo(X(x),H);ctx.stroke();
+    if(Math.abs(x)>1e-9){let t=piX?piLabel(x):fmt(x,2);ctx.textAlign="center";ctx.fillText(t,X(x),Math.min(Math.max(Y(0)+15,14),H-4))}}
+  for(let y=Math.ceil(V.ymin/sy)*sy;y<=V.ymax+1e-9;y+=sy){ctx.beginPath();ctx.moveTo(0,Y(y));ctx.lineTo(W,Y(y));ctx.stroke();
+    if(Math.abs(y)>1e-9){ctx.textAlign="left";ctx.fillText(fmt(y,2),Math.min(Math.max(X(0)+5,3),W-24),Y(y)-4)}}
+  ctx.strokeStyle=C.grey;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();
+}
+function piLabel(x){const k=Math.round(x/(Math.PI/2));if(k%2===0){const n=k/2;return n===1?"π":n===-1?"−π":fmt(n,0)+"π"}return (k<0?"−":"")+(Math.abs(k)===1?"":Math.abs(k))+"π/2"}
+function curve(f,col,w,dash,a=V.xmin,b=V.xmax){
+  ctx.strokeStyle=col;ctx.lineWidth=w;ctx.setLineDash(dash||[]);ctx.lineJoin="round";ctx.lineCap="round";ctx.beginPath();
+  let pen=false;const n=curve.n||Math.max(400,W*2);
+  for(let i=0;i<=n;i++){const x=a+(b-a)*i/n,y=f(x);
+    if(!isFinite(y)||Math.abs(y)>1e4){pen=false;continue}
+    const py=Y(y);if(pen&&Math.abs(py-lastY)>H*1.5){pen=false}
+    pen?ctx.lineTo(X(x),py):ctx.moveTo(X(x),py);pen=true;var lastY=py}
+  ctx.stroke();ctx.setLineDash([]);
+}
+function dot(x,y,col,r=6,ring=true){ctx.beginPath();ctx.arc(X(x),Y(y),r,0,7);ctx.fillStyle=col;ctx.fill();if(ring){ctx.lineWidth=2.5;ctx.strokeStyle="#fff";ctx.stroke()}}
+function stats(items){$("stats").innerHTML=items.map(([k,v,red])=>`<div class="stat${red?" red":""}"><small>${k}</small><b>${v}</b></div>`).join("")}
+function bindRange(id,dec,cb){const el=$(id),o=$(id+"o");const f=()=>{o.textContent=fmt(+el.value,dec);cb()};el.addEventListener("input",f);f()}
+function bindChips(group,cb){document.querySelectorAll(`[data-g="${group}"]`).forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(`[data-g="${group}"]`).forEach(x=>x.classList.remove("on"));b.classList.add("on");cb(b.dataset.v)}))}
+function chipVal(group){return document.querySelector(`[data-g="${group}"].on`).dataset.v}
+
+const iY=py=>V.ymin+(H-py)/H*(V.ymax-V.ymin);
+function equalView(cx,cy,half){V={xmin:cx-half,xmax:cx+half,ymin:cy-half*H/W,ymax:cy+half*H/W}}
+function panel(top,h,view,fn){const H0=H;ctx.save();ctx.translate(0,top);ctx.beginPath();ctx.rect(0,0,W,h);ctx.clip();H=h;V=view;fn();ctx.restore();H=H0}
+function label(t,x,y,col=C.grey,align="left",font="12px Poppins, sans-serif"){ctx.font=font;ctx.fillStyle=col;ctx.textAlign=align;ctx.fillText(t,x,y)}
+function arrow(x0,y0,x1,y1,col,w=3){const a=X(x0),b=Y(y0),c=X(x1),d=Y(y1),ang=Math.atan2(d-b,c-a),L=Math.hypot(c-a,d-b),hl=Math.min(14,L*0.45);
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=w;ctx.lineCap="round";ctx.setLineDash([]);ctx.beginPath();ctx.moveTo(a,b);
+  ctx.lineTo(c-Math.cos(ang)*hl*0.7,d-Math.sin(ang)*hl*0.7);ctx.stroke();
+  if(L>3){ctx.beginPath();ctx.moveTo(c,d);ctx.lineTo(c-hl*Math.cos(ang-0.42),d-hl*Math.sin(ang-0.42));ctx.lineTo(c-hl*Math.cos(ang+0.42),d-hl*Math.sin(ang+0.42));ctx.closePath();ctx.fill()}}
+function seg(x0,y0,x1,y1,col,w=1.5,dash){ctx.strokeStyle=col;ctx.lineWidth=w;ctx.setLineDash(dash||[]);ctx.beginPath();ctx.moveTo(X(x0),Y(y0));ctx.lineTo(X(x1),Y(y1));ctx.stroke();ctx.setLineDash([])}
+function ring(x,y,col,r=6){ctx.beginPath();ctx.arc(X(x),Y(y),r,0,7);ctx.fillStyle="#fff";ctx.fill();ctx.lineWidth=2.5;ctx.strokeStyle=col;ctx.stroke()}
+function onDrag(cb,start){let d=false;const pos=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+  cv.addEventListener("pointerdown",e=>{const p=pos(e);if(start&&start(...p)===false)return;d=true;cv.setPointerCapture(e.pointerId);cb(...p)});
+  cv.addEventListener("pointermove",e=>{if(d)cb(...pos(e))});["pointerup","pointercancel"].forEach(t=>cv.addEventListener(t,()=>d=false))}
+function setRange(id,v){const el=$(id);el.value=v;el.dispatchEvent(new Event("input"))}
+function tall(vh,mx){cv.style.height=vh+"vh";cv.style.maxHeight=mx+"px";cv.style.minHeight="380px"}
+function erf(x){const s=Math.sign(x);x=Math.abs(x);const t=1/(1+0.3275911*x);
+  const y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return s*y}
+const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
+
+tall(72,620);let sol=[];
+function integrate(z,w){const dt=0.004,out=[[0,1,0]];let x=1,v=0,t=0;const f=(x,v)=>[v,-2*z*w*v-w*w*x];
+  for(let i=0;i<3000;i++){const a=f(x,v),b=f(x+dt/2*a[0],v+dt/2*a[1]),c=f(x+dt/2*b[0],v+dt/2*b[1]),d=f(x+dt*c[0],v+dt*c[1]);
+    x+=dt/6*(a[0]+2*b[0]+2*c[0]+d[0]);v+=dt/6*(a[1]+2*b[1]+2*c[1]+d[1]);t+=dt;out.push([t,x,v])}return out}
+function draw(){
+  const z=+$("z").value,w=+$("w").value,tt=+$("t").value;sol=integrate(z,w);size();
+  const h1=H*0.48,top2=H*0.52,h2=H-top2,vm=w*1.1+0.2,k=Math.min(sol.length-1,Math.round(tt/0.004)),cur=sol[k];
+  panel(0,h1,{xmin:-0.3,xmax:12,ymin:-1.25,ymax:1.25},()=>{grid(false);
+    if(z>0&&z<1){curve(t=>Math.exp(-z*w*t),C.soft,1.5,[6,5],0,12);curve(t=>-Math.exp(-z*w*t),C.soft,1.5,[6,5],0,12)}
+    ctx.strokeStyle=C.ink;ctx.lineWidth=2.6;ctx.beginPath();sol.forEach((p,i)=>i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])));ctx.stroke();
+    seg(cur[0],-1.25,cur[0],1.25,C.red,1,[3,3]);dot(cur[0],cur[1],C.red,6);label("x(t)",8,16,C.ink,"left","500 12px Poppins, sans-serif")});
+  panel(top2,h2,{xmin:-1.35,xmax:1.35,ymin:-vm,ymax:vm},()=>{grid(false);
+    ctx.strokeStyle=C.ink;ctx.lineWidth=2.2;ctx.beginPath();sol.forEach((p,i)=>i?ctx.lineTo(X(p[1]),Y(p[2])):ctx.moveTo(X(p[1]),Y(p[2])));ctx.stroke();
+    dot(cur[1],cur[2],C.red,6);label("phase plane: velocity x′ vs position x",8,16,C.ink,"left","500 12px Poppins, sans-serif")});
+  ctx.fillStyle=C.line;ctx.fillRect(0,H*0.5-1,W,2);
+  const reg=z===0?"undamped":Math.abs(z-1)<1e-9?"critically damped":z<1?"underdamped":"overdamped";
+  const disc=z*z-1,re=-z*w,roots=disc<0?`${fmt(re,2)} ± ${fmt(w*Math.sqrt(-disc),2)}i`:`${fmt(re+w*Math.sqrt(disc),2)}, ${fmt(re-w*Math.sqrt(disc),2)}`;
+  $("formula").innerHTML=`<em>x</em>″ + ${fmt(2*z*w,2)}<em>x</em>′ + ${fmt(w*w,2)}<em>x</em> = 0 &nbsp;·&nbsp; <span style="color:var(--red)">${reg}</span>`;
+  stats([["Regime",reg,true],["Roots r",roots],["Period",z<1?fmt(2*Math.PI/(w*Math.sqrt(1-z*z)),2):"none"]]);
+}
+bindRange("z",2,draw);bindRange("w",1,draw);bindRange("t",2,draw);
+$("crit").addEventListener("click",()=>setRange("z",1));
+let anim=null;$("play").addEventListener("click",()=>{cancelAnimationFrame(anim);const t0=performance.now();const st=t=>{const s=Math.min(12,(t-t0)/1000*2);setRange("t",s.toFixed(2));if(s<12)anim=requestAnimationFrame(st)};anim=requestAnimationFrame(st)});
+
+window.addEventListener("resize",()=>{size();draw()});
+size();draw();
+</script>
+</body>
+</html>
