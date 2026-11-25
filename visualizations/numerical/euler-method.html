@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Pendulum phase space · SigmaTau</title>
+<title>Euler's method · SigmaTau</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
@@ -69,29 +69,29 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 </head>
 <body>
 <div class="wrap">
-<header><a class="logo" href="../" aria-label="All visualizations"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a><span class="tag">Second order</span></header>
+<header><a class="logo" href="../" aria-label="All visualizations"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a><span class="tag">ODEs</span></header>
 <div class="bar"></div>
-<h1>Pendulum phase space</h1>
-<div class="sub">θ″ = −sin θ − b·θ′ — every state (angle, angular velocity) is a point; motion follows the arrows</div>
+<h1>Euler's method</h1>
+<div class="sub">yₙ₊₁ = yₙ + h·f(xₙ, yₙ) — walk along tangent lines in steps of size h</div>
 <div class="main">
 <div class="card">
 <canvas id="cv"></canvas>
 <div class="formula" id="formula"></div>
 </div>
 <div class="stats" id="stats"></div>
-<div class="hint">Tap the phase plane to start the pendulum there. Closed loops = swinging; wavy lines across the top/bottom = spinning over the top. The dashed separatrix divides them. Add damping b and every path spirals into a resting state θ = 0, ±2π.</div>
+<div class="hint">Halve h and the error at the end roughly halves (error ÷ h stays about constant): Euler is a first-order method. For y′ = −2y, try h > 0.5 (it overshoots and oscillates) and h > 1 (it blows up).</div>
 </div>
 <div class="card controls">
-<div class="row"><label for="b">b · damping</label><input type="range" id="b" min="0" max="0.6" step="0.02" value="0"><output id="bo"></output></div><label class="toggle">Show separatrix<span class="sw"><input type="checkbox" id="sep" checked><span></span></span></label><div class="btns"><button class="chip" id="play">▶ Play</button><button class="chip" id="stop">■ Stop</button></div><div class="msg" id="msg"></div>
+<div class="chips"><button class="chip on" data-g="e" data-v="grow">y′ = y</button><button class="chip" data-g="e" data-v="lin">y′ = x − y</button><button class="chip" data-g="e" data-v="decay">y′ = −2y</button></div><div class="row"><label for="h">h · step size</label><input type="range" id="h" min="0.05" max="1.2" step="0.05" value="0.5"><output id="ho"></output></div><label class="toggle">Show slope field<span class="sw"><input type="checkbox" id="fld"><span></span></span></label><div class="leg"><span style="--c:#111111">exact solution</span><span style="--c:#E63946">Euler steps</span></div>
 </div>
 
 <section class="concept" aria-labelledby="concept-h">
 <h2 id="concept-h">About the concept</h2>
-<p>A second-order equation becomes a first-order system in the state (θ, θ′). Each state is a point in the phase plane, and the equation gives a direction arrow at every point. Without damping, energy is conserved, so paths follow energy level curves. The separatrix (<em>E</em> = 1) divides swinging from spinning over the top.</p>
-<div class="key">θ′ = ω, &nbsp; ω′ = −sin θ − <em>b</em> ω, &nbsp;&nbsp; <em>E</em> = ½ ω² − cos θ &nbsp;(constant when <em>b</em> = 0)</div>
-<p class="use"><b>Why it matters:</b> Phase-plane analysis is how nonlinear systems are understood without solving them: predator–prey models, electrical circuits and stability of equilibria.</p>
+<p>Euler's method solves <em>y</em>′ = <em>f</em>(<em>x</em>, <em>y</em>) numerically. From the current point, follow the tangent slope for a step of size <em>h</em>, then repeat. It is a first-order method: halving <em>h</em> roughly halves the error. If <em>h</em> is too large for the equation, the steps can overshoot and even blow up.</p>
+<div class="key"><em>y</em><sub><em>n</em>+1</sub> = <em>y</em><sub><em>n</em></sub> + <em>h</em> · <em>f</em>(<em>x</em><sub><em>n</em></sub>, <em>y</em><sub><em>n</em></sub>), &nbsp;&nbsp; <em>x</em><sub><em>n</em>+1</sub> = <em>x</em><sub><em>n</em></sub> + <em>h</em>, &nbsp;&nbsp; global error ≈ <em>C h</em></div>
+<p class="use"><b>Why it matters:</b> Most differential equations have no formula solution. Euler's method is the simplest numerical solver and the starting point for Runge–Kutta methods used in practice.</p>
 </section>
-<footer><a href="../#ode" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
+<footer><a href="../#numerical" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
 </div>
 <div class="rail" id="rail" aria-hidden="true"><i></i></div>
 <script>
@@ -159,37 +159,23 @@ const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
   ["pointerup","pointercancel"].forEach(t=>r.addEventListener(t,()=>{drag=false;r.classList.remove("on")}));
   addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);setTimeout(upd,400);upd()})();
 
-tall(76,660);let st=[0.4,1.6],traj=[],idx=0,playing=false,anim=null;
-function integrate(){const b=+$("b").value,f=(t,w)=>[w,-Math.sin(t)-b*w],dt=0.01;traj=[st.slice()];let [t,w]=st;
-  for(let i=0;i<4000;i++){const a=f(t,w),c=f(t+dt/2*a[0],w+dt/2*a[1]),d=f(t+dt/2*c[0],w+dt/2*c[1]),e=f(t+dt*d[0],w+dt*d[1]);
-    t+=dt/6*(a[0]+2*c[0]+2*d[0]+e[0]);w+=dt/6*(a[1]+2*c[1]+2*d[1]+e[1]);traj.push([t,w])}}
-const PV={xmin:-2*Math.PI-0.4,xmax:2*Math.PI+0.4,ymin:-3.3,ymax:3.3};
+const E={grow:{f:(x,y)=>y,ex:x=>Math.exp(x),T:2,t:"y′ = y, y(0) = 1",v:[-0.15,2.15,-0.6,8.4]},
+ lin:{f:(x,y)=>x-y,ex:x=>x-1+2*Math.exp(-x),T:3,t:"y′ = x − y, y(0) = 1",v:[-0.15,3.15,-0.3,2.4]},
+ decay:{f:(x,y)=>-2*y,ex:x=>Math.exp(-2*x),T:4,t:"y′ = −2y, y(0) = 1",v:[-0.15,4.15,-2.2,2.2]}};
+let ek="grow";
 function draw(){
-  size();const h1=H*0.3,top2=H*0.33,h2=H-top2,cur=traj[Math.min(idx,traj.length-1)]||st;
-  ctx.clearRect(0,0,W,H);const cx=W/2,cy=h1*0.12,L=h1*0.72,bx=cx+L*Math.sin(cur[0]),by=cy+L*Math.cos(cur[0]);
-  ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx,cy+L);ctx.stroke();ctx.setLineDash([]);
-  ctx.strokeStyle=C.ink;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(bx,by);ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,4,0,7);ctx.fillStyle=C.ink;ctx.fill();
-  ctx.beginPath();ctx.arc(bx,by,11,0,7);ctx.fillStyle=C.red;ctx.fill();
-  panel(top2,h2,PV,()=>{grid(false);
-    ctx.font="11px Poppins, sans-serif";
-    const b=+$("b").value,nx=Math.round(W/28),ny=Math.round(H/40);
-    for(let i=0;i<=nx;i++)for(let j=0;j<=ny;j++){const t=V.xmin+(V.xmax-V.xmin)*i/nx,w=V.ymin+(V.ymax-V.ymin)*j/ny,dt=w,dw=-Math.sin(t)-b*w;
-      const vx=dt*(X(1)-X(0)),vy=-dw*(Y(0)-Y(1)),m=Math.hypot(vx,vy)||1,s=7;ctx.strokeStyle="rgba(107,114,128,0.45)";ctx.lineWidth=1.2;
-      ctx.beginPath();ctx.moveTo(X(t)-vx/m*s,Y(w)-vy/m*s);ctx.lineTo(X(t)+vx/m*s,Y(w)+vy/m*s);ctx.stroke();ctx.beginPath();ctx.arc(X(t)+vx/m*s,Y(w)+vy/m*s,1.6,0,7);ctx.fillStyle="rgba(107,114,128,0.6)";ctx.fill()}
-    if($("sep").checked){curve(t=>2*Math.cos(t/2),C.ink,1.4,[6,5]);curve(t=>-2*Math.cos(t/2),C.ink,1.4,[6,5])}
-    ctx.strokeStyle=C.red;ctx.lineWidth=2.6;ctx.beginPath();const end=playing?idx:traj.length-1;
-    for(let i=0;i<=end&&i<traj.length;i++){const p=traj[i];i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1]))}ctx.stroke();
-    dot(st[0],st[1],C.ink,5);dot(cur[0],cur[1],C.red,6);label("angle θ →",W-6,Y(0)-6,C.grey,"right");label("θ′ (angular velocity)",X(0)+6,14,C.grey)});
-  ctx.fillStyle=C.line;ctx.fillRect(0,H*0.315-1,W,2);
-  const E=0.5*st[1]**2-Math.cos(st[0]);
-  $("formula").innerHTML=`Energy <em>E</em> = ½θ′² − cos θ = <span style="color:var(--red)">${fmt(E,3)}</span> &nbsp;·&nbsp; <span data-p="b">damping <em>b</em> = ${fmt(+$("b").value,2)}</span>`;
-  stats([["Start (θ, θ′)",`(${fmt(st[0],2)}, ${fmt(st[1],2)})`],["Motion",Math.abs(E-1)<0.02?"on the separatrix":E<1?"swinging":"spinning over the top",true],["Damping",+$("b").value?"energy is lost":"energy conserved"]]);
+  const P=E[ek],h=+$("h").value;[V.xmin,V.xmax,V.ymin,V.ymax]=P.v;size();grid(false);
+  if($("fld").checked){const nx=Math.round(W/28),ny=Math.round(H/28);for(let i=0;i<=nx;i++)for(let j=0;j<=ny;j++){const x=V.xmin+(V.xmax-V.xmin)*i/nx,y=V.ymin+(V.ymax-V.ymin)*j/ny,s=P.f(x,y);
+    let dx=X(1)-X(0),dy=s*(Y(0)-Y(1));const L=Math.hypot(dx,dy);dx*=7/L;dy*=7/L;ctx.strokeStyle="rgba(107,114,128,0.4)";ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(X(x)-dx,Y(y)+dy);ctx.lineTo(X(x)+dx,Y(y)-dy);ctx.stroke()}}
+  curve(P.ex,C.ink,2.8,null,0,P.T);seg(P.T,V.ymin,P.T,V.ymax,C.grey,1,[4,4]);
+  const pts=[[0,1]];let x=0,y=1;while(x<P.T-1e-9){const s=Math.min(h,P.T-x);y=y+s*P.f(x,y);x+=s;pts.push([x,y])}
+  ctx.strokeStyle=C.red;ctx.lineWidth=2.6;ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])));ctx.stroke();
+  pts.forEach(p=>dot(p[0],p[1],C.red,4.5));
+  const ex=P.ex(P.T),err=Math.abs(y-ex);
+  $("formula").innerHTML=`${P.t} &nbsp;·&nbsp; <span data-p="h"><em>h</em> = ${fmt(h,2)}</span>, &nbsp;<span data-d="h">${pts.length-1}</span> steps to <em>x</em> = ${P.T}`;
+  stats([["Euler y("+P.T+")",fmt(y,4)],["Exact y("+P.T+")",fmt(ex,4)],["Error",fmt(err,4),true],["Error ÷ h",fmt(err/h,3)]]);
 }
-function loop(){idx+=4;if(idx>=traj.length){playing=false;idx=traj.length-1}draw();if(playing)anim=requestAnimationFrame(loop)}
-$("play").addEventListener("click",()=>{cancelAnimationFrame(anim);idx=0;playing=true;loop()});$("stop").addEventListener("click",()=>{playing=false;cancelAnimationFrame(anim);draw()});
-onDrag((px,py)=>{const top2=H*0.33;if(py<top2)return;const v=PV;const t=v.xmin+px/W*(v.xmax-v.xmin),w=v.ymin+(H-py)/(H-top2)*(v.ymax-v.ymin);st=[t,w];integrate();idx=0;playing=true;cancelAnimationFrame(anim);loop()});
-bindRange("b",2,()=>{integrate();if(!playing)idx=traj.length-1;draw()});$("sep").addEventListener("change",draw);
-integrate();idx=traj.length-1;
+bindRange("h",2,draw);$("fld").addEventListener("change",draw);bindChips("e",k=>{ek=k;draw()});
 
 window.addEventListener("resize",()=>{size();draw()});
 size();draw();
@@ -197,6 +183,6 @@ size();draw();
 <script src="../graph-scale.js"></script>
 <script src="../number-entry.js"></script>
 <script src="../../back.js"></script>
-<script src="../share.js" data-state="st" data-after="integrate();playing=false;idx=traj.length-1"></script>
+<script src="../share.js"></script>
 </body>
 </html>
