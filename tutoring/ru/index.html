@@ -130,6 +130,9 @@ td{color:var(--ink)}
 td.off{color:var(--grey)}
 tr:last-child th,tr:last-child td{border-bottom:0}
 .slot{display:inline-block;background:var(--tint);color:var(--red);border-radius:7px;padding:3px 9px;margin:0 6px 6px 0;font-size:13px;white-space:nowrap}
+.tzswitch{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.tzbtn{border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:13px;padding:7px 14px;border-radius:20px;cursor:pointer}
+.tzbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
 .note{color:var(--grey);font-size:12.5px;margin:12px 0 0}
 footer{text-align:center;color:var(--grey);font-size:12px;padding:0 0 26px}
 footer a{color:inherit}
@@ -317,6 +320,7 @@ footer a{color:inherit}
 <section class="card" id="hours">
 <span class="num">09</span>
 <h2>Время занятий</h2>
+<div class="tzswitch" id="tzSwitch" role="group" aria-label="Показать время"></div>
 <p class="sub" id="tzLine"></p>
 <table><tbody id="hoursTable"></tbody></table>
 <p class="note" id="hoursNote"></p>
@@ -339,7 +343,15 @@ const SETTINGS = {
   whatsapp: "77067410922",
   email:    "temirkhan.smagulov@gmail.com",
   replyNote: "Обычно отвечаю в течение 24 часов.",
-  timezone: "по астанинскому времени (UTC+5)",
+  // Время ниже — по Астане. Посетитель может переключить таблицу на эти города (первый показывается по умолчанию).
+  // tz — официальное название часового пояса города; для Астаны не нужно.
+  zones: [
+    { label: "Астана", phrase: "по астанинскому времени", tz: null },
+    { label: "Москва", phrase: "по московскому времени", tz: "Europe/Moscow" },
+    { label: "Лондон", phrase: "по лондонскому времени", tz: "Europe/London" },
+  ],
+  tzText: (phrase, off) => "Время указано " + phrase + (off ? " (" + off + ")" : "") + ".",
+  noLessons: "Нет занятий",
   hours: {
     "Понедельник": ["18:00–22:00"],
     "Вторник": ["18:00–22:00"],
@@ -380,15 +392,59 @@ const SETTINGS = {
   }
   if (SETTINGS.replyNote) $("replyNote").textContent = SETTINGS.replyNote; else $("replyNote").remove();
 
-  // 3. Regular hours
-  $("tzLine").textContent = "Время указано " + SETTINGS.timezone + ".";
+  // 3. Regular hours — hours are entered in Astana time (UTC+5) and converted for the chosen city.
+  // London's offset changes with summer time, so it is worked out for the coming week, not fixed.
+  const DAYS = Object.keys(SETTINGS.hours);            // Monday … Sunday, in the page's language
   const any = Object.values(SETTINGS.hours).some(s => s.length);
-  for (const [day, slots] of Object.entries(SETTINGS.hours)) {
-    const tr = el("tr"); tr.append(el("th", null, day));
-    const td = el("td", slots.length ? null : "off");
-    if (slots.length) slots.forEach(s => td.append(el("span", "slot", s))); else td.textContent = any ? "Нет занятий" : "—";
-    tr.append(td); $("hoursTable").append(tr);
+  const BASE = 5;                                      // Astana = UTC+5
+  const pad = n => String(n).padStart(2, "0");
+  // UTC date of the next occurrence of weekday i (0 = Monday) at hh:mm Astana time
+  function astanaToUTC(i, hhmm) {
+    const [h, m] = hhmm.split(":").map(Number);
+    const nowA = new Date(Date.now() + BASE * 3600e3);  // "now" as seen in Astana, read with UTC getters
+    const todayIdx = (nowA.getUTCDay() + 6) % 7;
+    const d = new Date(Date.UTC(nowA.getUTCFullYear(), nowA.getUTCMonth(), nowA.getUTCDate() + ((i - todayIdx + 7) % 7), h - BASE, m));
+    return d;
   }
+  // weekday index (0 = Monday) and "HH:MM" of a UTC date in a time zone (null tz = Astana)
+  function inZone(date, tz) {
+    if (!tz) { const a = new Date(date.getTime() + BASE * 3600e3); return { day: (a.getUTCDay() + 6) % 7, time: pad(a.getUTCHours()) + ":" + pad(a.getUTCMinutes()) }; }
+    const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: tz, weekday: "short", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(date).map(x => [x.type, x.value]));
+    return { day: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].indexOf(p.weekday), time: p.hour + ":" + p.minute };
+  }
+  function offsetLabel(tz) {
+    if (!tz) return "UTC+" + BASE;
+    try {
+      const n = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" }).formatToParts(new Date()).find(x => x.type === "timeZoneName").value;
+      return n === "GMT" ? "UTC+0" : n.replace("GMT", "UTC");
+    } catch (_) { return ""; }
+  }
+  function render(zone) {
+    const off = offsetLabel(zone.tz);
+    $("tzLine").textContent = SETTINGS.tzText(zone.phrase, off);
+    const buckets = DAYS.map(() => []);
+    DAYS.forEach((day, i) => SETTINGS.hours[day].forEach(slot => {
+      const [a, b] = slot.split(/[–-]/).map(s => s.trim());
+      const s = inZone(astanaToUTC(i, a), zone.tz), e = inZone(astanaToUTC(i, b), zone.tz);
+      buckets[s.day].push(s.time + "–" + e.time);
+    }));
+    const tb = $("hoursTable"); tb.textContent = "";
+    DAYS.forEach((day, i) => {
+      const slots = buckets[i].sort();
+      const tr = el("tr"); tr.append(el("th", null, day));
+      const td = el("td", slots.length ? null : "off");
+      if (slots.length) slots.forEach(s => td.append(el("span", "slot", s))); else td.textContent = any ? SETTINGS.noLessons : "—";
+      tr.append(td); tb.append(tr);
+    });
+  }
+  const sw = $("tzSwitch");
+  SETTINGS.zones.forEach((z, k) => {
+    const b = el("button", "tzbtn" + (k ? "" : " on"), z.label); b.type = "button";
+    b.setAttribute("aria-pressed", k ? "false" : "true");
+    b.addEventListener("click", () => { sw.querySelectorAll(".tzbtn").forEach(x => { x.classList.remove("on"); x.setAttribute("aria-pressed", "false"); }); b.classList.add("on"); b.setAttribute("aria-pressed", "true"); render(z); });
+    sw.append(b);
+  });
+  render(SETTINGS.zones[0]);
   $("hoursNote").textContent = SETTINGS.hoursNote || (any ? "" : "Расписание скоро появится.");
 }
 </script>
