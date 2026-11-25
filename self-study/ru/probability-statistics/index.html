@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Теория вероятностей и статистика · Самостоятельное изучение · SigmaTau</title>
+<meta name="description" content="Бесплатные материалы SigmaTau по предмету «Теория вероятностей и статистика».">
+<link rel="alternate" hreflang="en" href="https://temirkhansmagulov.github.io/self-study/probability-statistics/">
+<link rel="alternate" hreflang="ru" href="https://temirkhansmagulov.github.io/self-study/ru/probability-statistics/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--red:#E63946;--paper:#F2F3F5;--grey:#6B7280;--line:#D9DCE1;--tint:#FDECEE}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+.in{max-width:760px;margin:0 auto}
+.hero{background:var(--ink);color:#fff;padding:22px 18px 30px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.lang{display:flex;border:1px solid #3A3A3A;border-radius:20px;overflow:hidden;font-size:13px;font-weight:500}
+.lang a,.lang span{padding:6px 12px;text-decoration:none;color:#B8BCC4}
+.lang span{background:#fff;color:var(--ink)}
+.lang a:hover{color:#fff}
+.logo{display:flex;align-items:baseline;gap:8px;font-size:17px;color:#fff;text-decoration:none;width:max-content}
+.mark{font-family:"Times New Roman",serif;font-style:italic;font-weight:700;font-size:26px;line-height:1}
+.mark sub{color:var(--red);font-size:16px;margin-left:1px}
+.logo b{font-weight:500}.logo i{font-style:normal;font-weight:300;color:var(--red)}
+.bar{width:40px;height:6px;background:var(--red);margin:38px 0 12px}
+h1{font-size:clamp(30px,7vw,44px);font-weight:500;line-height:1.08;margin:0}
+.lead{color:#B8BCC4;font-size:15px;margin:10px 0 0;max-width:540px;line-height:1.55}
+main{padding:20px 18px 34px;display:grid;gap:14px}
+section.card{background:#fff;border-radius:16px;padding:20px 18px}
+.num{display:inline-block;color:var(--red);font-weight:500;font-size:13px;margin-bottom:4px}
+h2{font-size:22px;font-weight:500;margin:0 0 6px}
+.sub{color:var(--grey);font-size:14px;margin:0 0 14px;line-height:1.5}
+.thumb{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:12px;background:#111}
+/* subject list */
+.subjects{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+a.subject{display:flex;flex-direction:column;background:#fff;border-radius:16px;padding:14px;text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s}
+a.subject .thumb{margin-bottom:12px}
+a.subject h2{font-size:19px;margin:2px 0 4px}
+a.subject p{color:var(--grey);font-size:13.5px;margin:0 0 10px;line-height:1.45}
+a.subject .go{margin-top:auto;color:var(--red);font-size:14px;font-weight:500}
+@media(hover:hover){a.subject:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(17,17,17,.08)}}
+/* subject page */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:12px;font-size:15px;font-weight:500;text-decoration:none}
+.primary{background:var(--red);color:#fff}
+.outline{border:1px solid var(--line);color:var(--ink);background:#fff}
+@media(hover:hover){.primary:hover{background:#cf2f3c}.outline:hover{border-color:var(--ink)}}
+.materials{display:grid;gap:10px}
+.materials a{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit}
+.materials a small{display:block;color:var(--grey);font-size:12px}
+footer{text-align:center;color:var(--grey);font-size:12px;padding:0 0 26px}
+footer a{color:inherit}
+</style>
+</head>
+<body>
+<section class="hero"><div class="in">
+<header class="top">
+<a class="logo" href="/ru/"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a>
+<nav class="lang" aria-label="Язык"><a href="/self-study/probability-statistics/" hreflang="en" lang="en">EN</a><span aria-current="true">RU</span></nav>
+</header>
+<div class="bar"></div>
+<h1>Теория вероятностей и статистика</h1>
+<p class="lead">Вероятность, случайные величины, распределения и статистические выводы.</p>
+</div></section>
+<main class="in">
+<img class="thumb" src="/self-study/thumbs/probability-statistics.svg" alt="Гистограмма и кривая нормального распределения" width="640" height="360">
+
+<!-- ===================== MATERIALS =====================
+     Add a link for each material inside <div class="materials">, for example:
+       <a href="notes-limits.pdf"><div><b>Пределы — конспект</b><small>PDF</small></div></a>
+     Put the files in this folder. While the list is empty, this card stays hidden.
+     Не забудьте добавить материал и на английскую страницу: /self-study/probability-statistics/
+     ====================================================== -->
+<section class="card" id="materials">
+<h2>Материалы</h2>
+<div class="materials" id="materialList">
+</div>
+</section>
+
+<section class="card">
+<h2>Интерактивные визуализации</h2>
+<p class="sub">Изучайте идеи предмета на интерактивных графиках.</p>
+<a class="btn outline" href="/visualizations/#probability">Открыть визуализации →</a>
+</section>
+
+<section class="card">
+<h2>Нужна помощь по предмету «Теория вероятностей и статистика»?</h2>
+<p class="sub">Запишитесь на бесплатный пробный урок: найдём пробелы и составим план.</p>
+<a class="btn primary" href="/tutoring/ru/#book">Бесплатный пробный урок →</a>
+</section>
+</main>
+
+<footer><a href="/ru/">Главная</a> · <a href="/visualizations/">Визуализации</a> · <a href="/tutoring/ru/">Занятия</a> · SigmaTau</footer>
+
+<script>/* hide the Materials card until something is added to it */
+{ const l = document.getElementById("materialList"); if (!l.querySelector("a")) document.getElementById("materials").hidden = true; }
+</script>
+<script src="/back.js"></script>
+</body>
+</html>
