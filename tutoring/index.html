@@ -34,12 +34,15 @@ h2{font-size:22px;font-weight:500;margin:0 0 4px}
 ul.steps{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
 ul.steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:14px;color:var(--grey);line-height:1.45}
 ul.steps b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:500}
-.contacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
+.contacts{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:520px){.contacts{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .contact{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--line);border-radius:12px;text-decoration:none;color:inherit;min-height:64px}
 a.contact:active{transform:scale(.98)}
 .ic{flex:none;width:36px;height:36px;border-radius:10px;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:500}
 .contact small{display:block;color:var(--grey);font-size:12px}
-.contact span.v{font-size:15px;font-weight:500;overflow-wrap:anywhere}
+.contact span.v{font-size:15px;font-weight:500;overflow-wrap:break-word}
+.contact > div{min-width:0}
+.contact.email{grid-column:1/-1}
 .contact.empty{border-style:dashed;background:#FAFAFB}
 .contact.empty .ic{background:#C5C9D0}
 .contact.empty span.v{color:var(--grey);font-weight:400;font-size:14px}
@@ -110,9 +113,9 @@ footer a{color:inherit}
    ================================================================== */
 const SETTINGS = {
   formUrl:  "",
-  telegram: "",
-  whatsapp: "",
-  email:    "",
+  telegram: "temirkhanS",
+  whatsapp: "77067410922",
+  email:    "temirkhan.smagulov@gmail.com",
   replyNote: "",                       // e.g. "I usually reply within 24 hours."
   timezone: "Astana time (UTC+5)",
   hours: {
@@ -134,17 +137,23 @@ const SETTINGS = {
   // 1. Booking form
   if (SETTINGS.formUrl) { const b = $("formBtn"); b.href = SETTINGS.formUrl; b.removeAttribute("aria-disabled"); $("formSoon").remove(); }
 
+  // "77067410922" → "+7 706 741 09 22" (Kazakhstan format); other numbers are shown as "+digits"
+  const fmtPhone = n => { const d = n.replace(/\D/g, ""); const m = d.match(/^7(\d{3})(\d{3})(\d{2})(\d{2})$/); return m ? `+7 ${m[1]} ${m[2]} ${m[3]} ${m[4]}` : "+" + d; };
   // 2. Contacts
   const items = [
     ["Telegram", "T", SETTINGS.telegram && "https://t.me/" + SETTINGS.telegram.replace(/^@/, ""), SETTINGS.telegram && "@" + SETTINGS.telegram.replace(/^@/, "")],
-    ["WhatsApp", "W", SETTINGS.whatsapp && "https://wa.me/" + SETTINGS.whatsapp.replace(/\D/g, ""), SETTINGS.whatsapp && "Message on WhatsApp"],
+    ["WhatsApp", "W", SETTINGS.whatsapp && "https://wa.me/" + SETTINGS.whatsapp.replace(/\D/g, ""), SETTINGS.whatsapp && fmtPhone(SETTINGS.whatsapp)],
     ["Email", "@", SETTINGS.email && "mailto:" + SETTINGS.email, SETTINGS.email]
   ];
   for (const [name, icon, href, value] of items) {
-    const box = el(href ? "a" : "div", "contact" + (href ? "" : " empty"));
+    const box = el(href ? "a" : "div", "contact" + (href ? "" : " empty") + (name === "Email" ? " email" : ""));
     if (href) { box.href = href; if (!href.startsWith("mailto:")) { box.target = "_blank"; box.rel = "noopener"; } }
     box.append(el("span", "ic", icon));
-    const t = el("div"); t.append(el("small", null, name), el("span", "v", value || "Coming soon")); box.append(t);
+    const v = el("span", "v", value || "Coming soon");
+    if (value && value.includes("@") && !value.startsWith("@")) {   // email: allow a line break only after the "@"
+      const [u, d] = value.split("@"); v.textContent = u + "@"; v.append(document.createElement("wbr"), d);
+    }
+    const t = el("div"); t.append(el("small", null, name), v); box.append(t);
     $("contactList").append(box);
   }
   if (SETTINGS.replyNote) $("replyNote").textContent = SETTINGS.replyNote; else $("replyNote").remove();
