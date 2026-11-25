@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<title>Colors · SigmaTau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/colors.css">
+<style>
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Poppins,system-ui,sans-serif}
+.in{max-width:760px;margin:0 auto}
+.hero{background:var(--ink);color:#fff;padding:22px 18px 28px}
+.logo{display:flex;align-items:baseline;gap:8px;font-size:17px;color:#fff;text-decoration:none;width:max-content}
+.mark{font-family:"Times New Roman",serif;font-style:italic;font-weight:700;font-size:26px;line-height:1}
+.mark sub{color:var(--red);font-size:16px;margin-left:1px}
+.logo b{font-weight:500}.logo i{font-style:normal;font-weight:300;color:var(--red)}
+.bar{width:40px;height:6px;background:var(--red);margin:34px 0 12px}
+h1{font-size:clamp(28px,6vw,38px);font-weight:500;margin:0}
+.lead{color:var(--on-dark);font-size:14px;margin:10px 0 0;line-height:1.55}
+main{padding:20px 18px 34px;display:grid;gap:14px}
+.card{background:var(--white);border-radius:16px;padding:20px 18px}
+h2{font-size:20px;font-weight:500;margin:0 0 4px}
+.sub{color:var(--grey);font-size:13.5px;margin:0 0 14px}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.s{border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:12.5px}
+.s i{display:block;height:56px}
+.s div{padding:8px 10px}
+.s b{display:block;font-weight:500;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.s span{color:var(--grey)}
+.fb{border-radius:10px;padding:10px 14px;margin:8px 0;font-size:14px;border-left:4px solid}
+.ok{background:var(--correct-tint);border-color:var(--correct);color:var(--correct-text)}
+.no{background:var(--wrong-tint);border-color:var(--wrong);color:var(--wrong-text)}
+.tip{background:var(--info-tint);border-color:var(--info);color:var(--info)}
+.warn{background:var(--warning-tint);border-color:var(--warning);color:var(--warning-text)}
+canvas{width:100%;height:260px;display:block}
+.leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);margin-top:8px}
+.leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
+.btn{display:inline-flex;align-items:center;min-height:46px;padding:0 20px;border-radius:12px;font:inherit;font-size:14px;font-weight:500;text-decoration:none;margin:0 8px 8px 0}
+.primary{background:var(--red);color:#fff}.primary:hover{background:var(--red-hover)}
+.outline{border:1px solid var(--line);color:var(--ink);background:#fff}
+</style>
+</head>
+<body>
+<section class="hero"><div class="in">
+<a class="logo" href="../"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a>
+<div class="bar"></div>
+<h1>Colors</h1>
+<p class="lead">Every color here is read live from /colors.css. Change a value there and this page, and every page that uses it, updates.</p>
+</div></section>
+
+<main class="in">
+<section class="card"><h2>Brand</h2><p class="sub">Black and red. Use red sparingly, for buttons and highlights.</p><div class="sw" data-v="ink red red-hover red-text tint"></div></section>
+<section class="card"><h2>Neutrals</h2><p class="sub">Most of every page.</p><div class="sw" data-v="white paper paper-2 line soft grey charcoal on-dark"></div></section>
+<section class="card"><h2>Meaning</h2><p class="sub">Quizzes, diagnostics and notes.</p><div class="sw" data-v="correct correct-tint wrong wrong-tint info info-tint warning warning-tint"></div>
+<div style="margin-top:14px">
+<div class="fb ok">✓ Correct: the derivative of x² is 2x.</div>
+<div class="fb no">✗ Not quite: check the chain rule.</div>
+<div class="fb tip">Tip: a derivative is the slope of the tangent line.</div>
+<div class="fb warn">Partly mastered: 3 of 5 questions on limits.</div>
+</div></section>
+<section class="card"><h2>Visualizations</h2><p class="sub">Same color = same role on every graph.</p><div class="sw" data-v="viz-1 viz-2 viz-3 viz-4 viz-5 viz-axis viz-grid viz-label"></div>
+<canvas id="cv" style="margin-top:14px"></canvas>
+<div class="leg"><span style="--c:var(--viz-1)">f(x) — main object</span><span style="--c:var(--viz-2)">f′(x) — partner</span><span style="--c:var(--viz-3)">tangent — result</span><span style="--c:var(--viz-4)">extra</span><span style="--c:var(--viz-5)">extra</span></div>
+</section>
+<section class="card"><h2>Buttons</h2><p class="sub">One red button per screen: the main action.</p><a class="btn primary" href="#">Book a free trial →</a><a class="btn outline" href="#">See prices</a></section>
+</main>
+
+<script src="/colors.js"></script>
+<script>
+const roles = {ink:"text, logo",red:"accent, buttons","red-hover":"button hover","red-text":"small red text",tint:"light red fill",
+  white:"cards",paper:"page background","paper-2":"light fill",line:"borders",soft:"disabled",grey:"secondary text",charcoal:"borders on black","on-dark":"text on black",
+  correct:"correct","correct-tint":"correct fill",wrong:"wrong","wrong-tint":"wrong fill",info:"tips",  "info-tint":"tip fill",warning:"warning","warning-tint":"warning fill",
+  "viz-1":"main object","viz-2":"partner","viz-3":"result","viz-4":"extra","viz-5":"extra","viz-axis":"axes","viz-grid":"gridlines","viz-label":"labels"};
+const css = getComputedStyle(document.documentElement);
+document.querySelectorAll(".sw").forEach(box => box.dataset.v.split(" ").forEach(v => {
+  const val = css.getPropertyValue("--" + v).trim();
+  box.insertAdjacentHTML("beforeend", `<div class="s"><i style="background:var(--${v})"></i><div><b>--${v}</b><span>${roles[v]||""} · ${val}</span></div></div>`);
+}));
+
+// sample graph drawn with COLORS
+const cv = document.getElementById("cv"), ctx = cv.getContext("2d");
+function draw(){
+  const W = cv.clientWidth, H = cv.clientHeight, d = devicePixelRatio||1;
+  cv.width = W*d; cv.height = H*d; ctx.setTransform(d,0,0,d,0,0); ctx.clearRect(0,0,W,H);
+  const X = x => W/2 + x*W/8, Y = y => H/2 - y*H/7;
+  ctx.strokeStyle = COLORS.grid; ctx.lineWidth = 1;
+  for (let i=-4;i<=4;i++){ctx.beginPath();ctx.moveTo(X(i),0);ctx.lineTo(X(i),H);ctx.stroke();}
+  for (let j=-3;j<=3;j++){ctx.beginPath();ctx.moveTo(0,Y(j));ctx.lineTo(W,Y(j));ctx.stroke();}
+  ctx.strokeStyle = COLORS.axis; ctx.lineWidth = 1.5;
+  ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(W,Y(0));ctx.moveTo(X(0),0);ctx.lineTo(X(0),H);ctx.stroke();
+  const plot = (f,c,w=2.5,dash=[]) => {ctx.strokeStyle=c;ctx.lineWidth=w;ctx.setLineDash(dash);ctx.beginPath();
+    for(let px=0;px<=W;px+=2){const x=(px-W/2)/(W/8);const y=f(x);px?ctx.lineTo(px,Y(y)):ctx.moveTo(px,Y(y));}ctx.stroke();ctx.setLineDash([]);};
+  const f = x => 0.25*x*x*x - x, fp = x => 0.75*x*x - 1, a = 1.6;
+  ctx.fillStyle = COLORS.alpha(COLORS.viz[1], .12); ctx.beginPath(); ctx.moveTo(X(-2),Y(0));
+  for(let x=-2;x<=0;x+=.02)ctx.lineTo(X(x),Y(f(x))); ctx.lineTo(X(0),Y(0)); ctx.fill();
+  plot(x => Math.sin(2*x)*0.5 - 2.2, COLORS.viz[4], 2);
+  plot(x => 0.4*x + 2.2, COLORS.viz[5], 2);
+  plot(fp, COLORS.viz[2], 2.5);
+  plot(x => f(a) + fp(a)*(x-a), COLORS.viz[3], 2, [6,5]);
+  plot(f, COLORS.viz[1], 3);
+  ctx.fillStyle = COLORS.viz[1]; ctx.beginPath(); ctx.arc(X(a),Y(f(a)),6,0,7); ctx.fill();
+  ctx.strokeStyle = "#fff"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.fillStyle = COLORS.label; ctx.font = "12px Poppins, sans-serif"; ctx.fillText("x", W-14, Y(0)-6); ctx.fillText("y", X(0)+6, 14);
+}
+draw(); addEventListener("resize", draw);
+</script>
+<script src="../back.js"></script>
+</body>
+</html>

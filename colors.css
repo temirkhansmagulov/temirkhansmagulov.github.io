@@ -1,0 +1,68 @@
+/* =====================================================================
+   SigmaTau · COLOR SETTINGS — the one place where the site's colors live.
+
+   HOW TO USE IN A PAGE
+     In <head>:      <link rel="stylesheet" href="/colors.css">
+     In CSS:         color: var(--red);   background: var(--paper);
+     In JavaScript (graphs / canvas): also add <script src="/colors.js"></script>
+                     then use COLORS.red, COLORS.viz[1], COLORS.alpha(COLORS.red, .2)
+
+   HOW TO CHANGE A COLOR
+     Change the value here once and every page that links this file follows.
+
+   RULES OF THUMB
+     • Most of a page is white, --paper and --ink. Red is the accent: buttons,
+       highlights, the "Tau" in the logo. The less red, the more it stands out.
+     • Green = correct, red = wrong/attention, blue = info/tip, amber = warning.
+     • Text on white uses the "-text" versions (they pass the WCAG AA contrast check).
+     • In graphs, colors keep the same meaning on every page (see VISUALIZATIONS).
+   ===================================================================== */
+
+:root {
+  /* ---------- BRAND ---------- */
+  --ink:        #111111;   /* main text, logo, dark sections */
+  --red:        #E63946;   /* brand accent: buttons, highlights, "Tau" */
+  --red-hover:  #CF2F3C;   /* button hover */
+  --red-text:   #C62834;   /* red used for small text on white */
+  --tint:       #FDECEE;   /* light red background (highlight boxes, badges) */
+
+  /* ---------- NEUTRALS (most of every page) ---------- */
+  --white:      #FFFFFF;   /* cards */
+  --paper:      #F2F3F5;   /* page background */
+  --paper-2:    #FAFAFB;   /* very light fill (empty states, table stripes) */
+  --line:       #D9DCE1;   /* borders, dividers */
+  --soft:       #9CA3AF;   /* disabled things, minor graph marks */
+  --grey:       #6B7280;   /* secondary text */
+  --charcoal:   #3A3A3A;   /* borders on black backgrounds */
+  --on-dark:    #B8BCC4;   /* secondary text on black backgrounds */
+
+  /* ---------- MEANING (quizzes, diagnostics, notes) ---------- */
+  --correct:       #1F8A70;  /* correct answer, mastered topic */
+  --correct-text:  #17795F;
+  --correct-tint:  #E6F4EF;
+  --wrong:         var(--red);   /* wrong answer, topic needs work */
+  --wrong-text:    var(--red-text);
+  --wrong-tint:    var(--tint);
+  --info:          #2F6DB5;  /* tips, definitions, "did you know" */
+  --info-tint:     #EAF1FA;
+  --warning:       #C17A12;  /* partly mastered, be careful */
+  --warning-text:  #A8680E;
+  --warning-tint:  #FDF3E3;
+
+  /* ---------- VISUALIZATIONS ----------
+     Same color = same role on every graph, so students learn the code:
+       viz-1 red     the main object (the function, the vector you drag)
+       viz-2 blue    its partner (derivative, second vector, approximation)
+       viz-3 green   result / target (tangent line, sum, true value)
+       viz-4 amber   extra series
+       viz-5 purple  extra series
+     Axes are --ink, gridlines --line, labels --grey. */
+  --viz-1:      #E63946;
+  --viz-2:      #2F6DB5;
+  --viz-3:      #1F8A70;
+  --viz-4:      #C17A12;
+  --viz-5:      #7B4FB8;
+  --viz-axis:   #111111;
+  --viz-grid:   #D9DCE1;
+  --viz-label:  #6B7280;
+}
