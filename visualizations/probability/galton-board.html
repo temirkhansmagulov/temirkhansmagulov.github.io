@@ -79,10 +79,10 @@ footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
 <div class="formula" id="formula"></div>
 </div>
 <div class="stats" id="stats"></div>
-<div class="hint">A ball's bin = number of right-bounces = a binomial B(n, p) count. Drop a few hundred balls: the bars approach the expected counts (dots). Change p to tilt the board — the bell shifts but keeps its shape.</div>
+<div class="hint">Each peg sends a ball right with probability p, so its bin number is the count of right bounces: a binomial B(n, p) value. Drop 50, then 500: the piles get closer and closer to the dashed expected counts. Set p = 0.7 and the piles shift right and become slightly lopsided; with more rows the shape looks more like a bell.</div>
 </div>
 <div class="card controls">
-<div class="row"><label for="n">rows</label><input type="range" id="n" min="4" max="14" step="1" value="10"><output id="no"></output></div><div class="row"><label for="p">p · bounce right</label><input type="range" id="p" min="0.1" max="0.9" step="0.05" value="0.5"><output id="po"></output></div><div class="btns"><button class="chip" id="d1">Drop 1</button><button class="chip" id="d50">Drop 50</button><button class="chip" id="d500">Drop 500 (fast)</button><button class="chip" id="rst">Reset</button></div>
+<div class="row"><label for="n">rows</label><input type="range" id="n" min="4" max="14" step="1" value="10"><output id="no"></output></div><div class="row"><label for="p">p · bounce right</label><input type="range" id="p" min="0.1" max="0.9" step="0.05" value="0.5"><output id="po"></output></div><div class="btns"><button class="chip" id="d1">Drop 1</button><button class="chip" id="d50">Drop 50</button><button class="chip" id="d500">Drop 500</button><button class="chip" id="rst">Reset</button></div>
 </div>
 
 <section class="concept" aria-labelledby="concept-h">
@@ -159,38 +159,135 @@ const Phi=z=>0.5*(1+erf(z/Math.SQRT2));
   ["pointerup","pointercancel"].forEach(t=>r.addEventListener(t,()=>{drag=false;r.classList.remove("on")}));
   addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);setTimeout(upd,400);upd()})();
 
-tall(68,600);let bins=[],balls=[],anim=null,last=0;
-function reset(){const n=+$("n").value;bins=new Array(n+1).fill(0);balls=[];draw()}
-function path(){const n=+$("n").value,p=+$("p").value;const d=[];for(let i=0;i<n;i++)d.push(Math.random()<p?1:0);return d}
-function geo(){const n=+$("n").value,sp=Math.min((W-24)/(n+1),30),vs=Math.min(H*0.5/(n+1),26);return{n,sp,vs,cx:W/2,top:16}}
-function pos(b,g){const r=Math.max(0,b.t),k=Math.floor(r),f=r-k;let s=0;for(let i=0;i<Math.min(k,g.n);i++)s+=b.d[i];
-  const x0=g.cx+(s-Math.min(k,g.n)/2)*g.sp;if(k>=g.n)return[x0,g.top+(g.n+0.5)*g.vs+f*30];
-  const s2=s+b.d[k],x1=g.cx+(s2-(k+1)/2)*g.sp,e=f*f*(3-2*f);return[x0+(x1-x0)*e,g.top+(k+f)*g.vs+(-Math.sin(Math.PI*f)*g.vs*0.35)]}
-function draw(){
-  size();ctx.clearRect(0,0,W,H);const g=geo(),p=+$("p").value,N=bins.reduce((a,b)=>a+b,0);
-  for(let r=0;r<g.n;r++)for(let j=0;j<=r;j++){ctx.beginPath();ctx.arc(g.cx+(j-r/2)*g.sp,g.top+(r+0.5)*g.vs,2.6,0,7);ctx.fillStyle=C.ink;ctx.fill()}
-  const by=H-22,bh=H-(g.top+(g.n+1)*g.vs)-34,lf=[0];for(let i=1;i<=40;i++)lf[i]=lf[i-1]+Math.log(i);
-  const ex=bins.map((_,k)=>N*Math.exp(lf[g.n]-lf[k]-lf[g.n-k]+k*Math.log(p)+(g.n-k)*Math.log(1-p))),mx=Math.max(1,...bins,...ex);
-  bins.forEach((c,k)=>{const x=g.cx+(k-g.n/2)*g.sp,h=c/mx*bh;ctx.fillStyle="rgba(230,57,70,0.8)";ctx.fillRect(x-g.sp*0.4,by-h,g.sp*0.8,h);
-    ctx.beginPath();ctx.arc(x,by-ex[k]/mx*bh,3,0,7);ctx.fillStyle=C.ink;ctx.fill();label(k,x,by+14,C.grey,"center","11px Poppins, sans-serif")});
-  ctx.fillStyle=C.line;ctx.fillRect(10,by,W-20,1.5);
-  balls.forEach(b=>{if(b.t<0)return;const [x,y]=pos(b,g);ctx.beginPath();ctx.arc(x,y,5,0,7);ctx.fillStyle=C.red;ctx.fill()});
-  const mean=N?bins.reduce((a,c,k)=>a+c*k,0)/N:NaN;
-  $("formula").innerHTML=`Bin = number of right bounces ~ B(<span data-p="n">${g.n}</span>, <span data-p="p">${fmt(p,2)}</span>)`;
-  stats([["Balls",N],["Average bin",fmt(mean,2)],["Expected np",fmt(g.n*p,2),true],["SD √(np(1−p))",fmt(Math.sqrt(g.n*p*(1-p)),2)]]);
-}
-function tick(now){const dt=Math.min(0.05,(now-last)/1000);last=now;const g=geo();
-  balls.forEach(b=>b.t+=dt*7);balls=balls.filter(b=>{if(b.t>=g.n+1){bins[b.d.reduce((a,c)=>a+c,0)]++;return false}return true});
-  draw();if(balls.length)anim=requestAnimationFrame(tick);else anim=null}
-function drop(m,delay=0.35){for(let i=0;i<m;i++)balls.push({d:path(),t:-i*delay});if(!anim){last=performance.now();anim=requestAnimationFrame(tick)}}
-$("d1").addEventListener("click",()=>drop(1));$("d50").addEventListener("click",()=>drop(50));
-$("d500").addEventListener("click",()=>{for(let i=0;i<500;i++){const d=path();bins[d.reduce((a,c)=>a+c,0)]++}draw()});
-$("rst").addEventListener("click",reset);
-$("n").addEventListener("input",()=>{$("no").textContent=$("n").value;reset()});$("p").addEventListener("input",()=>{$("po").textContent=fmt(+$("p").value,2);reset()});
-$("no").textContent=$("n").value;$("po").textContent="0.5";bins=new Array(11).fill(0);
+tall(72,640);
+/* Galton board: balls bounce left/right off each row of pegs and pile up in walled bins.
+   bins[k] = balls that landed in bin k (k = number of right-bounces ~ B(n, p)).
+   Piles are drawn as stacked balls; the height per ball only ever shrinks (never jumps up)
+   so that the tallest pile and the expected counts always fit. */
+let bins = [], balls = [], anim = null, last = 0, unit = null, landedFlash = [];
+const lf = [0]; for (let i = 1; i <= 40; i++) lf[i] = lf[i - 1] + Math.log(i);
+const pmf = (n, p, k) => Math.exp(lf[n] - lf[k] - lf[n - k] + k * Math.log(p) + (n - k) * Math.log(1 - p));
 
-window.addEventListener("resize",()=>{size();draw()});
-size();draw();
+function geo() {
+  const n = +$("n").value;
+  const sp = Math.min((W - 36) / (n + 1), 62);                 // horizontal peg spacing (= bin width)
+  const top = 30, vs = Math.min(sp * 0.86, (H * 0.5 - top) / n); // vertical row spacing
+  const r = Math.max(2.5, Math.min(sp * 0.2, 7.5));             // ball radius
+  const binTop = top + n * vs + vs * 0.35, floor = H - 26;
+  return { n, sp, vs, top, r, cx: W / 2, binTop, floor, binH: floor - binTop, pegR: Math.max(2.2, Math.min(sp * 0.07, 4.5)) };
+}
+const pegX = (g, row, j) => g.cx + (j - row / 2) * g.sp;
+const pegY = (g, row) => g.top + (row + 0.5) * g.vs;
+
+function reset() { const n = +$("n").value; bins = new Array(n + 1).fill(0); balls = []; unit = null; landedFlash = []; draw(); }
+function path() { const n = +$("n").value, p = +$("p").value, d = []; for (let i = 0; i < n; i++) d.push(Math.random() < p ? 1 : 0); return d; }
+
+// position of a ball at "row time" t (t < 0: falling in from above; 0 ≤ t < n: between peg rows)
+function pos(b, g) {
+  if (b.t < 0) { const f = 1 + b.t; return [g.cx, pegY(g, 0) - g.pegR - g.r - (1 - f * f) * g.vs * 1.2]; }
+  const k = Math.floor(b.t), f = b.t - k;
+  let s = 0; for (let i = 0; i < k; i++) s += b.d[i];
+  const x0 = pegX(g, k, s), y0 = pegY(g, k) - g.pegR - g.r;           // resting on top of peg (k, s)
+  const s1 = s + b.d[k], x1 = pegX(g, k + 1, s1);
+  const y1 = (k + 1 < g.n ? pegY(g, k + 1) : g.binTop) - g.pegR - g.r;
+  const ex = 1 - (1 - f) * (1 - f);                                     // sideways: fast off the peg, then slows
+  const y = y0 + (y1 - y0) * f * f - Math.sin(Math.PI * Math.min(1, f * 1.6)) * g.vs * 0.12;  // small bounce, then gravity
+  return [x0 + (x1 - x0) * ex, y];
+}
+
+function draw() {
+  size(); ctx.clearRect(0, 0, W, H);
+  const g = geo(), p = +$("p").value, N = bins.reduce((a, b) => a + b, 0);
+  // board outline (funnel) and pegs
+  ctx.fillStyle = "#F3F4F6"; ctx.beginPath();
+  ctx.moveTo(g.cx - g.sp * 0.9, g.top - 18); ctx.lineTo(g.cx + g.sp * 0.9, g.top - 18);
+  ctx.lineTo(pegX(g, g.n, g.n) + g.sp * 0.5, g.binTop); ctx.lineTo(pegX(g, g.n, 0) - g.sp * 0.5, g.binTop); ctx.closePath(); ctx.fill();
+  for (let r = 0; r < g.n; r++) for (let j = 0; j <= r; j++) {
+    ctx.beginPath(); ctx.arc(pegX(g, r, j), pegY(g, r), g.pegR, 0, 7); ctx.fillStyle = C.ink; ctx.fill();
+  }
+  // bins: walls + floor
+  const expMax = Math.max(...bins.map((_, k) => pmf(g.n, p, k))) * N;
+  const need = Math.max(1, ...bins, expMax);
+  const full = 2 * g.r * 0.92, fit = g.binH * 0.94 / need;
+  unit = Math.min(unit ?? full, full, fit);                             // only ever shrinks during a run
+  ctx.strokeStyle = C.line; ctx.lineWidth = 1.5;
+  for (let k = 0; k <= g.n + 1; k++) { const x = pegX(g, g.n, k) - g.sp / 2; ctx.beginPath(); ctx.moveTo(x, g.binTop); ctx.lineTo(x, g.floor); ctx.stroke(); }
+  ctx.fillStyle = C.ink; ctx.fillRect(pegX(g, g.n, 0) - g.sp / 2 - 1, g.floor, (g.n + 1) * g.sp + 2, 2);
+  // piles
+  const asBalls = unit >= full * 0.98;
+  bins.forEach((c, k) => {
+    const x = pegX(g, g.n, k), fl = landedFlash[k] || 0;
+    if (!c) return;
+    if (asBalls) {
+      for (let i = 0; i < c; i++) {
+        ctx.beginPath(); ctx.arc(x, g.floor - g.r - i * unit, g.r, 0, 7);
+        ctx.fillStyle = i === c - 1 && fl > 0 ? "#B91C2C" : C.red; ctx.fill();
+      }
+    } else {
+      const h = c * unit; ctx.fillStyle = C.red; ctx.globalAlpha = 0.88;
+      ctx.fillRect(x - g.sp * 0.42, g.floor - h, g.sp * 0.84, h); ctx.globalAlpha = 1;
+    }
+  });
+  // expected counts N·P(K = k): dots joined by a thin line
+  if (N > 0) {
+    ctx.strokeStyle = C.ink; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]); ctx.beginPath();
+    bins.forEach((_, k) => { const x = pegX(g, g.n, k), y = g.floor - N * pmf(g.n, p, k) * unit; k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.stroke(); ctx.setLineDash([]);
+    bins.forEach((_, k) => { ctx.beginPath(); ctx.arc(pegX(g, g.n, k), g.floor - N * pmf(g.n, p, k) * unit, 3.2, 0, 7); ctx.fillStyle = C.ink; ctx.fill(); });
+  }
+  bins.forEach((_, k) => label(k, pegX(g, g.n, k), g.floor + 16, C.grey, "center", "11px Poppins, sans-serif"));
+  // falling balls
+  balls.forEach(b => {
+    if (b.t < -1) return;                                               // still waiting off-screen
+    let x, y;
+    if (b.t < g.n) [x, y] = pos(b, g);
+    else { const k = b.k; x = pegX(g, g.n, k); y = g.binTop - g.r + b.fy; }
+    ctx.beginPath(); ctx.arc(x, y, g.r, 0, 7); ctx.fillStyle = C.red; ctx.fill();
+    ctx.strokeStyle = "rgba(0,0,0,.18)"; ctx.lineWidth = 1; ctx.stroke();
+  });
+  // legend
+  ctx.font = "12px Poppins, sans-serif"; ctx.textAlign = "left";
+  // (top-left corner, beside the narrow top of the board)
+  ctx.fillStyle = C.red; ctx.fillRect(12, 12, 10, 10); ctx.fillStyle = C.grey; ctx.fillText("landed balls", 28, 21);
+  ctx.beginPath(); ctx.arc(17, 36, 3.2, 0, 7); ctx.fillStyle = C.ink; ctx.fill(); ctx.fillStyle = C.grey; ctx.fillText("expected", 28, 40);
+  const mean = N ? bins.reduce((a, c, k) => a + c * k, 0) / N : NaN;
+  $("formula").innerHTML = `Bin = number of right bounces ~ B(<span data-p="n">${g.n}</span>, <span data-p="p">${fmt(p, 2)}</span>)`;
+  stats([["Balls", N], ["Average bin", fmt(mean, 2)], ["Expected np", fmt(g.n * p, 2), true], ["SD √(np(1−p))", fmt(Math.sqrt(g.n * p * (1 - p)), 2)]]);
+}
+
+function tick(now) {
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const g = geo();
+  balls.forEach(b => {
+    if (b.t < g.n) { b.t += dt * b.speed; if (b.t >= g.n) { b.k = b.d.reduce((a, c) => a + c, 0); b.fy = 0; b.vy = g.vs * b.speed * 1.2; } }
+    else { b.vy += 2600 * dt; b.fy += b.vy * dt; }
+  });
+  balls = balls.filter(b => {
+    if (b.t < g.n) return true;
+    const pile = Math.min(bins[b.k] * unit, g.binH);              // land on top of the pile
+    if (g.binTop - g.r + b.fy >= g.floor - g.r - pile) { bins[b.k]++; landedFlash[b.k] = 0.25; return false; }
+    return true;
+  });
+  landedFlash = landedFlash.map(v => Math.max(0, (v || 0) - dt));
+  draw();
+  if (balls.length || landedFlash.some(v => v > 0)) anim = requestAnimationFrame(tick); else anim = null;
+}
+function drop(m, gap, speed) {
+  // queue behind balls that have not entered yet (t < -1 means still waiting off-screen)
+  const start = Math.min(-1, ...balls.filter(b => b.t < 0).map(b => b.t - gap * speed));
+  for (let i = 0; i < m; i++) balls.push({ d: path(), t: start - i * gap * speed, speed });
+  if (!anim) { last = performance.now(); anim = requestAnimationFrame(tick); }
+}
+$("d1").addEventListener("click", () => drop(1, 0, 6));
+$("d50").addEventListener("click", () => drop(50, 0.09, 7));
+$("d500").addEventListener("click", () => drop(500, 0.012, 14));
+$("rst").addEventListener("click", reset);
+$("n").addEventListener("input", () => { $("no").textContent = $("n").value; reset(); });
+$("p").addEventListener("input", () => { $("po").textContent = fmt(+$("p").value, 2); reset(); });
+$("no").textContent = $("n").value; $("po").textContent = fmt(+$("p").value, 2); bins = new Array(+$("n").value + 1).fill(0);
+
+window.addEventListener("resize", () => { size(); draw(); });
+size(); draw();
 </script>
 <script src="../number-entry.js"></script>
 <script src="../../back.js" data-up="../#probability"></script>
