@@ -9,6 +9,8 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Tutoring · SigmaTau</title>
 <meta name="description" content="Online university math tutoring in English and Russian: Calculus, Linear Algebra, Discrete Math, Differential Equations, Probability & Statistics. Free trial lesson.">
+<link rel="alternate" hreflang="en" href="https://temirkhansmagulov.github.io/tutoring/">
+<link rel="alternate" hreflang="ru" href="https://temirkhansmagulov.github.io/tutoring/ru/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -25,6 +27,11 @@ a{color:var(--red)}
 
 /* ---------- Hero ---------- */
 .hero{background:var(--ink);color:#fff;padding:22px 18px 32px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.lang{display:flex;border:1px solid #3A3A3A;border-radius:20px;overflow:hidden;font-size:13px;font-weight:500}
+.lang a,.lang span{padding:6px 12px;text-decoration:none;color:#B8BCC4}
+.lang span{background:#fff;color:var(--ink)}
+.lang a:hover{color:#fff}
 .logo{display:flex;align-items:baseline;gap:8px;font-size:17px;color:#fff;text-decoration:none;width:max-content}
 .mark{font-family:"Times New Roman",serif;font-style:italic;font-weight:700;font-size:26px;line-height:1}
 .mark sub{color:var(--red);font-size:16px;margin-left:1px}
@@ -129,6 +136,9 @@ footer a{color:inherit}
 </head>
 <body>
 <!--
+  There is a RUSSIAN VERSION at /tutoring/ru/index.html. When you change prices, hours,
+  contacts or the form link, change them in BOTH files.
+
   HOW TO EDIT THIS PAGE
   1. Booking form link, contacts and regular hours: edit the "TUTORING SETTINGS" block at the bottom of this file.
      Leave a value empty ("") and the page shows "Coming soon" for it.
@@ -136,7 +146,10 @@ footer a{color:inherit}
      and marked with "PLACEHOLDER" in a comment here. Search this file for PLACEHOLDER.
 -->
 <section class="hero"><div class="in">
+<header class="top">
 <a class="logo" href="../"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a>
+<nav class="lang" aria-label="Language"><span aria-current="true">EN</span><a href="ru/" hreflang="ru" lang="ru">RU</a></nav>
+</header>
 <div class="bar"></div>
 <h1>University math,<br>explained until it clicks.</h1>
 <p class="lead">Online tutoring in Calculus, Linear Algebra, Discrete Math, Differential Equations and Probability &amp; Statistics — in English or Russian.</p>

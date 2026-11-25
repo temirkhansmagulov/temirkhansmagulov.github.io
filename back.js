@@ -8,7 +8,9 @@
      /tutoring/                                  → /
    If the parent folder has no page of its own (e.g. /visualizations/calculus/), Back goes one
    more level up and opens that folder's section there: /visualizations/#calculus.
-   This is checked live, so new folders and pages need no settings. */
+   This is checked live, so new folders and pages need no settings.
+   To send Back somewhere else (e.g. a language version in a subfolder), put in the page's <head>:
+     <meta name="st-back" content="/">            (the address Back should open) */
 (function () {
   const st = document.createElement("style");
   st.textContent = `
@@ -31,11 +33,13 @@
   }
   const nameOf = dir => decodeURIComponent(dir.replace(/\/$/, "").split("/").pop());
 
-  const first = parentOf(location.pathname);
+  const override = (document.querySelector('meta[name="st-back"]') || {}).content;
+  const first = override || parentOf(location.pathname);
   const a = document.createElement("a");
   a.className = "st-back"; a.href = first;
-  a.innerHTML = '<span aria-hidden="true">←</span>Back';
-  a.setAttribute("aria-label", "Back up one level");
+  const ru = (document.documentElement.lang || "").startsWith("ru");
+  a.innerHTML = '<span aria-hidden="true">←</span>' + (ru ? "Назад" : "Back");
+  a.setAttribute("aria-label", ru ? "Назад на уровень выше" : "Back up one level");
 
   // Find the nearest folder above this page that has a page; remember which subfolder we came from.
   async function hasPage(dir) {
@@ -43,11 +47,12 @@
     catch (_) { return true; }               // offline / file:// — just trust the folder
   }
   const resolved = (async () => {
+    if (override) return override;
     let dir = first, from = "";
     while (dir !== "/" && !(await hasPage(dir))) { from = nameOf(dir); dir = parentOf(dir); }
     return dir + (from ? "#" + encodeURIComponent(from) : "");
   })();
-  resolved.then(url => { a.href = url; a.title = "Up to " + (url === "/" ? "home" : url); });
+  resolved.then(url => { a.href = url; a.title = (url === "/" ? "Up to home" : "Up to " + url); });
   a.addEventListener("click", e => {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;   // let "open in new tab" work as usual
     e.preventDefault(); resolved.then(url => { location.href = url; });
