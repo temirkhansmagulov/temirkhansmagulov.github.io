@@ -1,11 +1,15 @@
-/* SigmaTau · "← Back" button for every page except the home page.
-   Include once, at the end of <body>:  <script src="../back.js" data-up="../"></script>
-   data-up = where Back goes when there is no in-site page to return to
-   (e.g. a demo opened from a direct link). Otherwise it acts like the browser's Back. */
-(function () {
-  const me = document.currentScript;
-  const up = (me && me.dataset.up) || "../";
+/* SigmaTau · "← Back" button: goes one level UP the site's folder tree (not browser history).
+   Include once, at the end of <body>, on every page except the home page:
+     <script src="../back.js"></script>      (path to this file, relative to the page)
 
+   How "up" is found, from the page's own address (query and #hash are ignored):
+     /visualizations/calculus/tangent-line.html  → parent folder /visualizations/calculus/
+     /visualizations/                            → /
+     /tutoring/                                  → /
+   If the parent folder has no page of its own (e.g. /visualizations/calculus/), Back goes one
+   more level up and opens that folder's section there: /visualizations/#calculus.
+   This is checked live, so new folders and pages need no settings. */
+(function () {
   const st = document.createElement("style");
   st.textContent = `
 .st-back{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;padding:7px 14px 7px 11px;border:1px solid var(--line,#D9DCE1);
@@ -19,15 +23,34 @@
 .st-back.dark:hover,.st-back.dark:focus-visible{color:#fff;border-color:var(--red,#E63946);background:rgba(230,57,70,.18)}`;
   document.head.appendChild(st);
 
-  const a = document.createElement("a");
-  a.className = "st-back"; a.href = up;
-  a.innerHTML = '<span aria-hidden="true">←</span>Back';
-  a.setAttribute("aria-label", "Go back");
+  // "/a/b/c.html" → "/a/b/",  "/a/b/" → "/a/",  "/a/b/index.html" → "/a/"
+  function parentOf(path) {
+    path = path.replace(/index\.html$/, "");
+    if (path.endsWith("/")) path = path.slice(0, -1);
+    return path.slice(0, path.lastIndexOf("/") + 1) || "/";
+  }
+  const nameOf = dir => decodeURIComponent(dir.replace(/\/$/, "").split("/").pop());
 
+  const first = parentOf(location.pathname);
+  const a = document.createElement("a");
+  a.className = "st-back"; a.href = first;
+  a.innerHTML = '<span aria-hidden="true">←</span>Back';
+  a.setAttribute("aria-label", "Back up one level");
+
+  // Find the nearest folder above this page that has a page; remember which subfolder we came from.
+  async function hasPage(dir) {
+    try { const r = await fetch(dir, { method: "HEAD", cache: "no-cache" }); return r.ok; }
+    catch (_) { return true; }               // offline / file:// — just trust the folder
+  }
+  const resolved = (async () => {
+    let dir = first, from = "";
+    while (dir !== "/" && !(await hasPage(dir))) { from = nameOf(dir); dir = parentOf(dir); }
+    return dir + (from ? "#" + encodeURIComponent(from) : "");
+  })();
+  resolved.then(url => { a.href = url; a.title = "Up to " + (url === "/" ? "home" : url); });
   a.addEventListener("click", e => {
-    let sameSite = false;
-    try { sameSite = !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (_) {}
-    if (sameSite && history.length > 1) { e.preventDefault(); history.back(); }
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;   // let "open in new tab" work as usual
+    e.preventDefault(); resolved.then(url => { location.href = url; });
   });
 
   // Put it on its own line at the very top, above the logo / header.
@@ -39,7 +62,7 @@
   // Outlined style on dark backgrounds (e.g. the black hero on the menu and tutoring pages).
   for (let el = wrap.parentElement; el; el = el.parentElement) {
     const m = getComputedStyle(el).backgroundColor.match(/[\d.]+/g);
-    if (!m || (m.length === 4 && +m[3] === 0)) continue;              // transparent: look further up
+    if (!m || (m.length === 4 && +m[3] === 0)) continue;
     if (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2] < 110) a.classList.add("dark");
     break;
   }
