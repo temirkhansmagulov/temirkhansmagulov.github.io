@@ -98,7 +98,7 @@ window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg
 </div>
 <div class="card controls">
 <div class="group">Surface</div>
-<div class="chips"><button class="chip on" data-g="f" data-v="bowl">(x² + y²)/2</button><button class="chip" data-g="f" data-v="saddle">(x² − y²)/2</button><button class="chip" data-g="f" data-v="bump">2e^(−(x²+y²)/2)</button><button class="chip" data-g="f" data-v="egg">sin x · cos y</button><button class="chip" data-g="f" data-v="monkey">(x³ − 3xy²)/15</button><button class="chip" data-g="f" data-v="log">ln(1 + x² + y²)</button></div>
+<div class="chips"><button class="chip on" data-g="f" data-v="bowl">(x² + y²)/3</button><button class="chip" data-g="f" data-v="saddle">(x² − y²)/3</button><button class="chip" data-g="f" data-v="bump">2e^(−(x²+y²)/2)</button><button class="chip" data-g="f" data-v="egg">sin x · cos y</button><button class="chip" data-g="f" data-v="monkey">(x³ − 3xy²)/15</button><button class="chip" data-g="f" data-v="log">ln(1 + x² + y²)</button></div>
 <div class="row"><label for="x0">x₀ · point</label><input type="range" id="x0" min="-2.5" max="2.5" step="0.01" value="1"><output id="x0o"></output></div>
 <div class="row"><label for="y0">y₀ · point</label><input type="range" id="y0" min="-2.5" max="2.5" step="0.01" value="0.6"><output id="y0o"></output></div>
 <label class="toggle">Traces and tangent vectors u, v<span class="sw"><input type="checkbox" id="tr" checked><span></span></span></label>
@@ -135,8 +135,8 @@ const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const D=3;
 
 const F={
- bowl:{f:(x,y)=>(x*x+y*y)/2,fx:(x,y)=>x,fy:(x,y)=>y,t:"(<em>x</em>² + <em>y</em>²)/2"},
- saddle:{f:(x,y)=>(x*x-y*y)/2,fx:(x,y)=>x,fy:(x,y)=>-y,t:"(<em>x</em>² − <em>y</em>²)/2"},
+ bowl:{f:(x,y)=>(x*x+y*y)/3,fx:(x,y)=>2*x/3,fy:(x,y)=>2*y/3,t:"(<em>x</em>² + <em>y</em>²)/3"},
+ saddle:{f:(x,y)=>(x*x-y*y)/3,fx:(x,y)=>2*x/3,fy:(x,y)=>-2*y/3,t:"(<em>x</em>² − <em>y</em>²)/3"},
  bump:{f:(x,y)=>2*Math.exp(-(x*x+y*y)/2),fx:(x,y)=>-2*x*Math.exp(-(x*x+y*y)/2),fy:(x,y)=>-2*y*Math.exp(-(x*x+y*y)/2),t:"2<em>e</em><sup>−(<em>x</em>²+<em>y</em>²)/2</sup>"},
  egg:{f:(x,y)=>Math.sin(x)*Math.cos(y),fx:(x,y)=>Math.cos(x)*Math.cos(y),fy:(x,y)=>-Math.sin(x)*Math.sin(y),t:"sin <em>x</em> · cos <em>y</em>"},
  monkey:{f:(x,y)=>(x**3-3*x*y*y)/15,fx:(x,y)=>(x*x-y*y)/5,fy:(x,y)=>-2*x*y/5,t:"(<em>x</em>³ − 3<em>xy</em>²)/15"},
@@ -169,12 +169,12 @@ function sprite(t,color,s=0.5){
 });
 
 // surface
-const NS=120,sGeo=new THREE.BufferGeometry(),sPos=new Float32Array((NS+1)**2*3);
+const NR=60,NT=144,sGeo=new THREE.BufferGeometry(),sPos=new Float32Array((NR+1)*(NT+1)*3);
 sGeo.setAttribute("position",new THREE.BufferAttribute(sPos,3));
-const ix=[];for(let i=0;i<NS;i++)for(let j=0;j<NS;j++){const a=i*(NS+1)+j,b=a+1,c=a+NS+1,d=c+1;ix.push(a,c,b,b,c,d)}sGeo.setIndex(ix);
+const ix=[];for(let i=0;i<NR;i++)for(let j=0;j<NT;j++){const a=i*(NT+1)+j,b=a+1,c=a+NT+1,d=c+1;ix.push(a,c,b,b,c,d)}sGeo.setIndex(ix);
 const surf=new THREE.Mesh(sGeo,new THREE.MeshPhongMaterial({color:0x9ca3af,transparent:true,opacity:0.5,side:THREE.DoubleSide,depthWrite:false,shininess:30}));
 surf.renderOrder=1;scene.add(surf);
-const WL=12,WS=60,wPos=new Float32Array(2*(WL+1)*WS*6),wGeo=new THREE.BufferGeometry();
+const RINGS=6,SPOKES=16,WS=96,wPos=new Float32Array((RINGS*WS+SPOKES*WS)*6),wGeo=new THREE.BufferGeometry();
 wGeo.setAttribute("position",new THREE.BufferAttribute(wPos,3));
 scene.add(new THREE.LineSegments(wGeo,new THREE.LineBasicMaterial({color:0x6b7280,transparent:true,opacity:0.45})));
 
@@ -208,10 +208,11 @@ let t=0;const R=1.1;
 
 function buildSurface(){
   const f=F[fk].f;let k=0;
-  for(let i=0;i<=NS;i++){const x=-D+2*D*i/NS;for(let j=0;j<=NS;j++){const y=-D+2*D*j/NS;sPos[k++]=x;sPos[k++]=y;sPos[k++]=f(x,y)}}
+  for(let i=0;i<=NR;i++){const r=D*i/NR;for(let j=0;j<=NT;j++){const a=2*Math.PI*j/NT,x=r*Math.cos(a),y=r*Math.sin(a);sPos[k++]=x;sPos[k++]=y;sPos[k++]=f(x,y)}}
   sGeo.attributes.position.needsUpdate=true;sGeo.computeVertexNormals();sGeo.computeBoundingSphere();
-  k=0;for(let l=0;l<=WL;l++){const c=-D+2*D*l/WL;for(let s=0;s<WS;s++){const a=-D+2*D*s/WS,b=-D+2*D*(s+1)/WS;
-    wPos.set([c,a,f(c,a),c,b,f(c,b),a,c,f(a,c),b,c,f(b,c)],k);k+=12}}
+  const pt=(r,a)=>{const x=r*Math.cos(a),y=r*Math.sin(a);return[x,y,f(x,y)]};k=0;
+  for(let l=1;l<=RINGS;l++){const r=D*l/RINGS;for(let s=0;s<WS;s++){wPos.set([...pt(r,2*Math.PI*s/WS),...pt(r,2*Math.PI*(s+1)/WS)],k);k+=6}}
+  for(let l=0;l<SPOKES;l++){const a=2*Math.PI*l/SPOKES;for(let s=0;s<WS;s++){wPos.set([...pt(D*s/WS,a),...pt(D*(s+1)/WS,a)],k);k+=6}}
   wGeo.attributes.position.needsUpdate=true;wGeo.computeBoundingSphere();
 }
 
@@ -226,7 +227,8 @@ function update(){
   p0.position.copy(P0);normal.position.copy(P0);normal.setDirection(N);normal.setLength(1.6,0.28,0.14);
   p0L.position.copy(P0).addScaledVector(N,-0.35).addScaledVector(U,-0.3);
   const a=trX.geometry.attributes.position.array,b=trY.geometry.attributes.position.array;
-  for(let s=0;s<TS;s++){const q=-D+2*D*s/(TS-1);a.set([q,y0,P.f(q,y0)],3*s);b.set([x0,q,P.f(x0,q)],3*s)}
+  const hx=Math.sqrt(Math.max(0,D*D-y0*y0)),hy=Math.sqrt(Math.max(0,D*D-x0*x0));
+  for(let s=0;s<TS;s++){const qx=-hx+2*hx*s/(TS-1),qy=-hy+2*hy*s/(TS-1);a.set([qx,y0,P.f(qx,y0)],3*s);b.set([x0,qy,P.f(x0,qy)],3*s)}
   [trX,trY].forEach(l=>{l.geometry.attributes.position.needsUpdate=true;l.geometry.computeBoundingSphere();l.computeLineDistances()});
   const u=new THREE.Vector3(1,0,fx),v=new THREE.Vector3(0,1,fy);
   uA.position.copy(P0);uA.setDirection(u.clone().normalize());uA.setLength(u.length(),0.22,0.11);
@@ -251,7 +253,8 @@ function sweep(){
 }
 
 /* ---------- controls ---------- */
-["x0","y0"].forEach(id=>$(id).addEventListener("input",update));
+["x0","y0"].forEach(id=>$(id).addEventListener("input",()=>{const x=$("x0"),y=$("y0"),r=Math.hypot(+x.value,+y.value),M=2.8;
+  if(r>M){const o=id==="x0"?y:x,s=Math.sign(+o.value)||1;o.value=(s*Math.sqrt(Math.max(0,M*M-(+$(id).value)**2))).toFixed(2)}update()}));
 $("tr").addEventListener("change",update);
 if(reduce)$("spin").checked=false;
 document.querySelectorAll('[data-g="f"]').forEach(b=>b.addEventListener("click",()=>{
