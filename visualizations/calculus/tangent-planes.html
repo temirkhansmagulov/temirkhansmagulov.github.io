@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Tangent planes · SigmaTau</title>
+<meta name="description" content="Rotate a 3D surface z = f(x, y), move a point and watch the tangent plane, the normal vector and ∇F·(P − P₀) = 0 update live.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#111111;--red:#E63946;--paper:#F2F3F5;--grey:#6B7280;--line:#D9DCE1;--tint:#FDECEE}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:Poppins,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:16px 14px 28px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.logo{display:flex;align-items:baseline;gap:8px;font-size:17px;text-decoration:none;color:var(--ink)}
+.mark{font-family:"Times New Roman",serif;font-style:italic;font-weight:700;font-size:24px;line-height:1}
+.mark sub{color:var(--red);font-size:15px;margin-left:1px}
+.logo b{font-weight:500}.logo i{font-style:normal;font-weight:300;color:var(--red)}
+.tag{background:var(--red);color:#fff;font-size:11px;font-weight:500;padding:3px 9px;border-radius:7px}
+.bar{width:34px;height:5px;background:var(--red);margin-bottom:8px}
+h1{font-size:24px;font-weight:500;margin:0}
+.sub{color:var(--grey);font-size:13px;margin:2px 0 12px}
+.card{background:#fff;border-radius:14px;padding:12px}
+.fig{position:relative}
+.formula{font-size:16px;font-weight:500;padding:12px 4px 4px;min-height:30px;line-height:1.45;overflow-x:auto}
+.formula em{font-family:"Times New Roman",serif;font-size:19px}
+canvas{width:100%;height:60vh;max-height:480px;min-height:320px;display:block;touch-action:none;cursor:grab;border-radius:10px}
+.view{position:absolute;right:8px;top:8px}
+.controls{margin-top:12px;display:grid;gap:4px}
+.row{display:grid;grid-template-columns:96px 1fr 46px;align-items:center;gap:10px;min-height:38px}
+.row label{font-size:13px;color:var(--grey)}
+.row output{font-size:14px;font-weight:500;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:var(--line);border-radius:2px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--red);border:3px solid #fff;box-shadow:0 0 0 1px var(--red)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--red);border:3px solid #fff}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 6px}
+.chip{border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit;font-size:13px;padding:7px 13px;border-radius:20px;cursor:pointer}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip:active{transform:scale(.97)}
+.group{font-size:12px;color:var(--grey);margin:6px 0 0}
+.toggle{display:flex;align-items:center;justify-content:space-between;min-height:40px;font-size:14px}
+.sw{position:relative;width:46px;height:26px}
+.sw input{opacity:0;width:0;height:0}
+.sw span{position:absolute;inset:0;background:var(--line);border-radius:13px;transition:.2s}
+.sw span:before{content:"";position:absolute;width:20px;height:20px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.sw input:checked+span{background:var(--red)}
+.sw input:checked+span:before{transform:translateX(20px)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:8px;margin-top:10px}
+.stat{background:#fff;border-radius:10px;padding:8px 10px;min-width:0}
+.stat small{display:block;color:var(--grey);font-size:11px;overflow-wrap:anywhere}
+.stat b{font-size:17px;font-weight:500}
+.stat.red{background:var(--tint)}.stat.red b{color:var(--red)}
+.hint{color:var(--grey);font-size:12px;margin-top:10px}
+.leg{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--grey);padding:8px 4px 0}
+.leg span:before{content:"";display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
+.rail{display:none;position:fixed;top:0;right:0;bottom:0;width:30px;z-index:30;touch-action:none}
+.rail:before{content:"";position:absolute;top:10px;bottom:10px;right:10px;width:2px;border-radius:1px;background:rgba(17,17,17,.08)}
+.rail i{position:absolute;right:7px;width:8px;border-radius:4px;background:rgba(17,17,17,.32);transition:background .15s,width .15s,right .15s}
+.rail.on i{background:var(--red);width:12px;right:5px}
+@media(pointer:coarse){.rail{display:block}.wrap{padding-right:34px}}
+footer{margin-top:16px;color:var(--grey);font-size:11px;text-align:center}
+.concept{background:#fff;border-radius:14px;padding:16px 16px 14px;margin-top:14px}
+.concept h2{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin:0 0 8px}
+.concept h3{font-size:15px;font-weight:500;margin:14px 0 4px}
+.concept h3 span{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;margin-right:8px}
+.concept p{font-size:14px;line-height:1.6;margin:0 0 10px;color:var(--ink)}
+.concept .key{font-size:15px;line-height:1.7;background:var(--paper);border-left:3px solid var(--red);border-radius:0 8px 8px 0;padding:8px 12px;margin:0 0 10px;overflow-x:auto}
+.concept .use{font-size:13px;color:var(--grey);margin:0}.concept .use b{color:var(--ink);font-weight:600}
+mjx-container[display="true"]{margin:.3em 0!important}
+</style>
+<link rel="stylesheet" href="../layout.css">
+<script>
+window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},svg:{fontCache:'global'}};
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+<div class="wrap">
+<header><a class="logo" href="../" aria-label="All visualizations"><span class="mark">σ<sub>τ</sub></span><span><b>Sigma</b><i>Tau</i></span></a><span class="tag">Multivariable</span></header>
+<div class="bar"></div>
+<h1>Tangent planes</h1>
+<div class="sub">Rotate the surface, move P₀ — the plane is every P with ∇F(P₀)·(P − P₀) = 0</div>
+<div class="main">
+<div class="card">
+<div class="fig"><canvas id="cv"></canvas><button class="chip view" id="reset" type="button">Reset view</button></div>
+<div class="leg"><span style="--c:#9CA3AF">Surface z = f(x, y)</span><span style="--c:#E63946">Tangent plane</span><span style="--c:#111111">Normal −∇F(P₀)</span><span style="--c:#B5202C">P − P₀</span><span style="--c:#6B7280">Traces u, v</span></div>
+<div class="formula" id="formula"></div>
+</div>
+<div class="stats" id="stats"></div>
+<div class="hint">Drag the 3D view to rotate it, pinch or scroll to zoom. Tap the surface to move P₀ there. The dark-red vector P − P₀ sweeps around inside the plane, and its dot product with ∇F(P₀) stays 0.</div>
+</div>
+<div class="card controls">
+<div class="group">Surface</div>
+<div class="chips"><button class="chip on" data-g="f" data-v="bowl">(x² + y²)/2</button><button class="chip" data-g="f" data-v="saddle">(x² − y²)/2</button><button class="chip" data-g="f" data-v="bump">2e^(−(x²+y²)/2)</button><button class="chip" data-g="f" data-v="egg">sin x · cos y</button><button class="chip" data-g="f" data-v="monkey">(x³ − 3xy²)/15</button><button class="chip" data-g="f" data-v="log">ln(1 + x² + y²)</button></div>
+<div class="row"><label for="x0">x₀ · point</label><input type="range" id="x0" min="-2.5" max="2.5" step="0.01" value="1"><output id="x0o"></output></div>
+<div class="row"><label for="y0">y₀ · point</label><input type="range" id="y0" min="-2.5" max="2.5" step="0.01" value="0.6"><output id="y0o"></output></div>
+<label class="toggle">Traces and tangent vectors u, v<span class="sw"><input type="checkbox" id="tr" checked><span></span></span></label>
+<label class="toggle">Sweep P around P₀<span class="sw"><input type="checkbox" id="spin" checked><span></span></span></label>
+</div>
+
+<section class="concept" aria-labelledby="concept-h">
+<h2 id="concept-h">About the concept</h2>
+<p>Zoom in far enough on a smooth surface and it looks flat. That flat piece is the tangent plane: the best linear approximation of \(z=f(x,y)\) near the point \(P_0=(x_0,y_0,z_0)\), where \(z_0=f(x_0,y_0)\).</p>
+<h3><span>1</span>Write the graph as a level surface</h3>
+<div class="key">\[F(x,y,z)=f(x,y)-z,\qquad \text{surface: } F(x,y,z)=0\]</div>
+<h3><span>2</span>The gradient is normal to a level surface</h3>
+<p>Along any curve \(\mathbf r(t)\) on the surface, \(F(\mathbf r(t))=0\), so \(\tfrac{d}{dt}F=\nabla F\cdot\mathbf r'(t)=0\). The gradient is perpendicular to every direction you can move in on the surface.</p>
+<div class="key">\[\nabla F(P_0)=\big(f_x(x_0,y_0),\ f_y(x_0,y_0),\ -1\big)\]</div>
+<p>\(\nabla F\) points down into the surface, so the black arrow shows \(-\nabla F=(-f_x,-f_y,1)\). It is just as normal and points up.</p>
+<h3><span>3</span>In the plane means perpendicular to the normal</h3>
+<p>A point \(P=(x,y,z)\) is in the tangent plane exactly when the vector from \(P_0\) to \(P\) is perpendicular to the normal:</p>
+<div class="key">\[\nabla F(P_0)\cdot(P-P_0)=0\ \Longleftrightarrow\ f_x(x-x_0)+f_y(y-y_0)-(z-z_0)=0\]</div>
+<h3><span>4</span>Solve for \(z\)</h3>
+<div class="key">\[z=z_0+f_x(x_0,y_0)\,(x-x_0)+f_y(x_0,y_0)\,(y-y_0)\]</div>
+<h3><span>5</span>Check it with the two traces</h3>
+<p>Cut the surface with \(y=y_0\): the curve has slope \(f_x\), so \(\mathbf u=(1,0,f_x)\) is tangent to it. Cut with \(x=x_0\): \(\mathbf v=(0,1,f_y)\). Both lie in the plane, so their cross product is the same normal.</p>
+<div class="key">\[\mathbf u\times\mathbf v=\begin{vmatrix}\mathbf i&\mathbf j&\mathbf k\\1&0&f_x\\0&1&f_y\end{vmatrix}=(-f_x,\,-f_y,\,1)=-\nabla F(P_0)\]</div>
+<p class="use"><b>Why it matters:</b> The tangent plane is the 3D version of the tangent line. It gives linear approximations and differentials \(dz=f_x\,dx+f_y\,dy\), and it is flat (\(f_x=f_y=0\)) at every maximum, minimum and saddle point — try the bowl, the bump and the saddle at the origin.</p>
+</section>
+<footer><a href="../#calculus" style="color:inherit">← All visualizations</a> · SigmaTau · visualizations</footer>
+</div>
+<div class="rail" id="rail" aria-hidden="true"><i></i></div>
+<script>
+{
+const $=id=>document.getElementById(id);
+const fmt=(v,d=2)=>{if(!isFinite(v))return "—";const s=(+(Math.abs(v)<0.5*10**-d?0:v).toFixed(d)).toString();return s.replace("-","−")};
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const D=3;
+
+const F={
+ bowl:{f:(x,y)=>(x*x+y*y)/2,fx:(x,y)=>x,fy:(x,y)=>y,t:"(<em>x</em>² + <em>y</em>²)/2"},
+ saddle:{f:(x,y)=>(x*x-y*y)/2,fx:(x,y)=>x,fy:(x,y)=>-y,t:"(<em>x</em>² − <em>y</em>²)/2"},
+ bump:{f:(x,y)=>2*Math.exp(-(x*x+y*y)/2),fx:(x,y)=>-2*x*Math.exp(-(x*x+y*y)/2),fy:(x,y)=>-2*y*Math.exp(-(x*x+y*y)/2),t:"2<em>e</em><sup>−(<em>x</em>²+<em>y</em>²)/2</sup>"},
+ egg:{f:(x,y)=>Math.sin(x)*Math.cos(y),fx:(x,y)=>Math.cos(x)*Math.cos(y),fy:(x,y)=>-Math.sin(x)*Math.sin(y),t:"sin <em>x</em> · cos <em>y</em>"},
+ monkey:{f:(x,y)=>(x**3-3*x*y*y)/15,fx:(x,y)=>(x*x-y*y)/5,fy:(x,y)=>-2*x*y/5,t:"(<em>x</em>³ − 3<em>xy</em>²)/15"},
+ log:{f:(x,y)=>Math.log(1+x*x+y*y),fx:(x,y)=>2*x/(1+x*x+y*y),fy:(x,y)=>2*y/(1+x*x+y*y),t:"ln(1 + <em>x</em>² + <em>y</em>²)"}
+};
+let fk="bowl";
+
+/* ---------- scene (z up) ---------- */
+const cv=$("cv");
+const renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(40,1,0.1,200);camera.up.set(0,0,1);
+const HOME=new THREE.Vector3(9,-7.5,6.5),TARGET=new THREE.Vector3(0,0,0.3);
+camera.position.copy(HOME);
+const controls=new THREE.OrbitControls(camera,cv);controls.enableDamping=true;controls.target.copy(TARGET);
+scene.add(new THREE.AmbientLight(0xffffff,0.6));
+const dl=new THREE.DirectionalLight(0xffffff,0.7);dl.position.set(5,-3,8);scene.add(dl);
+const dl2=new THREE.DirectionalLight(0xffffff,0.3);dl2.position.set(-6,4,-3);scene.add(dl2);
+
+function sprite(t,color,s=0.5){
+  const c=document.createElement("canvas");c.width=c.height=64;const g=c.getContext("2d");
+  g.font="italic 700 40px 'Times New Roman', serif";g.fillStyle=color;g.textAlign="center";g.textBaseline="middle";g.fillText(t,32,34);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false,transparent:true}));sp.scale.set(s,s,1);return sp;
+}
+[[1,0,0,"x",D+0.8],[0,1,0,"y",D+0.8],[0,0,1,"z",4.5]].forEach(([x,y,z,t,L])=>{
+  const d=new THREE.Vector3(x,y,z);
+  scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([d.clone().multiplyScalar(-L),d.clone().multiplyScalar(L)]),new THREE.LineBasicMaterial({color:0x6b7280})));
+  const s=sprite(t,"#6B7280");s.position.copy(d.clone().multiplyScalar(L+0.3));scene.add(s);
+});
+
+// surface
+const NS=120,sGeo=new THREE.BufferGeometry(),sPos=new Float32Array((NS+1)**2*3);
+sGeo.setAttribute("position",new THREE.BufferAttribute(sPos,3));
+const ix=[];for(let i=0;i<NS;i++)for(let j=0;j<NS;j++){const a=i*(NS+1)+j,b=a+1,c=a+NS+1,d=c+1;ix.push(a,c,b,b,c,d)}sGeo.setIndex(ix);
+const surf=new THREE.Mesh(sGeo,new THREE.MeshPhongMaterial({color:0x9ca3af,transparent:true,opacity:0.5,side:THREE.DoubleSide,depthWrite:false,shininess:30}));
+surf.renderOrder=1;scene.add(surf);
+const WL=12,WS=60,wPos=new Float32Array(2*(WL+1)*WS*6),wGeo=new THREE.BufferGeometry();
+wGeo.setAttribute("position",new THREE.BufferAttribute(wPos,3));
+scene.add(new THREE.LineSegments(wGeo,new THREE.LineBasicMaterial({color:0x6b7280,transparent:true,opacity:0.45})));
+
+// tangent plane
+const HP=1.6,pGeo=new THREE.PlaneGeometry(2*HP,2*HP,8,8),pBase=Float32Array.from(pGeo.attributes.position.array);
+const plane=new THREE.Mesh(pGeo,new THREE.MeshPhongMaterial({color:0xe63946,transparent:true,opacity:0.5,side:THREE.DoubleSide,depthWrite:false}));
+plane.renderOrder=2;scene.add(plane);
+const pWire=new THREE.LineSegments(new THREE.WireframeGeometry(pGeo),new THREE.LineBasicMaterial({color:0xe63946,transparent:true,opacity:0.5}));scene.add(pWire);
+
+// markers
+const p0=new THREE.Mesh(new THREE.SphereGeometry(0.08,24,16),new THREE.MeshBasicMaterial({color:0xe63946}));scene.add(p0);
+const normal=new THREE.ArrowHelper(new THREE.Vector3(0,0,1),new THREE.Vector3(),1.6,0x111111,0.28,0.14);scene.add(normal);
+const pP=new THREE.Mesh(new THREE.SphereGeometry(0.065,20,14),new THREE.MeshBasicMaterial({color:0xb5202c}));scene.add(pP);
+const dvec=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),1,0xb5202c,0.2,0.1);scene.add(dvec);
+const rG=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()]);
+scene.add(new THREE.Line(rG,new THREE.LineBasicMaterial({color:0x111111})));
+const p0L=sprite("P₀","#111111"),pL=sprite("P","#B5202C");scene.add(p0L,pL);
+
+// traces
+const trG=new THREE.Group();scene.add(trG);const TS=160;
+const mkLine=()=>{const l=new THREE.Line(new THREE.BufferGeometry().setFromPoints(Array.from({length:TS},()=>new THREE.Vector3())),new THREE.LineDashedMaterial({color:0x6b7280,dashSize:0.12,gapSize:0.08}));return l};
+const trX=mkLine(),trY=mkLine();
+const uA=new THREE.ArrowHelper(new THREE.Vector3(1,0,0),new THREE.Vector3(),1,0x6b7280,0.22,0.11);
+const vA=new THREE.ArrowHelper(new THREE.Vector3(0,1,0),new THREE.Vector3(),1,0x6b7280,0.22,0.11);
+const uL=sprite("u","#6B7280",0.42),vL=sprite("v","#6B7280",0.42);
+trG.add(trX,trY,uA,vA,uL,vL);
+
+/* ---------- state ---------- */
+const P0=new THREE.Vector3(),G=new THREE.Vector3(),N=new THREE.Vector3(),U=new THREE.Vector3(),V=new THREE.Vector3();
+let t=0;const R=1.1;
+
+function buildSurface(){
+  const f=F[fk].f;let k=0;
+  for(let i=0;i<=NS;i++){const x=-D+2*D*i/NS;for(let j=0;j<=NS;j++){const y=-D+2*D*j/NS;sPos[k++]=x;sPos[k++]=y;sPos[k++]=f(x,y)}}
+  sGeo.attributes.position.needsUpdate=true;sGeo.computeVertexNormals();sGeo.computeBoundingSphere();
+  k=0;for(let l=0;l<=WL;l++){const c=-D+2*D*l/WL;for(let s=0;s<WS;s++){const a=-D+2*D*s/WS,b=-D+2*D*(s+1)/WS;
+    wPos.set([c,a,f(c,a),c,b,f(c,b),a,c,f(a,c),b,c,f(b,c)],k);k+=12}}
+  wGeo.attributes.position.needsUpdate=true;wGeo.computeBoundingSphere();
+}
+
+function update(){
+  const P=F[fk],x0=+$("x0").value,y0=+$("y0").value,z0=P.f(x0,y0),fx=P.fx(x0,y0),fy=P.fy(x0,y0);
+  P0.set(x0,y0,z0);G.set(fx,fy,-1);N.set(-fx,-fy,1).normalize();
+  U.set(1,0,fx).normalize();V.crossVectors(N,U).normalize();
+  const pa=pGeo.attributes.position.array;
+  for(let i=0;i<pa.length;i+=3){const x=x0+pBase[i],y=y0+pBase[i+1];pa[i]=x;pa[i+1]=y;pa[i+2]=z0+fx*(x-x0)+fy*(y-y0)}
+  pGeo.attributes.position.needsUpdate=true;pGeo.computeVertexNormals();pGeo.computeBoundingSphere();
+  pWire.geometry.dispose();pWire.geometry=new THREE.WireframeGeometry(pGeo);
+  p0.position.copy(P0);normal.position.copy(P0);normal.setDirection(N);normal.setLength(1.6,0.28,0.14);
+  p0L.position.copy(P0).addScaledVector(N,-0.35).addScaledVector(U,-0.3);
+  const a=trX.geometry.attributes.position.array,b=trY.geometry.attributes.position.array;
+  for(let s=0;s<TS;s++){const q=-D+2*D*s/(TS-1);a.set([q,y0,P.f(q,y0)],3*s);b.set([x0,q,P.f(x0,q)],3*s)}
+  [trX,trY].forEach(l=>{l.geometry.attributes.position.needsUpdate=true;l.geometry.computeBoundingSphere();l.computeLineDistances()});
+  const u=new THREE.Vector3(1,0,fx),v=new THREE.Vector3(0,1,fy);
+  uA.position.copy(P0);uA.setDirection(u.clone().normalize());uA.setLength(u.length(),0.22,0.11);
+  vA.position.copy(P0);vA.setDirection(v.clone().normalize());vA.setLength(v.length(),0.22,0.11);
+  uL.position.copy(P0).add(u).addScaledVector(N,0.2);vL.position.copy(P0).add(v).addScaledVector(N,0.2);
+  trG.visible=$("tr").checked;
+  $("x0o").textContent=fmt(x0);$("y0o").textContent=fmt(y0);
+  const term=(c,v,x)=>{const s=fmt(Math.abs(c));if(s==="0")return "";const sh=fmt(Math.abs(x));
+    return ` ${c<0?"−":"+"} ${s}`+(sh==="0"?`<em>${v}</em>`:`(<em>${v}</em> ${x<0?"+":"−"} ${sh})`)};
+  $("formula").innerHTML=`<em>z</em> = ${P.t}<br><span style="color:var(--red)">plane: <em>z</em> = ${fmt(z0)}${term(fx,"x",x0)}${term(fy,"y",y0)}</span>`;
+  $("stats").innerHTML=[["z₀ = f(x₀, y₀)",fmt(z0,3)],["fₓ(x₀, y₀)",fmt(fx,3)],["f_y(x₀, y₀)",fmt(fy,3)],["∇F(P₀)",`(${fmt(fx)}, ${fmt(fy)}, −1)`],["∇F·(P − P₀)",'<span id="dot">0</span>',true]]
+    .map(([k,v,r])=>`<div class="stat${r?" red":""}"><small>${k}</small><b>${v}</b></div>`).join("");
+  sweep();
+}
+
+function sweep(){
+  const d=U.clone().multiplyScalar(Math.cos(t)).addScaledVector(V,Math.sin(t)).multiplyScalar(R),P=P0.clone().add(d),dh=d.clone().normalize();
+  pP.position.copy(P);dvec.position.copy(P0);dvec.setDirection(dh);dvec.setLength(R,0.2,0.1);
+  pL.position.copy(P).addScaledVector(dh,0.25).addScaledVector(N,0.15);
+  const s=0.22;rG.setFromPoints([P0.clone().addScaledVector(dh,s),P0.clone().addScaledVector(dh,s).addScaledVector(N,s),P0.clone().addScaledVector(N,s)]);
+  const el=$("dot");if(el)el.textContent=fmt(G.dot(d),3);
+}
+
+/* ---------- controls ---------- */
+["x0","y0"].forEach(id=>$(id).addEventListener("input",update));
+$("tr").addEventListener("change",update);
+if(reduce)$("spin").checked=false;
+document.querySelectorAll('[data-g="f"]').forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll('[data-g="f"]').forEach(x=>x.classList.remove("on"));b.classList.add("on");fk=b.dataset.v;buildSurface();update()}));
+$("reset").addEventListener("click",()=>{camera.position.copy(HOME);controls.target.copy(TARGET);controls.update()});
+
+const ray=new THREE.Raycaster(),m=new THREE.Vector2();let down=null;
+cv.addEventListener("pointerdown",e=>{down=[e.clientX,e.clientY]});
+cv.addEventListener("pointerup",e=>{
+  if(!down||Math.hypot(e.clientX-down[0],e.clientY-down[1])>5)return;
+  const r=cv.getBoundingClientRect();m.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
+  ray.setFromCamera(m,camera);const h=ray.intersectObject(surf)[0];if(!h)return;
+  const cl=v=>Math.max(-2.5,Math.min(2.5,Math.round(v*100)/100));
+  $("x0").value=cl(h.point.x);$("y0").value=cl(h.point.y);$("x0").dispatchEvent(new Event("input",{bubbles:true}));
+});
+
+function size(){const w=cv.clientWidth,h=cv.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
+const ro=new ResizeObserver(size);ro.observe(cv);
+window.addEventListener("resize",()=>{size();buildSurface();update()});
+let last=performance.now();
+(function loop(now){
+  const dt=Math.min(0.05,((now||last)-last)/1000);last=now||last;
+  if($("spin").checked){t+=dt*0.9;sweep()}
+  controls.update();renderer.render(scene,camera);requestAnimationFrame(loop);
+})();
+buildSurface();size();update();
+}
+(()=>{const r=document.getElementById("rail");if(!r)return;const th=r.firstElementChild;let drag=false;
+  const geo=()=>{const vh=innerHeight,dh=document.documentElement.scrollHeight;return{vh,dh,h:Math.max(48,vh*vh/dh)}};
+  const upd=()=>{const g=geo();if(g.dh<=g.vh+4){r.style.visibility="hidden";return}r.style.visibility="visible";th.style.height=g.h+"px";th.style.top=(scrollY/(g.dh-g.vh))*(g.vh-g.h)+"px"};
+  const go=y=>{const g=geo(),t=Math.min(1,Math.max(0,(y-g.h/2)/(g.vh-g.h)));scrollTo(0,t*(g.dh-g.vh))};
+  r.addEventListener("pointerdown",e=>{drag=true;r.setPointerCapture(e.pointerId);r.classList.add("on");go(e.clientY);e.preventDefault()});
+  r.addEventListener("pointermove",e=>{if(drag)go(e.clientY)});
+  ["pointerup","pointercancel"].forEach(t=>r.addEventListener(t,()=>{drag=false;r.classList.remove("on")}));
+  addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);setTimeout(upd,400);upd()})();
+</script>
+<script src="../number-entry.js"></script>
+<script src="../../back.js"></script>
+<script src="../share.js"></script>
+</body>
+</html>
